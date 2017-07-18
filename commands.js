@@ -3,6 +3,10 @@
 
 //create multiple parser for each command
 
+var initialSwitches = [
+	['-h', '--help', 'Shows help section']
+];
+
 var orderSwitches = [
     ['-v', '--view [ID]', 'view orders'],
     ['-e','--edit [ID]', 'edit orders'],
@@ -10,7 +14,10 @@ var orderSwitches = [
     ['-s', '--search [TERM]', 'search orders'],
 ]
 
-orderParser = new optparse.OptionParser(orderSwitches);
+//
+var initialParser = new optparse.OptionParser();
+
+var orderParser = new optparse.OptionParser(orderSwitches);
 
 orderParser.on('view', function (value) {
 
