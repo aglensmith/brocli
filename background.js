@@ -41,6 +41,7 @@ chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     //build urls
     var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D'+orderNum+'&ovw=1&ovn=0';
 
+    console.log(SWITCHES);
     //execute commands
     if (splitText[0].toLowerCase() == 'order') {
         navCurrentDomain(orderUrl)
