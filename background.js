@@ -1,34 +1,22 @@
-function creatTab(url){
+function creatTab (url) {
     chrome.tabs.create({
         'url': url
     })
 }
 
-function urlToHref (url) {
+function urlOrigin (url) {
     var u = new URL(url);
     return u.origin;
 }
 
-function getActiveTabUrl (){
-
-    var activeTabUrl;
+function navCurrentDomain (relativePath) {
     var query = {currentWindow: true, active: true};
-    chrome.tabs.query(query, function (foundTabs) {
-            if (foundTabs.length > 0) {
-                console.log('found tab: ' + foundTabs[0].url);
-                activeTabUrl = foundTabs[0].url; // <--- this is what you are looking for
-                console.log('active tab: ' + activeTabUrl);
-            } 
-            else {
-                // there's no window or no selected tab
-            }
-        }
-    ); 
-    console.log('outer active tab: ' + activeTabUrl);
-
-    //This returns null because it returns before the tabs.query is finished doing its work (async)
-    //Need to use callback function properly -- read other code to get ideas of best practices
-    return activeTabUrl;
+    chrome.tabs.query(query, function (results) {
+        if (results.length > 0) {
+            var activeTabOrigin = urlOrigin(results[0].url);
+            creatTab(activeTabOrigin + relativePath)
+        } 
+    }); 
 }
 
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
@@ -53,14 +41,10 @@ chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     //build urls
     var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D'+orderNum+'&ovw=1&ovn=0';
 
+    console.log(SWITCHES);
     //execute commands
     if (splitText[0].toLowerCase() == 'order') {
-
-        var activeUrl = getActiveTabUrl();
-        console.log('listener active tab: ' + activeUrl)
-        var href = urlToHref(activeUrl);
-        var navto = href + orderUrl;
-        creatTab(href);
-
+        navCurrentDomain(orderUrl)
+        console.log(orderUrl);
     }
 });

@@ -10,10 +10,11 @@
     "default_popup": "popup.html"
   },
   "background": {
-      "scripts": ["background.js"],
+      "scripts": ["background.js", "optparse.js", "commands.js"],
       "persistent": false
   },
   "permissions": [
+    "tabs",
     "activeTab",
     "https://ajax.googleapis.com/"
   ],
