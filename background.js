@@ -25,9 +25,11 @@ function getActiveTabUrl (){
         }
     ); 
     console.log('outer active tab: ' + activeTabUrl);
+
+    //This returns null because it returns before the tabs.query is finished doing its work (async)
+    //Need to use callback function properly -- read other code to get ideas of best practices
     return activeTabUrl;
 }
-
 
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     
