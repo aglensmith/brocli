@@ -34,17 +34,7 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
 
 chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
         
-    //parse input
     var splitText = text.split(" ");
-    var orderNum = splitText[1];
-
-    //build urls
-    var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D'+orderNum+'&ovw=1&ovn=0';
-
-    console.log(SWITCHES);
-    //execute commands
-    if (splitText[0].toLowerCase() == 'order') {
-        navCurrentDomain(orderUrl)
-        console.log(orderUrl);
-    }
+    runCommands(splitText);
+    
 });
