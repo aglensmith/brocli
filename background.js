@@ -1,3 +1,5 @@
+
+//Move these functions to a helpers.js file
 function creatTab (url) {
     chrome.tabs.create({
         'url': url
@@ -36,5 +38,5 @@ chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
         
     var splitText = text.split(" ");
     runCommands(splitText);
-    
+
 });
