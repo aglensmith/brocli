@@ -1,9 +1,16 @@
+/**
+ * @fileOverview Option Parser for Javascript
+ * @author Copyright (c) 2009 Johan Dahlberg
+ * @version 1.0.3
+ */
+
 //  Optparse.js 1.0.3 - Option Parser for Javascript
 //
 //  Copyright (c) 2009 Johan Dahlberg
 //
 //  See README.md for license.
 //
+
 var optparse = {};
 try{ optparse = exports } catch(e) {}; // Try to export the lib for node.js
 (function(self) {
