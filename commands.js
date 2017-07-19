@@ -9,12 +9,15 @@ var initialSwitches = [
 ];
 var initialParser = new optparse.OptionParser();
 
-//Define Order Parser
+/** 
+* Order Commands
+*
+*/
+
 var orderSwitches = [
     ['-v', '--view [ID]', 'view orders'],
     ['-e','--edit [ID]', 'edit orders'],
     ['-a', '--audit [ID]', 'audit orders'],
-    ['-s', '--search [TERM]', 'search orders'],
 ]
 var orderParser = new optparse.OptionParser(orderSwitches);
 
@@ -31,11 +34,6 @@ orderParser.on('edit', function (name, value) {
 orderParser.on('audit', function (name, value) {
     var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/orders/ViewOrder.aspx%3ForderID%3D'+value+'&ovw=1&ovn=0';
     navCurrentDomain(orderUrl);
-});
-
-//Search doesn't appear to be URL based
-orderParser.on('search', function (value) {
-
 });
 
 function runCommands (commands) {
