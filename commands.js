@@ -18,7 +18,7 @@ var options = {
     action: undefined,
     entity: undefined,  
     entityId: undefined,
-    domain: undefined,
+    domain: undefined
 };
 
 /**
@@ -26,8 +26,54 @@ var options = {
  * 
  */
 var acSwitches = [
-
+    ['-c', '--customer [ID]', 'specify customer entity'],
+    ['-p', '--product [ID]', 'specify product entity'],
+    ['-o', '--order [ID]', 'specify order entity'],
+    ['-v', '--view [ID]', 'view entity'],
+    ['-e','--edit [ID]', 'edit entity'],
+    ['-l','--list [ENTITY]', 'list entity']
 ];
+
+var acParser = optparse.OptionParser(acSwitches);
+
+//actions
+acParser.on('edit', function (name, value) {
+    options[action] = name;
+    options[entityId] = value;
+});
+
+acParser.on('list', function (name, value) {
+    options[action] = name;
+    options[entityId] = value;
+});
+
+acParser.on('view', function (name, value) {
+    options[action] = name;
+    options[entityId] = value;
+});
+
+
+//domain
+acParser.on(-1, function (name, value) {
+    options[domain] = value;
+});
+
+
+//entities
+acParser.on('customer', function (name, value) {
+    options[entity] = name;
+    options[entityId] = value;
+});
+
+acParser.on('order', function (name, value) {
+    options[entity] = name;
+    options[entityId] = value;
+});
+
+acParser.on('product', function (name, value) {
+    options[entity] = name;
+    options[entityId] = value;
+});
 
 
 
@@ -98,4 +144,18 @@ function runCommands (commands) {
             productParser.parse(commands);
             break;
     }   
+}
+
+
+/* var options = {
+    action: undefined,
+    entity: undefined,  
+    entityId: undefined,
+    domain: undefined
+};
+ */
+function runAcCommands (commands) {
+    acParser.parse(commands)
+    var domain = options[domain] || "";
+    var relUrl = buildUrl ()
 }
