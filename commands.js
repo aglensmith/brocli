@@ -1,15 +1,11 @@
 /**
  * @fileOverview Uses optparse.js to parse command switches
  * 
+ * TODO: 
+ * - make AC commands use one parser that uses option dict
+ * 
  */
 
-
-
-//Might use for initial parse
-var initialSwitches = [
-	['-h', '--help', 'Shows help section']
-];
-var initialParser = new optparse.OptionParser();
 
 var entities = [
     "category",
@@ -19,10 +15,20 @@ var entities = [
 ];
 
 var options = {
-    entity: undefined,
     action: undefined,
-    id: undefined,
+    entity: undefined,  
+    entityId: undefined,
+    domain: undefined,
 };
+
+/**
+ * AC Commands
+ * 
+ */
+var acSwitches = [
+
+];
+
 
 
 /** 
@@ -38,17 +44,17 @@ var orderParser = new optparse.OptionParser(orderSwitches);
 
 orderParser.on('view', function (name, value) {
     var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/orders/viewOrder.aspx%3ForderID%3D'+value;
-    navCurrentDomain(orderUrl);
+    goTo(orderUrl);
 });
 
 orderParser.on('edit', function (name, value) {
     var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D'+value;
-    navCurrentDomain(orderUrl);
+    goTo(orderUrl);
 });
 
 orderParser.on('audit', function (name, value) {
     var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/orders/ViewOrder.aspx%3ForderID%3D'+value;
-    navCurrentDomain(orderUrl);
+    goTo(orderUrl);
 });
 
 orderParser.on(function(opt) {
@@ -73,7 +79,7 @@ var productParser = new optparse.OptionParser(productSwitches);
 
 productParser.on('edit', function (name, value) {
     var productUrl = '/store/admin/products/listproducts.aspx?ovu=/store/admin/products/productedit/general.aspx%3FcatID%3D21%26ID%3D'+value+'&ovw=0&ovn=1';
-    navCurrentDomain(productUrl);
+    goTo(productUrl);
 });
 
 productParser.on('audit', function (name, value) {
@@ -83,7 +89,6 @@ productParser.on('audit', function (name, value) {
 
 
 function runCommands (commands) {
-
     switch (commands[0]) {
         case 'order':
             //note to self: break is optional
@@ -92,7 +97,5 @@ function runCommands (commands) {
         case 'product':
             productParser.parse(commands);
             break;
-
-    }
-    
+    }   
 }
