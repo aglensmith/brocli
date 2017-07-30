@@ -1,10 +1,13 @@
+/**
+ * @fileOverview helpers
+ */
+
 
 function creatTab (url) {
     chrome.tabs.create({
         'url': url
     })
 }
-
 
 function urlOrigin (url) {
     try {
@@ -13,7 +16,6 @@ function urlOrigin (url) {
     } catch (err) {
         return  false;
     }
-
 }
 
 function goTo (newUrl) {
@@ -26,7 +28,6 @@ function goTo (newUrl) {
                 } else {
                     chrome.tabs.update(tab.id, {url: urlOrigin(results[0].url) + newUrl});
                 }
-
         } 
     }); 
 }
