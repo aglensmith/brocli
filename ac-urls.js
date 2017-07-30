@@ -62,6 +62,32 @@ var edit = {
 
 var orderView;
 
-function buildUrl (str1, str2, str3) {
+function editEntity (str1, str2, str3) {
     return str1.concat(str2, str3);
+}
+
+function buildAcPath(name, value) {
+    
+    //split to get page type. Ex product.edit
+
+    var s = name.split('.');
+    var pageType = s[s.length - 1];
+    var entity = s[0];
+    var path;
+    console.log('builpaths:');
+    console.log(name);
+    console.log(s);
+    console.log(pageType);
+    console.log(entity);
+    console.log(path);
+    switch (pageType) {
+        case 'list':
+            path = listOf[value];
+            break;
+        case 'edit':
+            parts = edit[entity];
+            path = parts[0] + value + parts[1];
+            break;
+    } 
+    return path;
 }
