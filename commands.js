@@ -157,5 +157,7 @@ function runCommands (commands) {
 function runAcCommands (commands) {
     acParser.parse(commands)
     var domain = options[domain] || "";
-    var relUrl = buildUrl ()
+    var relUrl = domain.concat(
+        
+    );
 }
