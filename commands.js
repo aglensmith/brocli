@@ -1,6 +1,5 @@
 /**
  * @fileOverview Uses optparse.js to parse command switches
- * 
  */
 
 var acSwitches = [
@@ -12,6 +11,7 @@ var acSwitches = [
     ['-cata', '--category-audit [ID]', 'category audit'],
     ['-d', '--discount-edit [ID]', 'discount edit'],
     ['-p','--product-edit [ID]', 'product edit'],
+    ['-pa','--product-audit [ID]', 'product audit'],
     ['-o','--order-edit [ID]', 'order edit'],
     ['-oa','--order-audit [ID]', 'order audit'],
     ['-ov','--order-view [ID]', 'order view'],
@@ -33,32 +33,50 @@ acParser.on(0, function (value) {
     } 
 });
 
+//audit parsers
+acParser.on('category-audit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('customer-audit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('order-audit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('product-audit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+
+//list parser
 acParser.on('list', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
     options.suggestions.push('-l products', '-l orders', '-l customers');
 });
 
+//edit parsers
 acParser.on('customer-edit', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
 });
-
 acParser.on('discount-edit', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
 });
-
 acParser.on('product-edit', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
 });
-
 acParser.on('order-edit', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
 });
 
+//parse commands an execute navigation
 function runAcCommands (commands) {
     acParser.parse(commands);
     var domainPresent = options.domain || "";
