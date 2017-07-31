@@ -9,8 +9,9 @@ var acSwitches = [
     ['-cat', '--category-edit [ID]', 'category edit'],
     ['-catv', '--category-view [ID]', 'category view'],
     ['-cata', '--category-audit [ID]', 'category audit'],
+    ['-cp', '--page-edit [ID]', 'edit content page'],
     ['-d', '--discount-edit [ID]', 'discount edit'],
-    ['-eh', '--view-emails [ID]', 'discount edit'],
+    ['-eh', '--email-view [ID]', 'view email history'],
     ['-l','--list [ENTITY]', 'list entity'],
     ['-p','--product-edit [ID]', 'product edit'],
     ['-pa','--product-audit [ID]', 'product audit'],
@@ -30,9 +31,12 @@ var options = {
 };
 
 acParser.on(0, function (value) {
-    if (urlOrigin(value)) {
+    var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+    var regex = new RegExp(expression);
+    var isUrl = regex.test(value)
+    if (isUrl) {
       options.domain = value;
-    }else if (urlOrigin('https://'.concat(value))) {
+    }else if (regex.test('https://'.concat(value))) {
         options.domain = 'https://'.concat(value);
     }
 });
@@ -90,6 +94,15 @@ acParser.on('order-edit', function (name, value) {
 });
 
 //view parsers
+acParser.on('category-view', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('email-view', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+
 acParser.on('order-view', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
@@ -98,10 +111,7 @@ acParser.on('session-view', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
 });
-acParser.on('session-view', function (name, value) {
-    options.action = name;
-    options.path = buildAcPath(name, value);
-});
+
 
 //parse commands an execute navigation
 function runAcCommands (commands) {
