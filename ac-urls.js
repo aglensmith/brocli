@@ -10,6 +10,7 @@ var listOf = {
     'pages':'/store/admin/content/pagelist.aspx',
     'customers':'/store/admin/customers/customerlist.aspx',
     'customerTypes': '/store/admin/Customers/CustomerTypeList.aspx?',
+    'emailTemplates': '/store/admin/customers/emailtemplatelist.aspx',
     'fields':'/store/admin/settings/customfieldlist.aspx',
     'discounts':'/store/admin/marketing/discounts/discountlist.aspx',
     'firewall': '/store/admin/tools/IPBlacklist.aspx?',
@@ -19,6 +20,7 @@ var listOf = {
     'products':'/store/admin/products/listproducts.aspx',
     'orders':'/store/admin/orders/orderlist.aspx',
     'rules':'/store/admin/tools/analyticrules.aspx?type=Order',
+    'sessions': '/store/admin/tools/sessionlist.aspx',
     'shippingMethods':'/store/admin/Settings/Shipping/CustomShippingMethodList.aspx?',
     'providers':'/store/admin/Settings/Shipping/ShippingProviders.aspx?',
     'urls':'/Store/Admin/Settings/Global/RedirectURLList.aspx?',
@@ -58,6 +60,10 @@ var audit = {
 }
 
 // Edit Pages
+var categoryEdit = [
+    '/store/admin/products/categorylist.aspx?ovu=/store/admin/products/CategoryEdit.aspx%3FcatID%3D',
+    '&ovw=0&ovn=0'
+];
 var customerEdit = [
     '/store/admin/customers/customerlist.aspx?ovu=/store/admin/customers/CustomerEdit.aspx%3FID%3D',
     '&ovw=0&ovn=1'
@@ -79,6 +85,7 @@ var productEdit = [
     '&ovw=0&ovn=1'
 ];
 var edit = {
+    'category': categoryEdit,
     'customer': customerEdit,
     'discount': discountEdit,
     'page': pageEdit,
@@ -86,10 +93,32 @@ var edit = {
     'order': orderEdit
 };
 
+//view pages
+var categoryView = [
+    '/store/category.aspx?catID=',
+    ''
+];
+customerEmailHistory = [
+    '/store/admin/customers/customerlist.aspx?ovu=/store/admin/Customers/CustomerEmailList.aspx%3Fshownav%3D1%26ID%3D',
+    '&ovw=0&ovn=1'
+];
+var orderView = [
+    '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D',
+    '100215&ovw=1&ovn=0'
+];
+var sessionView = [
+    '/store/admin/tools/sessionlist.aspx?ovu=/store/admin/tools/SessionView.aspx%3Fsessionid%3D',
+    '&ovw=0&ovn=0'
+];
+view = {
+    'category': categoryView,
+    'emails': customerEmailHistory,
+    'order': orderView,
+    'session': sessionView
+};
 
 function buildAcPath(name, value) {
-    //split switch name to get page & entity type
-    //Ex product-edit: entity='product', pageType='edit'
+    
     var s = name.split('-');
     var pageType = s[s.length - 1];
     var entity = s[0];
@@ -106,7 +135,12 @@ function buildAcPath(name, value) {
             break;
         case 'audit':
             parts = audit[entity];
-            path = parts[0].concat(value, parts[1], value, parts[2])
+            path = parts[0].concat(value, parts[1], value, parts[2]);
+            break;
+        case 'view':
+            parts = audit[entity];
+            path = parts[0].concat(value, parts[1]);
+            break;
     } 
     return path;
 }
