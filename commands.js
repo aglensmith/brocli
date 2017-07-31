@@ -1,163 +1,119 @@
 /**
  * @fileOverview Uses optparse.js to parse command switches
- * 
- * TODO: 
- * - make AC commands use one parser that uses option dict
- * 
  */
 
-
-var entities = [
-    "category",
-    "customer",
-    "order",
-    "product"
+var acSwitches = [
+    ['-c', '--customer-edit [ID]', 'customer edit'],
+    ['-cd', '--changedir [LOC]', 'change directories'],
+    ['-ca', '--customer-audit [ID]', 'customer audit'],
+    ['-cat', '--category-edit [ID]', 'category edit'],
+    ['-catv', '--category-view [ID]', 'category view'],
+    ['-cata', '--category-audit [ID]', 'category audit'],
+    ['-d', '--discount-edit [ID]', 'discount edit'],
+    ['-eh', '--view-emails [ID]', 'discount edit'],
+    ['-l','--list [ENTITY]', 'list entity'],
+    ['-p','--product-edit [ID]', 'product edit'],
+    ['-pa','--product-audit [ID]', 'product audit'],
+    ['-o','--order-edit [ID]', 'order edit'],
+    ['-oa','--order-audit [ID]', 'order audit'],
+    ['-ov','--order-view [ID]', 'order view'],
+    ['-vs','--view-session [ID]', 'view session'],
 ];
+
+var acParser = new optparse.OptionParser(acSwitches);
 
 var options = {
     action: undefined,
-    entity: undefined,  
-    entityId: undefined,
-    domain: undefined
+    domain: undefined,
+    path: undefined,
+    suggestions: []
 };
 
-/**
- * AC Commands
- * 
- */
-var acSwitches = [
-    ['-c', '--customer [ID]', 'specify customer entity'],
-    ['-p', '--product [ID]', 'specify product entity'],
-    ['-o', '--order [ID]', 'specify order entity'],
-    ['-v', '--view [ID]', 'view entity'],
-    ['-e','--edit [ID]', 'edit entity'],
-    ['-l','--list [ENTITY]', 'list entity']
-];
-
-var acParser = optparse.OptionParser(acSwitches);
-
-//actions
-acParser.on('edit', function (name, value) {
-    options[action] = name;
-    options[entityId] = value;
+acParser.on(0, function (value) {
+    if (urlOrigin(value)) {
+      options.domain = value;
+    } 
 });
 
+//audit parsers
+acParser.on('category-audit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('customer-audit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('order-audit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('product-audit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+
+//list parser
 acParser.on('list', function (name, value) {
-    options[action] = name;
-    options[entityId] = value;
+    options.action = name;
+    options.path = buildAcPath(name, value);
+    options.suggestions.push('-l products', '-l orders', '-l customers');
 });
 
-acParser.on('view', function (name, value) {
-    options[action] = name;
-    options[entityId] = value;
+//edit parsers
+acParser.on('category-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('customer-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('discount-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('page-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
 });
 
-
-//domain
-acParser.on(-1, function (name, value) {
-    options[domain] = value;
+acParser.on('product-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('order-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
 });
 
-
-//entities
-acParser.on('customer', function (name, value) {
-    options[entity] = name;
-    options[entityId] = value;
+//view parsers
+acParser.on('order-view', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('session-view', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('session-view', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
 });
 
-acParser.on('order', function (name, value) {
-    options[entity] = name;
-    options[entityId] = value;
-});
-
-acParser.on('product', function (name, value) {
-    options[entity] = name;
-    options[entityId] = value;
-});
-
-
-
-/** 
-* Order Commands
-*
-*/
-var orderSwitches = [
-    ['-v', '--view [ID]', 'view orders'],
-    ['-e','--edit [ID]', 'edit orders'],
-    ['-a', '--audit [ID]', 'audit orders'],
-]
-var orderParser = new optparse.OptionParser(orderSwitches);
-
-orderParser.on('view', function (name, value) {
-    var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/orders/viewOrder.aspx%3ForderID%3D'+value;
-    goTo(orderUrl);
-});
-
-orderParser.on('edit', function (name, value) {
-    var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D'+value;
-    goTo(orderUrl);
-});
-
-orderParser.on('audit', function (name, value) {
-    var orderUrl = '/store/admin/orders/orderlist.aspx?ovu=/store/admin/orders/ViewOrder.aspx%3ForderID%3D'+value;
-    goTo(orderUrl);
-});
-
-orderParser.on(function(opt) {
-	console.log('No handler was defined for option:' +  opt);
-});
-
-orderParser.on('*', function(opt, value) {
-    console.log('wild handler for ' + opt + ', value=' + value);
-});
-
-
-/** 
-* Product Commands
-*
-*/
-var productSwitches = [
-    ['-e','--edit [ID]', 'edit products'],
-    ['-a', '--audit [ID]', 'audit products'],
-]
-
-var productParser = new optparse.OptionParser(productSwitches);
-
-productParser.on('edit', function (name, value) {
-    var productUrl = '/store/admin/products/listproducts.aspx?ovu=/store/admin/products/productedit/general.aspx%3FcatID%3D21%26ID%3D'+value+'&ovw=0&ovn=1';
-    goTo(productUrl);
-});
-
-productParser.on('audit', function (name, value) {
-    var orderUrl = '/store/admin/products/listproducts.aspx?ovu=/store/admin/site/entityaudithistory.aspx%3FEntityID%3D36%26EntityTypeID%3D'+value;
-});
-
-
-
-function runCommands (commands) {
-    switch (commands[0]) {
-        case 'order':
-            //note to self: break is optional
-            orderParser.parse(commands);
-            break;
-        case 'product':
-            productParser.parse(commands);
-            break;
-    }   
-}
-
-
-/* var options = {
-    action: undefined,
-    entity: undefined,  
-    entityId: undefined,
-    domain: undefined
-};
- */
+//parse commands an execute navigation
 function runAcCommands (commands) {
+<<<<<<< HEAD
     acParser.parse(commands)
     var domain = options[domain] || "";
     var relUrl = domain.concat(
         
     );
+=======
+    acParser.parse(commands);
+    var domainPresent = options.domain || "";
+    var path = options.path;
+    var url = domainPresent + path;
+    goTo(url);
+>>>>>>> 75f2c9e0849af741e2ab2cabdd1bfaa51c6a958a
 }

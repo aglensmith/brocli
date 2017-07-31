@@ -3,18 +3,20 @@
  */
 
 
+var activeTabOrigin = "";
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) { 
-    if (text.search('o') > -1) {
-        var suggestions = [];
-
-        suggestions.push({ content: 'order', description: 'Coffee - Wikipedia' });
-        suggestions.push({ content: 'Starbucks Coffee', description: 'Starbucks Coffee' });
-
-        suggest(suggestions);
-    }
+    var suggestions = [];
+    var query = {currentWindow: true, active: true};
+    var splitText = text.split(" ");
+    acParser.parse(splitText);
+    chrome.omnibox.setDefaultSuggestion({description:'[site] (-pagetype) [id|entity]'});
+    options.suggestions.forEach(function(sug) {
+        suggestions.push({content: sug, description: sug})
+    });
+    suggest(suggestions);
 });
 
 chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     var splitText = text.split(" ");
-    runCommands(splitText);
+    runAcCommands(splitText);
 });
