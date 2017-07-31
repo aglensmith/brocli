@@ -10,12 +10,14 @@ var acSwitches = [
     ['-catv', '--category-view [ID]', 'category view'],
     ['-cata', '--category-audit [ID]', 'category audit'],
     ['-d', '--discount-edit [ID]', 'discount edit'],
+    ['-eh', '--view-emails [ID]', 'discount edit'],
+    ['-l','--list [ENTITY]', 'list entity'],
     ['-p','--product-edit [ID]', 'product edit'],
     ['-pa','--product-audit [ID]', 'product audit'],
     ['-o','--order-edit [ID]', 'order edit'],
     ['-oa','--order-audit [ID]', 'order audit'],
     ['-ov','--order-view [ID]', 'order view'],
-    ['-l','--list [ENTITY]', 'list entity']
+    ['-vs','--view-session [ID]', 'view session'],
 ];
 
 var acParser = new optparse.OptionParser(acSwitches);
@@ -59,6 +61,10 @@ acParser.on('list', function (name, value) {
 });
 
 //edit parsers
+acParser.on('category-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
 acParser.on('customer-edit', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
@@ -67,11 +73,30 @@ acParser.on('discount-edit', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
 });
+acParser.on('page-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+
 acParser.on('product-edit', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
 });
 acParser.on('order-edit', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+
+//view parsers
+acParser.on('order-view', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('session-view', function (name, value) {
+    options.action = name;
+    options.path = buildAcPath(name, value);
+});
+acParser.on('session-view', function (name, value) {
     options.action = name;
     options.path = buildAcPath(name, value);
 });
