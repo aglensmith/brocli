@@ -5,6 +5,7 @@
 
 var listOf = {
     'blogs':'/store/admin/content/blogs/bloglist.aspx',
+    'errors': '/Store/Admin/Tools/Support/ErrorLog.aspx',
     'posts':'/store/admin/content/blogs/blogpostlist.aspx',
     'categories':'/store/admin/products/categorylist.aspx',
     'pages':'/store/admin/content/pagelist.aspx',
@@ -22,6 +23,7 @@ var listOf = {
     'rules':'/store/admin/tools/analyticrules.aspx?type=Order',
     'sessions': '/store/admin/tools/sessionlist.aspx',
     'shippingMethods':'/store/admin/Settings/Shipping/CustomShippingMethodList.aspx?',
+    'themes':'/store/admin/themes/default.aspx',
     'providers':'/store/admin/Settings/Shipping/ShippingProviders.aspx?',
     'urls':'/Store/Admin/Settings/Global/RedirectURLList.aspx?',
     'users': '/store/admin/settings/users/userlist.aspx?'
