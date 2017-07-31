@@ -15,7 +15,8 @@ Once downloaded, the extension can be added here: `chrome://extensions`
 
 ## Usage
 * start brocli: In the addressbar, type `b` then press `space` or `tab`
-* enter command, then press enter
+* type command, then press enter
+* tip: use keyboard shortcut `alt+d` to move cursor to addressbar. 
 
 ## AC Commands
 If a domain is entered before the command, brocli will navigate to the page on that domain. If no domain is entered, brocli will use the tab's current location. For example:
