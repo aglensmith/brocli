@@ -7,7 +7,7 @@ brocli is not available on the Chrome Web Store, so it must be side-loaded. To d
 * Download with git: `git clone https://github.com/aglensmith/brocli.git`
 * or, [download zip file](https://github.com/aglensmith/brocli/archive/master.zip)
 
-Once downloaded, the extension can be added to chrome here: [chrome://extensions/](chrome://extensions/)
+Once downloaded, the extension can be added here: `chrome://extensions`
 
 * check `[] developer mode` at the top right. 
 * click `Load unpacked extension...`
