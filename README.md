@@ -35,8 +35,10 @@ If a domain is entered before the command, brocli will navigate to the page on t
 * `-l orders` 
 * `-l products`
 * `-l sessions`
+* `...`
 
 ### Edit
+* `-cat (<id>)` - edit category. Ex `-cat 27`
 * `-c (<id>)`- edit customer. Ex: `-c 12`
 * `-d (<id>)` - edit discount. Ex: `-d 42`
 * `-cat (<id>)` - edit category. Ex: `-cat 34`
@@ -46,4 +48,5 @@ If a domain is entered before the command, brocli will navigate to the page on t
 ### View
 * `-catv (<id>)` - cat view. Ex: `-ov 100231`
 * `-ov (<id>)` - order view. Ex: `-ov 100231`
+* `-eh (<id>)` - view customer email history. Ex: `-eh 227`
 * `-vs (<id>)` - view visitor session. Ex: `-vs 100231`
