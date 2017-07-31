@@ -13,9 +13,21 @@ Once downloaded, the extension can be added here: `chrome://extensions`
 * click `Load unpacked extension...`
 * file browse to and select `/brocli`
 
+## Usage
+* start brocli: In the addressbar, type `b` then press `space` or `tab`
+* enter command, then press enter
+
 ## AC Commands
+If a domain is entered before the command, brocli will navigate to the page on that domain. If no domain is entered, brocli will use the tab's current location. For example:
+
+* entering `-o 123` will navigate to the order edit of the site in the current tab.
+* entering `store1234.mysparkpay.com -o 123` will navigate to store1234's order edit, regardless of current location. 
 
 ### Audit
+* `cata (<ID>)` - category audit. Ex: `-cata 12`
+* `-ca (<ID>)` - customer audit. Ex: 
+* `-pa (<ID>)` - product audit. Ex: 
+* `-oa (<ID>)` - order audit. Ex:  
 
 ### List
 * `-l (page)` - navigate to an entity's list page. Ex:
