@@ -32,7 +32,9 @@ var options = {
 acParser.on(0, function (value) {
     if (urlOrigin(value)) {
       options.domain = value;
-    } 
+    }else if (urlOrigin('https://'.concat(value))) {
+        options.domain = 'https://'.concat(value);
+    }
 });
 
 //audit parsers
@@ -103,17 +105,9 @@ acParser.on('session-view', function (name, value) {
 
 //parse commands an execute navigation
 function runAcCommands (commands) {
-<<<<<<< HEAD
-    acParser.parse(commands)
-    var domain = options[domain] || "";
-    var relUrl = domain.concat(
-        
-    );
-=======
     acParser.parse(commands);
     var domainPresent = options.domain || "";
     var path = options.path;
     var url = domainPresent + path;
     goTo(url);
->>>>>>> 75f2c9e0849af741e2ab2cabdd1bfaa51c6a958a
 }
