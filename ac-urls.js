@@ -11,7 +11,7 @@ var listOf = {
     'pages':'/store/admin/content/pagelist.aspx',
     'customers':'/store/admin/customers/customerlist.aspx',
     'customerTypes': '/store/admin/Customers/CustomerTypeList.aspx?',
-    'emailTemplates': '/store/admin/customers/emailtemplatelist.aspx',
+    'templates': '/store/admin/customers/emailtemplatelist.aspx',
     'fields':'/store/admin/settings/customfieldlist.aspx',
     'discounts':'/store/admin/marketing/discounts/discountlist.aspx',
     'firewall': '/store/admin/tools/IPBlacklist.aspx?',
@@ -114,7 +114,7 @@ var sessionView = [
 ];
 view = {
     'category': categoryView,
-    'emails': customerEmailHistory,
+    'email': customerEmailHistory,
     'order': orderView,
     'session': sessionView
 };
@@ -140,7 +140,7 @@ function buildAcPath(name, value) {
             path = parts[0].concat(value, parts[1], value, parts[2]);
             break;
         case 'view':
-            parts = audit[entity];
+            parts = view[entity];
             path = parts[0].concat(value, parts[1]);
             break;
     } 
