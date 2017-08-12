@@ -2,6 +2,15 @@
  * @fileOverview Uses optparse.js to parse command switches
  */
 
+
+var options = {
+    action: undefined,
+    domain: undefined,
+    disposition: undefined,
+    path: undefined,
+    suggestions: []
+};
+
 var acSwitches = [
     ['-c', '--customer-edit [ID]', 'customer edit'],
     ['-cd', '--changedir [LOC]', 'change directories'],
@@ -21,14 +30,8 @@ var acSwitches = [
     ['-vs','--view-session [ID]', 'view session'],
 ];
 
-var acParser = new optparse.OptionParser(acSwitches);
 
-var options = {
-    action: undefined,
-    domain: undefined,
-    path: undefined,
-    suggestions: []
-};
+var acParser = new optparse.OptionParser(acSwitches);
 
 acParser.on(0, function (value) {
     var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
@@ -112,6 +115,11 @@ acParser.on('session-view', function (name, value) {
     options.path = buildAcPath(name, value);
 });
 
+var webSwitches = [
+    ['-t','--new-tab', 'open in new tab'],
+];
+
+var webParser = new optparse.OptionParser(webSwitches);
 
 //parse commands an execute navigation
 function runAcCommands (commands) {
