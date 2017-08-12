@@ -123,15 +123,17 @@ var webSwitches = [
 
 var webParser = new optparse.OptionParser(webSwitches);
 
-webParser.on('new-tab', function (name, value) {
+webParser.on('new-tab', function (name) {
     options.newTab = true;
 });
 
 //parse commands an execute navigation
 function runAcCommands (commands) {
     acParser.parse(commands);
+    webParser.parse(commands);
     var domainPresent = options.domain || "";
     var path = options.path;
     var url = domainPresent + path;
-    goTo(url);
+    var newTab = options.newTab;
+    goTo(url, newTab);
 }
