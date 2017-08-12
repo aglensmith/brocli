@@ -21,17 +21,15 @@ function urlOrigin (url) {
 function goTo (newUrl, newTab) {
     var query = {currentWindow: true, active: true};    
     chrome.tabs.query(query, function (results) {
-        if (results.length > 0) {
-            var tab = results[0];
-            if (!urlOrigin(newUrl)) {
-                newUrl = urlOrigin(tab.url) + newUrl;
-            }
-            if (newTab) {
-                creatTab(newUrl);
-            } else {
-                chrome.tabs.update(tab.id, {url: newUrl});
-            }
-        } 
+        var tab = results[0];
+        if (!urlOrigin(newUrl)) {
+            newUrl = urlOrigin(tab.url) + newUrl;
+        }
+        if (newTab) {
+            creatTab(newUrl);
+        } else {
+            chrome.tabs.update(tab.id, {url: newUrl});
+        }
     }); 
 }
 
