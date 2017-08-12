@@ -22,7 +22,9 @@ Once downloaded, the extension can be added here: `chrome://extensions`
 If a domain is entered before the command, brocli will navigate to the page on that domain. If no domain is entered, brocli will use the tab's current location. For example:
 
 * entering `-o 123` will navigate to the order edit of the site in the current tab.
-* entering `store1234.mysparkpay.com -o 123` will navigate to store1234's order edit, regardless of current location. 
+* entering `store1234.mysparkpay.com -o 123` will navigate to store1234's order edit, regardless of current location.
+
+Multiple entities or ids can be specified by comma seperating them. Ex: `-o 100219,100220` - opens order edit for `100219` in current tab and `100220` in a new tab. 
 
 ### Audit
 * `cata (<ID>)` - category audit. Ex: `-cata 12`
@@ -51,3 +53,9 @@ If a domain is entered before the command, brocli will navigate to the page on t
 * `-ov (<id>)` - order view. Ex: `-ov 100231`
 * `-eh (<id>)` - view customer email history. Ex: `-eh 227`
 * `-vs (<id>)` - view visitor session. Ex: `-vs 100231`
+
+## General Web Commands
+Commands that are useful on any site.
+
+### Navigation
+* `--new-tab` or `-t` - specifies navigation should occur in new tab. Default is current tab. 
