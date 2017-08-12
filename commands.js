@@ -6,7 +6,7 @@
 var options = {
     action: undefined,
     domain: undefined,
-    disposition: undefined,
+    newTab: false,
     path: undefined,
     suggestions: []
 };
@@ -115,11 +115,17 @@ acParser.on('session-view', function (name, value) {
     options.path = buildAcPath(name, value);
 });
 
+
+//General Web Switches and Parser
 var webSwitches = [
     ['-t','--new-tab', 'open in new tab'],
 ];
 
 var webParser = new optparse.OptionParser(webSwitches);
+
+webParser.on('new-tab', function (name, value) {
+    options.newTab = true;
+});
 
 //parse commands an execute navigation
 function runAcCommands (commands) {
