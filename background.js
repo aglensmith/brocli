@@ -19,4 +19,5 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
 chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     var splitText = text.split(" ");
     runAcCommands(splitText);
+    resetOptions();
 });
