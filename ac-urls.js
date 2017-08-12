@@ -24,7 +24,7 @@ var listOf = {
     'sessions': '/store/admin/tools/sessionlist.aspx',
     'shippingMethods':'/store/admin/Settings/Shipping/CustomShippingMethodList.aspx?',
     'themes':'/store/admin/themes/default.aspx',
-    'providers':'/store/admin/Settings/Shipping/ShippingProviders.aspx?',
+    'provvalers':'/store/admin/Settings/Shipping/ShippingProvvalers.aspx?',
     'urls':'/Store/Admin/Settings/Global/RedirectURLList.aspx?',
     'users': '/store/admin/settings/users/userlist.aspx?'
 };
@@ -35,24 +35,24 @@ settingsPage = {
 
 //Audit Pages
 var categoryAudit = [
-    '/store/admin/products/categorylist.aspx?ovu=/store/admin/products/CategoryEdit.aspx%3FcatID%3D',
-    '+/store/admin/site/EntityAuditHistory.aspx%3FEntityID%3D',
-    '%26EntityTypeID%3D10&ovw=0+1&ovn=0+0'
+    '/store/admin/products/categorylist.aspx?ovu=/store/admin/products/CategoryEdit.aspx%3Fcatval%3D',
+    '+/store/admin/site/EntityAuditHistory.aspx%3FEntityval%3D',
+    '%26EntityTypeval%3D10&ovw=0+1&ovn=0+0'
 ];
 var customerAudit = [
-    '/store/admin/customers/customerlist.aspx?ovu=/store/admin/customers/CustomerEdit.aspx%3FID%3D',
-    '+/store/admin/site/EntityAuditHistory.aspx%3FEntityID%3D',
-    '%26EntityTypeID%3D320&ovw=0+1&ovn=1+0'
+    '/store/admin/customers/customerlist.aspx?ovu=/store/admin/customers/CustomerEdit.aspx%3Fval%3D',
+    '+/store/admin/site/EntityAuditHistory.aspx%3FEntityval%3D',
+    '%26EntityTypeval%3D320&ovw=0+1&ovn=1+0'
 ];
 var orderAudit = [
-    '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D',
-    '+/store/admin/site/EntityAuditHistory.aspx%3FEntityID%3D',
-    '%26EntityTypeID%3D300&ovw=1+1&ovn=0+0'
+    '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderval%3D',
+    '+/store/admin/site/EntityAuditHistory.aspx%3FEntityval%3D',
+    '%26EntityTypeval%3D300&ovw=1+1&ovn=0+0'
 ];
 var productAudit = [
-    '/store/admin/products/listproducts.aspx?EntityTypeID=30&ovu=/store/admin/products/productedit/general.aspx%3FID%3D',
-    '+/store/admin/site/entityaudithistory.aspx%3FEntityID%3D',
-    '%26EntityTypeID%3D30'
+    '/store/admin/products/listproducts.aspx?EntityTypeval=30&ovu=/store/admin/products/productedit/general.aspx%3Fval%3D',
+    '+/store/admin/site/entityaudithistory.aspx%3FEntityval%3D',
+    '%26EntityTypeval%3D30'
 ];
 var audit = {
     'category': categoryAudit,
@@ -63,27 +63,27 @@ var audit = {
 
 // Edit Pages
 var categoryEdit = [
-    '/store/admin/products/categorylist.aspx?ovu=/store/admin/products/CategoryEdit.aspx%3FcatID%3D',
+    '/store/admin/products/categorylist.aspx?ovu=/store/admin/products/CategoryEdit.aspx%3Fcatval%3D',
     '&ovw=0&ovn=0'
 ];
 var customerEdit = [
-    '/store/admin/customers/customerlist.aspx?ovu=/store/admin/customers/CustomerEdit.aspx%3FID%3D',
+    '/store/admin/customers/customerlist.aspx?ovu=/store/admin/customers/CustomerEdit.aspx%3Fval%3D',
     '&ovw=0&ovn=1'
 ];
 var discountEdit = [
-    '/store/admin/marketing/discounts/discountlist.aspx?ovu=/store/admin/marketing/discounts/DiscountEdit.aspx%3FDiscountMethodID%3D',
+    '/store/admin/marketing/discounts/discountlist.aspx?ovu=/store/admin/marketing/discounts/DiscountEdit.aspx%3FDiscountMethodval%3D',
     '&ovw=0&ovn=0'
 ];
 var orderEdit = [
-    '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D',
+    '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderval%3D',
     '&ovw=1&ovn=0'
 ];
 var pageEdit = [
-    '/store/admin/content/pagelist.aspx?ovu=/store/admin/content/PageEdit.aspx%3FID%3D',
+    '/store/admin/content/pagelist.aspx?ovu=/store/admin/content/PageEdit.aspx%3Fval%3D',
     '&ovw=0&ovn=0'
 ];
 var productEdit = [
-    '/store/admin/products/listproducts.aspx?ovu=/store/admin/products/productedit/general.aspx%3FID%3D',
+    '/store/admin/products/listproducts.aspx?ovu=/store/admin/products/productedit/general.aspx%3Fval%3D',
     '&ovw=0&ovn=1'
 ];
 var edit = {
@@ -97,19 +97,19 @@ var edit = {
 
 //view pages
 var categoryView = [
-    '/store/category.aspx?catID=',
+    '/store/category.aspx?catval=',
     ''
 ];
 customerEmailHistory = [
-    '/store/admin/customers/customerlist.aspx?ovu=/store/admin/Customers/CustomerEmailList.aspx%3Fshownav%3D1%26ID%3D',
+    '/store/admin/customers/customerlist.aspx?ovu=/store/admin/Customers/CustomerEmailList.aspx%3Fshownav%3D1%26val%3D',
     '&ovw=0&ovn=1'
 ];
 var orderView = [
-    '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderID%3D',
+    '/store/admin/orders/orderlist.aspx?ovu=/store/admin/accounting/OrderEdit.aspx%3FOrderval%3D',
     '100215&ovw=1&ovn=0'
 ];
 var sessionView = [
-    '/store/admin/tools/sessionlist.aspx?ovu=/store/admin/tools/SessionView.aspx%3Fsessionid%3D',
+    '/store/admin/tools/sessionlist.aspx?ovu=/store/admin/tools/SessionView.aspx%3Fsessionval%3D',
     '&ovw=0&ovn=0'
 ];
 view = {
@@ -119,30 +119,40 @@ view = {
     'session': sessionView
 };
 
-function buildAcPath(name, value) {
+
+function buildAcPaths (name, value) {
     
     var s = name.split('-');
     var pageType = s[s.length - 1];
     var entity = s[0];
+    var vals = value.split(',');
     var parts;
-    var path;
+    var paths = [];
 
     switch (pageType) {
         case 'list':
-            path = listOf[value];
+            vals.forEach(function(val){
+                paths.push(listOf[val]);
+            })
             break;
         case 'edit':
             parts = edit[entity];
-            path = parts[0].concat(value, parts[1]);
+            vals.forEach(function(val) {
+                paths.push(parts[0].concat(val, parts[1]));
+            });
             break;
         case 'audit':
             parts = audit[entity];
-            path = parts[0].concat(value, parts[1], value, parts[2]);
+            vals.forEach(function(val) {
+                paths.push(parts[0].concat(val, parts[1], val, parts[2]));
+            });
             break;
         case 'view':
             parts = view[entity];
-            path = parts[0].concat(value, parts[1]);
+            vals.forEach(function(val) {
+                paths.push(parts[0].concat(val, parts[1]));
+            });
             break;
     } 
-    return path;
+    return paths;
 }
