@@ -127,6 +127,7 @@ webParser.on('new-tab', function (name) {
     options.newTab = true;
 });
 
+
 //parse commands an execute navigation
 function runAcCommands (commands) {
     acParser.parse(commands);
@@ -136,4 +137,8 @@ function runAcCommands (commands) {
     var url = domainPresent + path;
     var newTab = options.newTab;
     goTo(url, newTab);
+}
+
+function resetOptions () {
+    options.newTab = false;
 }
