@@ -18,16 +18,19 @@ function urlOrigin (url) {
     }
 }
 
-function goTo (newUrl) {
+function goTo (newUrl, newTab) {
     var query = {currentWindow: true, active: true};    
     chrome.tabs.query(query, function (results) {
         if (results.length > 0) {
             var tab = results[0];
-                if (urlOrigin(newUrl)) {
-                    chrome.tabs.update(tab.id, {url: newUrl});
-                } else {
-                    chrome.tabs.update(tab.id, {url: urlOrigin(results[0].url) + newUrl});
-                }
+            if (!urlOrigin(newUrl)) {
+                newUrl = urlOrigin(tab.url) + newUrl;
+            }
+            if (newTab) {
+                creatTab(newUrl);
+            } else {
+                chrome.tabs.update(tab.id, {url: newUrl});
+            }
         } 
     }); 
 }
