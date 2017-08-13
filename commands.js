@@ -48,78 +48,78 @@ acParser.on(0, function (value) {
 //audit parsers
 acParser.on('category-audit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('customer-audit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('order-audit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('product-audit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 
 //list parser
 acParser.on('list', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 
 //edit parsers
 acParser.on('category-edit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('customer-edit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('discount-edit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('page-edit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 
 acParser.on('product-edit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('order-edit', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 
 //view parsers
 acParser.on('category-view', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('email-view', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 
 acParser.on('order-view', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 acParser.on('session-view', function (name, value) {
     options.action = name;
-    options.paths = buildAcPaths(name, value);
+    options.paths.extend(buildAcPaths(name, value));
 });
 
 
 //General Web Switches and Parser
 var webSwitches = [
     ['-t','--new-tab', 'open in new tab'],
-];
+]
 
 var webParser = new optparse.OptionParser(webSwitches);
 
@@ -150,4 +150,5 @@ function runAcCommands (commands) {
 
 function resetOptions () {
     options.newTab = false;
+    options.paths = [];
 }
