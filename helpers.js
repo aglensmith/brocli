@@ -3,11 +3,10 @@
  */
 
 
-function creatTab (url) {
-    chrome.tabs.create({
-        'url': url
-    })
+Array.prototype.extend = function (other_array) {
+    other_array.forEach(function(v) {this.push(v)}, this);    
 }
+
 
 function urlOrigin (url) {
     try {
@@ -16,6 +15,12 @@ function urlOrigin (url) {
     } catch (err) {
         return  false;
     }
+}
+
+function creatTab (url) {
+    chrome.tabs.create({
+        'url': url
+    })
 }
 
 function goTo (newUrl, newTab) {
