@@ -2,8 +2,6 @@
  * @fileOverview Event listeners that listen and respond to Chrome events
  */
 
-
-var activeTabOrigin = "";
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) { 
     var suggestions = [];
     var query = {currentWindow: true, active: true};
@@ -18,6 +16,12 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
 
 chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     var splitText = text.split(" ");
+    runAcCommands(splitText);
+    resetOptions();
+});
+
+chrome.commands.onCommand.addListener(function(command) {
+    var splitText = command.split("_");
     runAcCommands(splitText);
     resetOptions();
 });
