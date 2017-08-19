@@ -67,7 +67,6 @@ acParser.on('product-audit', function (name, value) {
 acParser.on('list', function (name, value) {
     options.action = name;
     options.paths.extend(buildAcPaths(name, value));
-    console.log('paths ' + options.paths);
 });
 
 //edit parsers
@@ -164,9 +163,7 @@ function runAcCommands (commands) {
             data.ticket.fields.forEach(function(i) {
                 fields[i.id] = i.value;
             });
-            console.log(fields[21662133]);
             var site = fields[21662133];
-            console.log(site);
             var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
             var regex = new RegExp(expression);
             var isUrl = regex.test(site)
@@ -174,21 +171,16 @@ function runAcCommands (commands) {
             options.domain = site;
             }else if (regex.test('https://'.concat(site))) {
                 options.domain = 'https://'.concat(site);
-                console.log("if zd " + options.domain);
             }
             var domainPresent = options.domain || "";
-            console.log('after regex ' + domainPresent);
-            console.log('after regex paths ' + options.paths);
             options.paths.forEach(function(path){
                 var url = domainPresent + path;
-                console.log('url ' + url);
                 goTo(url, options.newTab);
                 options.newTab = true;
             });
             resetOptions();
         });
     } else {
-        console.log('outside ' + options.domain);
         var domainPresent = options.domain || "";
 
         //if no domain,
