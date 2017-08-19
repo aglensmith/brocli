@@ -67,6 +67,7 @@ acParser.on('product-audit', function (name, value) {
 acParser.on('list', function (name, value) {
     options.action = name;
     options.paths.extend(buildAcPaths(name, value));
+    console.log('paths ' + options.paths);
 });
 
 //edit parsers
@@ -148,19 +149,57 @@ function domainFromZD() {
     //http request, parse, return
 }
 
+var zdDomain = 'https://americommerce.zendesk.com'
 //parse commands an execute navigation
 function runAcCommands (commands) {
     acParser.parse(commands);
     webParser.parse(commands);
-    var domainPresent = options.domain || "";
+    // if zendesk and is ticket
+    if (isZD(currentLocation) && isTicket(currentLocation)) {
+        var split = currentLocation.split('/agent/tickets/');
+        var ticketID = split[split.length-1];
+        var url = zdDomain.concat('/api/v2/tickets/', ticketID);
+        getJson(url, function (data) {
+            var fields = {};
+            data.ticket.fields.forEach(function(i) {
+                fields[i.id] = i.value;
+            });
+            console.log(fields[21662133]);
+            var site = fields[21662133];
+            console.log(site);
+            var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+            var regex = new RegExp(expression);
+            var isUrl = regex.test(site)
+            if (isUrl) {
+            options.domain = site;
+            }else if (regex.test('https://'.concat(site))) {
+                options.domain = 'https://'.concat(site);
+                console.log("if zd " + options.domain);
+            }
+            var domainPresent = options.domain || "";
+            console.log('after regex ' + domainPresent);
+            console.log('after regex paths ' + options.paths);
+            options.paths.forEach(function(path){
+                var url = domainPresent + path;
+                console.log('url ' + url);
+                goTo(url, options.newTab);
+                options.newTab = true;
+            });
+            resetOptions();
+        });
+    } else {
+        console.log('outside ' + options.domain);
+        var domainPresent = options.domain || "";
 
-    //if no domain,
-    
-    options.paths.forEach(function(path){
-        var url = domainPresent + path;
-        goTo(url, options.newTab);
-        options.newTab = true;
-    });
+        //if no domain,
+        
+        options.paths.forEach(function(path){
+            var url = domainPresent + path;
+            goTo(url, options.newTab);
+            options.newTab = true;
+        });
+        resetOptions();
+    }
 }
 
 function resetOptions () {
