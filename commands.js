@@ -134,12 +134,27 @@ sugParser.on('list', function (name, value) {
     sugs.push('-l products', '-l orders', '-l customers');
 });
 
+function isZD (url) {
+    var zdRe = new RegExp('.zendesk.com');
+    return zdRe.test(url);
+}
+
+function isTicket (url) {
+    var ticketRe = new RegExp('/agent/tickets/');
+    return ticketRe.test(url);
+}
+
+function domainFromZD() {
+    //http request, parse, return
+}
 
 //parse commands an execute navigation
 function runAcCommands (commands) {
     acParser.parse(commands);
     webParser.parse(commands);
     var domainPresent = options.domain || "";
+
+    //if no domain,
     
     options.paths.forEach(function(path){
         var url = domainPresent + path;
