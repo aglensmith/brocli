@@ -2,11 +2,28 @@
  * @fileOverview helpers
  */
 
+function getJson (url, callback) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url, true);
+    request.onload = function(data) {
+        if (request.status >= 200 && request.status < 400) {
+            data = JSON.parse(request.responseText);
+            if(typeof callback == "function")
+            callback(data);
+        } else {
+        // We reached our target server, but it returned an error
+        }
+    };
+    request.onerror = function() {
+    // There was a connection error of some sort
+    };
+    request.send();
+}
+
 
 Array.prototype.extend = function (other_array) {
     other_array.forEach(function(v) {this.push(v)}, this);    
 }
-
 
 function urlOrigin (url) {
     try {
@@ -27,6 +44,7 @@ function goTo (newUrl, newTab) {
     var query = {currentWindow: true, active: true};    
     chrome.tabs.query(query, function (results) {
         var tab = results[0];
+        //if newUrl is relative path, use active tab url
         if (!urlOrigin(newUrl)) {
             newUrl = urlOrigin(tab.url) + newUrl;
         }
