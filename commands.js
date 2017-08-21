@@ -3,6 +3,7 @@
  */
 
 
+
 var options = {
     action: undefined,
     domain: undefined,
@@ -150,6 +151,7 @@ function domainFromZD() {
 
 var zdDomain = 'https://americommerce.zendesk.com'
 //parse commands an execute navigation
+
 function runAcCommands (commands) {
     acParser.parse(commands);
     webParser.parse(commands);
@@ -194,7 +196,15 @@ function runAcCommands (commands) {
     }
 }
 
+
+
 function resetOptions () {
     options.newTab = false;
     options.paths = [];
+}
+
+function executer() {}
+executer = new executer()
+executer.runAcCommands = {
+    runAcCommands: runAcCommands
 }

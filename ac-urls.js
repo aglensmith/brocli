@@ -128,15 +128,12 @@ var view = {
     'session': sessionView
 };
 
-console.log('test: ' + view);
-
-
-function buildAcPaths (name, IDue) {
+function buildAcPaths (name, val) {
     
     var s = name.split('-');
     var pageType = s[s.length - 1];
     var entity = s[0];
-    var vals = IDue.split(',');
+    var vals = val.split(',');
     var parts;
     var paths = [];
 
