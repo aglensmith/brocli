@@ -32,7 +32,7 @@ var listOf = {
     'users': '/settings/users/userlist.aspx?',
     'warehouses': '/products/warehouses.aspx?'
 };
-
+``````````````
 var settingsPage = {
     'payments':  '/Settings/Payments/StorePaymentOptions.aspx',
     'shipping':  '/Settings/shipping/shippingoptions.aspx',
