@@ -33,12 +33,7 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
 
 chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     var splitText = text.split(" ");
-    for (var property in executer) {
-        if (executer.hasOwnProperty(property) && typeof property == 'function') {
-            console.log(property);
-            property(splitText);
-        }
-    }
+    Executer.executeAll(splitText);
 });
 
 chrome.commands.onCommand.addListener(function(command) {
