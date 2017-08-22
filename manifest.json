@@ -9,7 +9,7 @@
     "default_popup": "popup.html"
   },
   "background": {
-      "scripts": ["background.js", "optparse.js", "commands.js", "helpers.js", "ac-urls.js"],
+      "scripts": ["background.js", "optparse.js", "commands.js", "helpers.js", "ac-urls.js", "config.js"],
       "persistent": false
   },
   "commands": {
