@@ -42,6 +42,12 @@ function creatTab (url) {
     })
 }
 
+function isUrl (string) {
+    var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+    var regex = new RegExp(expression);
+    return regex.test(string);
+}
+
 function goTo (newUrl, newTab) {
     var query = {currentWindow: true, active: true};    
     chrome.tabs.query(query, function (results) {
@@ -56,6 +62,14 @@ function goTo (newUrl, newTab) {
             chrome.tabs.update(tab.id, {url: newUrl});
         }
     }); 
+}
+
+function goToMany(domain, paths) {
+    paths.forEach(function(path){
+        var url = domain + path;
+        goTo(url, options.newTab);
+        options.newTab = true;
+    });
 }
 
 function navCurrentDomain (relativePath) {
