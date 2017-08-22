@@ -2,8 +2,6 @@
  * @fileOverview Uses optparse.js to parse command switches
  */
 
-
-
 var options = {
     action: undefined,
     domain: undefined,
@@ -36,12 +34,9 @@ var acSwitches = [
 var acParser = new optparse.OptionParser(acSwitches);
 
 acParser.on(0, function (value) {
-    var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
-    var regex = new RegExp(expression);
-    var isUrl = regex.test(value)
-    if (isUrl) {
+    if (isUrl(value)) {
       options.domain = value;
-    }else if (regex.test('https://'.concat(value))) {
+    }else if (isUrl('https://'.concat(value))) {
         options.domain = 'https://'.concat(value);
     }
 });
@@ -145,66 +140,57 @@ function isTicket (url) {
     return ticketRe.test(url);
 }
 
-function domainFromZD() {
-    //http request, parse, return
-}
-
-var zdDomain = 'https://americommerce.zendesk.com'
-//parse commands an execute navigation
-
-function runAcCommands (commands) {
-    acParser.parse(commands);
-    webParser.parse(commands);
-    // if zendesk and is ticket
-    if (isZD(currentLocation) && isTicket(currentLocation)) {
-        var split = currentLocation.split('/agent/tickets/');
-        var ticketID = split[split.length-1];
-        var url = zdDomain.concat('/api/v2/tickets/', ticketID);
-        getJson(url, function (data) {
-            var fields = {};
-            data.ticket.fields.forEach(function(i) {
-                fields[i.id] = i.value;
-            });
-            var site = fields[21662133];
-            var expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
-            var regex = new RegExp(expression);
-            var isUrl = regex.test(site)
-            if (isUrl) {
-            options.domain = site;
-            }else if (regex.test('https://'.concat(site))) {
-                options.domain = 'https://'.concat(site);
-            }
-            var domainPresent = options.domain || "";
-            options.paths.forEach(function(path){
-                var url = domainPresent + path;
-                goTo(url, options.newTab);
-                options.newTab = true;
-            });
-            resetOptions();
+function goToFromZD() {
+    var split = currentLocation.split('/agent/tickets/');
+    var ticketID = split[split.length-1];
+    var url = zdDomain.concat('/api/v2/tickets/', ticketID);
+    getJson(url, function (data) {
+        var fields = {};
+        data.ticket.fields.forEach(function(i) {
+            fields[i.id] = i.value;
         });
-    } else {
+        var site = fields[21662133];
+        if (isUrl(site)) {
+        options.domain = site;
+        }else if (isUrl('https://'.concat(site))) {
+            options.domain = 'https://'.concat(site);
+        }
         var domainPresent = options.domain || "";
-
-        //if no domain,
-        
-        options.paths.forEach(function(path){
-            var url = domainPresent + path;
-            goTo(url, options.newTab);
-            options.newTab = true;
-        });
+        goToMany(domainPresent, options.paths);
         resetOptions();
-    }
+    });
 }
 
-
+function Executer () {
+    var array = [];
+    array.executeAll = function(commands) {
+        array.forEach(function (element) {
+           if (typeof element == 'function') {
+            
+               element(commands);
+           }
+        });
+    };
+    return array;
+};
 
 function resetOptions () {
     options.newTab = false;
     options.paths = [];
 }
 
-function executer() {}
-executer = new executer()
-executer.runAcCommands = {
-    runAcCommands: runAcCommands
+var Executer = Executer();
+
+function runAcCommands (commands) {
+    acParser.parse(commands);
+    webParser.parse(commands);
+    if (isZD(currentLocation) && isTicket(currentLocation)) {
+        goToFromZD();
+    } else {
+        var domainPresent = options.domain || "";
+        goToMany(domainPresent, options.paths);
+        resetOptions();
+    }
 }
+
+Executer.push(runAcCommands);
