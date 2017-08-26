@@ -1,0 +1,58 @@
+{
+  "manifest_version": 2,
+  "name": "brocli",
+  "description": "brocli is a Chrome extension that turns Chrome's omnibar into a command line interface for navigating the web",
+  "version": "1.0",
+  "omnibox": { "keyword" : "b" },
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+      "scripts": ["background.js", "optparse.js", "commands.js", "helpers.js", "ac-urls.js", "config.js"],
+      "persistent": false
+  },
+  "commands": {
+    "-l_customers": {
+      "suggested_key": {
+        "default": "Alt+J",
+        "windows": "Alt+J",
+        "mac": "Alt+J"
+        },
+        "description": "Customers",
+        "global": true
+    },
+        "-l_customers_-t": {
+        "description": "Customers (New Tab)"
+    },
+    "-l_orders": {
+      "suggested_key": {
+        "default": "Alt+K",
+        "windows": "Alt+K",
+        "mac": "Alt+K"
+        },
+        "description": "Order"
+    },
+        "-l_orders_-t": {
+        "description": "Orders (New Tab)"
+    },
+      "-l_products": {
+      "suggested_key": {
+        "default": "Alt+L",
+        "windows": "Alt+L",
+        "mac": "Alt+L"
+        },
+        "description": "Products"
+    },
+      "-l_products_-t": {
+        "description": "Products (New Tab)"
+    }
+  },
+
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ],
+  "optional_permissions": ["activeTab"]
+}
