@@ -2,8 +2,6 @@
  * @fileOverview helpers
  */
 
-
-
 function getJson (url, callback) {
     var request = new XMLHttpRequest();
     request.open('GET', url, true);
