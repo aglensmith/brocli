@@ -8,10 +8,19 @@
   <head>
     <title>Getting Started Extension's Popup</title>
     <style>
+      html {width: 300px;}
       body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
+        margin-top: 0px;
       }
+      ul {padding: 0; margin: 0; list-style: none;}
+      code {background-color: #f2f2f2;}
+      
+      .extension-title {text-align: center; font-weight: bold;}
+      .extension-title:before {content: '--';}
+      .extension-title:after {content: '--';}
+      .header {font-weight: bold; margin-top: 5px;}
       #status {
         /* avoid an excessively wide status text */
         white-space: pre;
@@ -27,10 +36,27 @@
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
-    <script src="popup.js"></script>
+    <!--<script src="popup.js"></script>-->
   </head>
   <body>
-    <div id="status"></div>
+    <div class="extension-title">brocli (beta)</div>
+    <div id="commands">
+      <div class="header">Common Commands</div>
+      <ul>
+        <li>Customer Edit: <code>-c [ID]</code></li>
+        <li>Customer audit: <code>-ca [ID]</code></li>
+        <li>Order Edit: <code>-o [ID]</code></li>
+      </ul>
+    </div>
+    <div id="Keyboard Shortcuts">
+      <div class="header">Default Shortcuts <a href="chrome://extensions/configureCommands">&#9881;</a></div>
+      <ul>
+        <li>Customer Edit: <code>Alt + J</code></li>
+        <li>Customer audit: <code>Alt + K </code></li>
+        <li>Order Edit: <code>Alt + L</code></li>
+        <li></li>
+      </ul>
+    </div>
     <img id="image-result" hidden>
   </body>
 </html>
