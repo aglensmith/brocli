@@ -13,15 +13,42 @@
       "persistent": false
   },
   "commands": {
+    "-l_customers": {
+      "suggested_key": {
+        "default": "Alt+J",
+        "windows": "Alt+J",
+        "mac": "Alt+J"
+        },
+        "description": "Customers",
+        "global": true
+    },
+        "-l_customers_-t": {
+        "description": "Customers (New Tab)"
+    },
     "-l_orders": {
       "suggested_key": {
-        "default": "Alt+O",
-        "windows": "Alt+O",
-        "mac": "Alt+O"
+        "default": "Alt+K",
+        "windows": "Alt+K",
+        "mac": "Alt+K"
         },
-        "description": "Go to order list"
+        "description": "Order"
+    },
+        "-l_orders_-t": {
+        "description": "Orders (New Tab)"
+    },
+      "-l_products": {
+      "suggested_key": {
+        "default": "Alt+L",
+        "windows": "Alt+L",
+        "mac": "Alt+L"
+        },
+        "description": "Products"
+    },
+      "-l_products_-t": {
+        "description": "Products (New Tab)"
     }
   },
+
   "permissions": [
     "tabs",
     "activeTab",
