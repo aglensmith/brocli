@@ -30,7 +30,6 @@ var acSwitches = [
     ['-vs','--view-session [ID]', 'view session'],
 ];
 
-
 var acParser = new optparse.OptionParser(acSwitches);
 
 acParser.on(0, function (value) {
@@ -71,86 +70,26 @@ acParser.on(0, function (value) {
     }
 });
 
-//audit parsers
-acParser.on('category-audit', function (name, value) {
+acParser.on('*', function (name, value) {
     options.action = name;
     options.paths.extend(buildAcPaths(name, value));
 });
-acParser.on('customer-audit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-acParser.on('order-audit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-acParser.on('product-audit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-
-//list parser
-acParser.on('list', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-
-//edit parsers
-acParser.on('category-edit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-acParser.on('customer-edit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-acParser.on('discount-edit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-acParser.on('page-edit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-
-acParser.on('product-edit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-acParser.on('order-edit', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-
-//view parsers
-acParser.on('category-view', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-acParser.on('email-view', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-
-acParser.on('order-view', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-acParser.on('session-view', function (name, value) {
-    options.action = name;
-    options.paths.extend(buildAcPaths(name, value));
-});
-
 
 //General Web Switches and Parser
 var webSwitches = [
     ['-t','--new-tab', 'open in new tab'],
+    ['-k', '--keyboard-shortcuts', 'view and configure all extension keyboard shortcusts'],
+    ['-cs', '--custom-searches', 'configure chrome customer searches']
 ]
 
 var webParser = new optparse.OptionParser(webSwitches);
-
 webParser.on('new-tab', function (name) {
     options.newTab = true;
+});
+
+webParser.on('keyboard-shortcuts', function (name) {
+    options.newTab = true;
+    options.paths.push('chrome://extensions/configureCommands');
 });
 
 var sugs = [];
