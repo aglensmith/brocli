@@ -28,6 +28,7 @@ var acSwitches = [
     ['-oa','--order-audit [ID]', 'order audit'],
     ['-ov','--order-view [ID]', 'order view'],
     ['-vs','--view-session [ID]', 'view session'],
+    ['-s','--settings [PAGE]', 'view session']
 ];
 
 var acParser = new optparse.OptionParser(acSwitches);
@@ -72,6 +73,8 @@ acParser.on(0, function (value) {
 
 acParser.on('*', function (name, value) {
     options.action = name;
+    console.log(name);
+    console.log(value);
     options.paths.extend(buildAcPaths(name, value));
 });
 
@@ -146,6 +149,7 @@ function Executer () {
 function resetOptions () {
     options.newTab = false;
     options.paths = [];
+    options.action = undefined;
 }
 
 var Executer = Executer();

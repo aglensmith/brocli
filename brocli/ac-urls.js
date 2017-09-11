@@ -38,7 +38,7 @@ var settingsPage = {
     'shipping':  '/Settings/shipping/shippingoptions.aspx',
     'store':  '/Settings/Store/StoreInformation.aspx',
     'info':  '/Settings/Store/StoreInformation.aspx',
-    'search':  '/Settings/Store/SEOSettings.aspx',
+    'search':  '/Settings/Store/SEOSettings.aspx'
 };
 
 //Audit Pages
@@ -160,6 +160,11 @@ function buildAcPaths (name, val) {
                 paths.push(parts[0].concat(val, parts[1]));
             });
             break;
-    } 
+        case 'settings':
+            vals.forEach(function(val){
+                paths.push(prefix.concat(settingsPage[val]));
+            });
+            break;
+    }
     return paths;
 }
