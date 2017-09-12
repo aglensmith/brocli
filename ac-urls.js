@@ -37,7 +37,7 @@ var settingsPage = {
     'payments':  '/Settings/Payments/StorePaymentOptions.aspx',
     'shipping':  '/Settings/shipping/shippingoptions.aspx',
     'store':  '/Settings/Store/StoreInformation.aspx',
-    'info':  '/Settings/Store/StoreInformation.aspx',
+    'info':  '/Settings/Store/StoreInformation.aspx's,
     'search':  '/Settings/Store/SEOSettings.aspx',
 };
 
@@ -71,7 +71,7 @@ var audit = {
 
 // Edit Pages
 var categoryEdit = [
-     '/products/categorylist.aspx?ovu=/store/aadddmin/products/CategoryEdit.aspx%3FcatID%3D',
+     '/products/categorylist.aspx?ovu=/store/admin/products/CategoryEdit.aspx%3FcatID%3D',
     '&ovw=0&ovn=0'
 ];
 var customerEdit = [
@@ -159,11 +159,6 @@ function buildAcPaths (name, val) {
             vals.forEach(function(val) {
                 paths.push(parts[0].concat(val, parts[1]));
             });
-            break;
-        case 'settings':
-            vals.forEach(function(val){
-                paths.push(prefix.concat(settingsPage[val]));
-            })
             break;
     } 
     return paths;
