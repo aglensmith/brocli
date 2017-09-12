@@ -28,11 +28,7 @@ var acSwitches = [
     ['-oa','--order-audit [ID]', 'order audit'],
     ['-ov','--order-view [ID]', 'order view'],
     ['-vs','--view-session [ID]', 'view session'],
-<<<<<<< HEAD
-    ['-s','--settings [PAGE]', 'view session']
-=======
     ['-s','--settings [PAGE]', 'settings page'],
->>>>>>> 001501e71846ae8545e2e622fa94d44cdcb5279c
 ];
 
 var acParser = new optparse.OptionParser(acSwitches);

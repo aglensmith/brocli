@@ -46,13 +46,9 @@ var settingsPage = {
     'shipping':  '/Settings/shipping/shippingoptions.aspx',
     'store':  '/Settings/Store/StoreInformation.aspx',
     'info':  '/Settings/Store/StoreInformation.aspx',
-<<<<<<< HEAD
-    'search':  '/Settings/Store/SEOSettings.aspx'
-=======
     'security': '/Settings/Store/StoreInformation.aspx?section=security',
     'storeInfo':  '/Settings/Store/StoreInformation.aspx',
     'search':  '/Settings/Store/SEOSettings.aspx',
->>>>>>> 001501e71846ae8545e2e622fa94d44cdcb5279c
 };
 
 //Audit Pages
@@ -177,14 +173,8 @@ function buildAcPaths (name, val) {
         case 'settings':
             vals.forEach(function(val){
                 paths.push(prefix.concat(settingsPage[val]));
-<<<<<<< HEAD
-            });
-            break;
-    }
-=======
             })
             break;
     } 
->>>>>>> 001501e71846ae8545e2e622fa94d44cdcb5279c
     return paths;
 }

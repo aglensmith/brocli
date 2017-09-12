@@ -31,6 +31,7 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     suggest(suggestions);
 });
 
+
 chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     var splitText = text.split(" ");
     Executer.executeAll(splitText);
