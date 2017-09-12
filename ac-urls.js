@@ -34,25 +34,11 @@ var listOf = {
 };
 
 var settingsPage = {
-    'catalog': '/Settings/Catalog/General.aspx',
-    'cat': '/Settings/Catalog/General.aspx',
-    'content': '/Settings/Content/General.aspx?',
-    'marketing': '/Settings/Marketing/General.aspx',
-    'microstores': '/Settings/Microstores/General.aspx',
-    'orders': '/Settings/Orders/General.aspx',
     'payments':  '/Settings/Payments/StorePaymentOptions.aspx',
-    'people': '/Settings/People/General.aspx',
-    'search': '/Settings/Store/SEOSettings.aspx',
     'shipping':  '/Settings/shipping/shippingoptions.aspx',
     'store':  '/Settings/Store/StoreInformation.aspx',
-    'info':  '/Settings/Store/StoreInformation.aspx',
-<<<<<<< HEAD
-    'search':  '/Settings/Store/SEOSettings.aspx'
-=======
-    'security': '/Settings/Store/StoreInformation.aspx?section=security',
-    'storeInfo':  '/Settings/Store/StoreInformation.aspx',
+    'info':  '/Settings/Store/StoreInformation.aspx's,
     'search':  '/Settings/Store/SEOSettings.aspx',
->>>>>>> 001501e71846ae8545e2e622fa94d44cdcb5279c
 };
 
 //Audit Pages
@@ -85,7 +71,7 @@ var audit = {
 
 // Edit Pages
 var categoryEdit = [
-     '/products/categorylist.aspx?ovu=/store/aadddmin/products/CategoryEdit.aspx%3FcatID%3D',
+     '/products/categorylist.aspx?ovu=/store/admin/products/CategoryEdit.aspx%3FcatID%3D',
     '&ovw=0&ovn=0'
 ];
 var customerEdit = [
@@ -174,17 +160,6 @@ function buildAcPaths (name, val) {
                 paths.push(parts[0].concat(val, parts[1]));
             });
             break;
-        case 'settings':
-            vals.forEach(function(val){
-                paths.push(prefix.concat(settingsPage[val]));
-<<<<<<< HEAD
-            });
-            break;
-    }
-=======
-            })
-            break;
     } 
->>>>>>> 001501e71846ae8545e2e622fa94d44cdcb5279c
     return paths;
 }
