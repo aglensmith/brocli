@@ -34,10 +34,20 @@ var listOf = {
 };
 
 var settingsPage = {
+    'catalog': '/Settings/Catalog/General.aspx',
+    'cat': '/Settings/Catalog/General.aspx',
+    'content': '/Settings/Content/General.aspx?',
+    'marketing': '/Settings/Marketing/General.aspx',
+    'microstores': '/Settings/Microstores/General.aspx',
+    'orders': '/Settings/Orders/General.aspx',
     'payments':  '/Settings/Payments/StorePaymentOptions.aspx',
+    'people': '/Settings/People/General.aspx',
+    'search': '/Settings/Store/SEOSettings.aspx',
     'shipping':  '/Settings/shipping/shippingoptions.aspx',
     'store':  '/Settings/Store/StoreInformation.aspx',
     'info':  '/Settings/Store/StoreInformation.aspx',
+    'security': '/Settings/Store/StoreInformation.aspx?section=security',
+    'storeInfo':  '/Settings/Store/StoreInformation.aspx',
     'search':  '/Settings/Store/SEOSettings.aspx',
 };
 
