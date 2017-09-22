@@ -2,20 +2,29 @@
  * @fileOverview Event listeners that listen and respond to Chrome events
  */
 
+
 var currentLocation;
 
-chrome.tabs.onActivated.addListener(function (activeInfo) {
-    chrome.tabs.get(activeInfo['tabId'], function (tab) {
-        if (tab.url) {
-            currentLocation = tab.url;
-        }   
-    });
-    
-});
+
+chrome.webNavigation.onBeforeNavigate.addListener(
+    function(details) {
+        var url = new URL(details.url);
+        var query = url.searchParams.get(searchParam);
+        var cl = new URL(currentLocation);
+        var splitText = query.split(' ');
+        if (cl.origin != defaultSearch.origin && splitText[0] != 's')
+            Executer.executeAll(query.split(' '));
+    }, {url: [{urlContains: defaultSearchPath}]}
+);
+
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if(changeInfo['url']) {
-        currentLocation = changeInfo['url'];
+    if(changeInfo['url'] && changeInfo['url']) {
+        var url = new URL(changeInfo['url']);
+        var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
+        if (url.origin != cmdUrl.origin)
+            currentLocation = changeInfo['url'];
+        console.log('on updated: ' + currentLocation);
     }
 });
 
