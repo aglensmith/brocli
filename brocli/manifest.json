@@ -14,7 +14,7 @@
   },
   "background": {
       "scripts": ["optparse.js", "config.js", "helpers.js", "ac-urls.js", "commands.js", "background.js"],
-      "persistent": false
+      "persistent": true
   },
   "commands": {
     "-l_customers": {
@@ -59,7 +59,7 @@
   "permissions": [
     "tabs",
     "activeTab",
-    "https://ajax.googleapis.com/"
+    "webNavigation"
   ],
   "optional_permissions": ["activeTab"]
 }
