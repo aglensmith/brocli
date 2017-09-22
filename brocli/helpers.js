@@ -52,7 +52,7 @@ function goTo (newUrl, newTab) {
         var tab = results[0];
         //if newUrl is relative path, use active tab url
         if (!urlOrigin(newUrl)) {
-            newUrl = urlOrigin(tab.url) + newUrl;
+            newUrl = urlOrigin(currentLocation) + newUrl;
         }
         if (newTab) {
             creatTab(newUrl);
