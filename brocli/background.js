@@ -5,6 +5,17 @@
 
 var currentLocation;
 
+chrome.tabs.onActivated.addListener(function (activeInfo) {
+    chrome.tabs.get(activeInfo.tabId, function (tab) {
+        currentLocation = tab.url;
+    });
+});
+
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    if (changeInfo['url']) {
+        currentLocation = changeInfo['url'];
+    }
+});
 
 chrome.webNavigation.onBeforeNavigate.addListener(
     function(details) {
@@ -16,17 +27,6 @@ chrome.webNavigation.onBeforeNavigate.addListener(
             Executer.executeAll(query.split(' '));
     }, {url: [{urlContains: defaultSearchPath}]}
 );
-
-
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if(changeInfo['url'] && changeInfo['url']) {
-        var url = new URL(changeInfo['url']);
-        var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
-        if (url.origin != cmdUrl.origin)
-            currentLocation = changeInfo['url'];
-        console.log('on updated: ' + currentLocation);
-    }
-});
 
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) { 
     var suggestions = [];
