@@ -58,8 +58,7 @@
   },
   "permissions": [
     "tabs",
-    "activeTab",
-    "https://ajax.googleapis.com/"
+    "activeTab"
   ],
   "optional_permissions": ["activeTab"]
 }
