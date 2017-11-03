@@ -4,8 +4,7 @@ brocli is a Chrome extension that turns Chrome's omnibar into a command line int
 ## Installation
 brocli is not available on the Chrome Web Store, so it must be side-loaded. To do so, first download the source code: 
 
-* Download with git: `git clone https://github.com/aglensmith/brocli.git`
-* or, [download zip file](https://github.com/aglensmith/brocli/archive/master.zip)
+* Clone with Git or download zip file.
 
 Once downloaded, the extension can be added here: `chrome://extensions`
 
