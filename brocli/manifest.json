@@ -58,12 +58,8 @@
   },
   "permissions": [
     "tabs",
-<<<<<<< HEAD
-    "activeTab"
-=======
     "activeTab",
     "webNavigation"
->>>>>>> a896166f5685075bb18c71772a1045a72b5957d2
   ],
   "optional_permissions": ["activeTab"]
 }
