@@ -2,22 +2,31 @@
  * @fileOverview Event listeners that listen and respond to Chrome events
  */
 
+
 var currentLocation;
 
 chrome.tabs.onActivated.addListener(function (activeInfo) {
-    chrome.tabs.get(activeInfo['tabId'], function (tab) {
-        if (tab.url) {
-            currentLocation = tab.url;
-        }   
+    chrome.tabs.get(activeInfo.tabId, function (tab) {
+        currentLocation = tab.url;
     });
-    
 });
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    if(changeInfo['url']) {
+    if (changeInfo['url']) {
         currentLocation = changeInfo['url'];
     }
 });
+
+chrome.webNavigation.onBeforeNavigate.addListener(
+    function(details) {
+        var url = new URL(details.url);
+        var query = url.searchParams.get(searchParam);
+        var cl = new URL(currentLocation);
+        var splitText = query.split(' ');
+        if (cl.origin != defaultSearch.origin && splitText[0] != 's')
+            Executer.executeAll(query.split(' '));
+    }, {url: [{urlContains: defaultSearchPath}]}
+);
 
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) { 
     var suggestions = [];

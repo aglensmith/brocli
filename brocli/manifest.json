@@ -14,7 +14,7 @@
   },
   "background": {
       "scripts": ["optparse.js", "config.js", "helpers.js", "ac-urls.js", "commands.js", "background.js"],
-      "persistent": false
+      "persistent": true
   },
   "commands": {
     "-l_customers": {
@@ -58,7 +58,12 @@
   },
   "permissions": [
     "tabs",
+<<<<<<< HEAD
     "activeTab"
+=======
+    "activeTab",
+    "webNavigation"
+>>>>>>> a896166f5685075bb18c71772a1045a72b5957d2
   ],
   "optional_permissions": ["activeTab"]
 }

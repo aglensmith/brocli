@@ -67,14 +67,16 @@ acParser.on(0, function (value) {
     
       options.domain = value;
     }else if (isUrl('https://'.concat(value))) {
-        options.domain = 'https://'.concat(value);
+        var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
+        if (domain != cmdUrl.hostname) {
+            options.domain = 'https://'.concat(value);
+        }
     }
 });
 
 acParser.on('*', function (name, value) {
     options.action = name;
-    console.log(name);
-    console.log(value);
+    options.entered = true;
     options.paths.extend(buildAcPaths(name, value));
 });
 
@@ -88,6 +90,10 @@ var webSwitches = [
 var webParser = new optparse.OptionParser(webSwitches);
 webParser.on('new-tab', function (name) {
     options.newTab = true;
+});
+
+webParser.on('*', function (name) {
+    options.entered = true;
 });
 
 webParser.on('keyboard-shortcuts', function (name) {
@@ -138,7 +144,6 @@ function Executer () {
     array.executeAll = function(commands) {
         array.forEach(function (element) {
            if (typeof element == 'function') {
-            
                element(commands);
            }
         });
