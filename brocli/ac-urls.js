@@ -37,6 +37,8 @@ var settingsPage = {
     'catalog': '/Settings/Catalog/General.aspx',
     'cat': '/Settings/Catalog/General.aspx',
     'content': '/Settings/Content/General.aspx?',
+    'domain': '/account/domaincontrol.aspx',
+    'dc': '/account/domaincontrol.aspx',
     'marketing': '/Settings/Marketing/General.aspx',
     'microstores': '/Settings/Microstores/General.aspx',
     'orders': '/Settings/Orders/General.aspx',
