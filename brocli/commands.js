@@ -34,37 +34,7 @@ var acSwitches = [
 var acParser = new optparse.OptionParser(acSwitches);
 
 acParser.on(0, function (value) {
-    if (isUrl(value)) {function isZD (url) {
-        var zdRe = new RegExp('.zendesk.com');
-        return zdRe.test(url);
-    }
-    
-    function isTicket (url) {
-        var ticketRe = new RegExp('/agent/tickets/');
-        return ticketRe.test(url);
-    }
-    
-    function goToFromZD() {
-        var split = currentLocation.split('/agent/tickets/');
-        var ticketID = split[split.length-1];
-        var url = zdDomain.concat('/api/v2/tickets/', ticketID);
-        getJson(url, function (data) {
-            var fields = {};
-            data.ticket.fields.forEach(function(i) {
-                fields[i.id] = i.value;
-            });
-            var site = fields[21662133];
-            if (isUrl(site)) {
-            options.domain = site;
-            }else if (isUrl('https://'.concat(site))) {
-                options.domain = 'https://'.concat(site);
-            }
-            var domainPresent = options.domain || "";
-            goToMany(domainPresent, options.paths);
-            resetOptions();
-        });
-    }
-    
+    if (isUrl(value)) {
       options.domain = value;
     }else if (isUrl('https://'.concat(value))) {
         var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
@@ -130,12 +100,11 @@ function goToFromZD() {
         var site = fields[21662133];
         if (isUrl(site)) {
         options.domain = site;
-        }else if (isUrl('https://'.concat(site))) {
-            options.domain = 'https://'.concat(site);
+        }else if (isUrl('http://'.concat(site))) {
+            options.domain = 'http://'.concat(site);
         }
         var domainPresent = options.domain || "";
         goToMany(domainPresent, options.paths);
-        resetOptions();
     });
 }
 
@@ -155,6 +124,7 @@ function resetOptions () {
     options.newTab = false;
     options.paths = [];
     options.action = undefined;
+    options.domain = undefined;
 }
 
 var Executer = Executer();
@@ -167,7 +137,6 @@ function runAcCommands (commands) {
     } else {
         var domainPresent = options.domain || "";
         goToMany(domainPresent, options.paths);
-        resetOptions();
     }
 }
 

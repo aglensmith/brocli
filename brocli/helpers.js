@@ -65,9 +65,16 @@ function goTo (newUrl, newTab) {
 function goToMany(domain, paths) {
     paths.forEach(function(path){
         var url = domain + path;
-        goTo(url, options.newTab);
-        options.newTab = true;
+        if (path.indexOf('/Store/Adminundefined') == -1)
+        {
+            goTo(url, options.newTab);
+            options.newTab = true;
+        }
+        else {
+            console.log("Brocli: Invalid Command Entered. Cannot go to " + path);
+        }
     });
+    resetOptions();
 }
 
 function navCurrentDomain (relativePath) {
