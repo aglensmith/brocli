@@ -53,8 +53,19 @@ Multiple entities or ids can be specified by comma seperating them. Ex: `-o 1002
 * `-eh (<id>)` - view customer email history. Ex: `-eh 227`
 * `-vs (<id>)` - view visitor session. Ex: `-vs 100231`
 
+### Settings
+* `-s (page)` - navigate to a settings page Ex: `-s dc` will navigate to domaincontrol.aspx
+* `-s info` - store info settings
+ `-s shipping` - shipping settings
+* etc
+
 ## General Web Commands
 Commands that are useful on any site.
 
 ### Navigation
-* `--new-tab` or `-t` - specifies navigation should occur in new tab. Default is current tab. 
+* `--new-tab` or `-t` - specifies navigation should occur in new tab. Default is current tab.
+* `--command (string)` or `-com (string)` - Will search bookmarks for string and navigate to them if found. This command will also be ran on the first input string if no other commands are executed. 
+
+### Tools
+* `--pretty-print (string)` or `--pp (string)` - Pretty print XML or HTML. Opens new tab to a extension's output.html.
+* `--url-encode (string)` or `--url (string)` - Url encode a string. Opens new tab to a extension's output.html.
