@@ -2,6 +2,8 @@
  * @fileOverview Uses optparse.js to parse command switches
  */
 
+var extensionId = chrome.runtime.id;
+
 var options = {
     action: undefined,
     domain: undefined,
@@ -50,11 +52,16 @@ acParser.on('*', function (name, value) {
     options.paths.extend(buildAcPaths(name, value));
 });
 
-//General Web Switches and Parser
+/**
+* General Web Switches and Parser
+*/
 var webSwitches = [
     ['-t','--new-tab', 'open in new tab'],
     ['-k', '--keyboard-shortcuts', 'view and configure all extension keyboard shortcusts'],
-    ['-cs', '--custom-searches', 'configure chrome customer searches']
+    ['-cs', '--custom-searches', 'configure chrome customer searches'],
+    ['-pp', '--pretty-print [STRING]', 'pretty print a string of code'],
+    ['-url', '--url-encode [STRING]', 'url encode a string'],
+    ['-com', '--command [BOOKMARK]', 'url encode a string']
 ]
 
 var webParser = new optparse.OptionParser(webSwitches);
@@ -69,6 +76,28 @@ webParser.on('*', function (name) {
 webParser.on('keyboard-shortcuts', function (name) {
     options.newTab = true;
     options.paths.push('chrome://extensions/configureCommands');
+});
+
+webParser.on('pretty-print', function (name, value) {
+    chrome.storage.local.set({'output': formatXml(value)}, function() {
+        window.open("chrome-extension://"+ extensionId +"/output.html");
+    });
+});
+
+webParser.on('url-encode', function (name, value) {
+    chrome.storage.local.set({'output': encodeURIComponent(value)}, function() {
+        window.open("chrome-extension://"+ extensionId +"/output.html");
+    });
+});
+
+webParser.on('command', function (name, value) {
+    chrome.bookmarks.search(value, function(results){
+        console.log(results);
+        results.forEach(function(res){
+            if (res.title == value)
+                window.open(res.url);         
+        });
+    });
 });
 
 var sugs = [];
@@ -130,6 +159,7 @@ function resetOptions () {
 var Executer = Executer();
 
 function runAcCommands (commands) {
+    options.entered = false;
     acParser.parse(commands);
     webParser.parse(commands);
     if (isZD(currentLocation) && isTicket(currentLocation)) {
@@ -137,6 +167,11 @@ function runAcCommands (commands) {
     } else {
         var domainPresent = options.domain || "";
         goToMany(domainPresent, options.paths);
+    }
+
+    if (!options.entered)
+    {
+        webParser.parse(["-com", commands[0]]);
     }
 }
 

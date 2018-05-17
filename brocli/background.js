@@ -33,7 +33,7 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     var query = {currentWindow: true, active: true};
     var splitText = text.split(" ");
     sugParser.parse(splitText);
-    chrome.omnibox.setDefaultSuggestion({description:'[site] (-pagetype) [id|entity]'});
+    chrome.omnibox.setDefaultSuggestion({description:'Welcome to brocli -- the browser commandline interface.'});
     sugs.forEach(function(sug) {
         suggestions.push({content: sug, description: sug})
     });
