@@ -59,6 +59,8 @@
   "permissions": [
     "tabs",
     "activeTab",
+    "bookmarks",
+    "storage",
     "webNavigation"
   ],
   "optional_permissions": ["activeTab"]
