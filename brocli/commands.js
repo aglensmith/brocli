@@ -69,6 +69,16 @@ webParser.on('new-tab', function (name) {
     options.newTab = true;
 });
 
+webParser.on(0, function (value) {
+    chrome.bookmarks.search(value, function(results){
+        console.log(results);
+        results.forEach(function(res){
+            if (res.title == value)
+                goTo(res.url);         
+        });
+    });
+});
+
 webParser.on('*', function (name) {
     options.entered = true;
 });
@@ -95,7 +105,7 @@ webParser.on('command', function (name, value) {
         console.log(results);
         results.forEach(function(res){
             if (res.title == value)
-                window.open(res.url);         
+                goTo(res.url);      
         });
     });
 });
@@ -167,11 +177,6 @@ function runAcCommands (commands) {
     } else {
         var domainPresent = options.domain || "";
         goToMany(domainPresent, options.paths);
-    }
-
-    if (!options.entered)
-    {
-        webParser.parse(["-com", commands[0]]);
     }
 }
 

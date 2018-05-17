@@ -35,10 +35,21 @@ function urlOrigin (url) {
     }
 }
 
+function isBookmarklet (str) {
+    return str.toLowerCase().split("javascript:").length > 1;
+}
+
 function creatTab (url) {
-    chrome.tabs.create({
-        'url': url
-    })
+    if (isBookmarklet(url))
+    {
+        chrome.tabs.create({'url': url}, function(tab) {
+            chrome.tabs.executeScript(tab.id, {code: url.toLowerCase().split("javascript:")[1]});
+        });
+    }
+    else
+    {
+        chrome.tabs.create({'url': url});
+    }
 }
 
 function isUrl (string) {
@@ -58,7 +69,14 @@ function goTo (newUrl, newTab) {
         if (newTab) {
             creatTab(newUrl);
         } else {
-            chrome.tabs.update(tab.id, {url: newUrl});
+            if (isBookmarklet(newUrl))
+            {
+                chrome.tabs.executeScript(tab.id, {code: newUrl.toLowerCase().split("javascript:")[1]});
+            }
+            else {
+                chrome.tabs.update(tab.id, {url: newUrl});
+            }
+
         }
     }); 
 }
