@@ -21,7 +21,6 @@ function getJson (url, callback) {
     request.send();
 }
 
-
 Array.prototype.extend = function (other_array) {
     other_array.forEach(function(v) {this.push(v)}, this);    
 }
@@ -143,4 +142,3 @@ function formatXml(xml) {
     }
     return formatted.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/ /g, '&nbsp;');
   }
-

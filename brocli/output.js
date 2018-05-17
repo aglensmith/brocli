@@ -16,12 +16,4 @@ var copyLink = document.getElementById("copy");
 
 copyLink.onclick = function(){clip("terminal")};
 
-
 load();
-
-
-
-
-
-
-
