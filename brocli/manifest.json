@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "brocli",
   "description": "brocli is a Chrome extension that turns Chrome's omnibar into a command line interface for navigating the web",
-  "version": "1.0",
+  "version": "1.2",
   "omnibox": { "keyword" : "b" },
   "icons": {
     "128": "icon.png",
