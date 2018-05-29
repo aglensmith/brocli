@@ -1,5 +1,5 @@
 /**
- * @fileOverview helpers
+ * @fileOverview helpers.js -- helper functions used throughout extension
  */
 
 
@@ -21,8 +21,15 @@ function getJson (url, callback) {
     request.send();
 }
 
-Array.prototype.extend = function (other_array) {
-    other_array.forEach(function(v) {this.push(v)}, this);    
+function getParams (urlString) {
+    var url = new URL(urlString);
+    var params = {};
+    url.searchParams.forEach(function(k,v) {
+        if (k && v) {
+            params[k] = v;
+        }
+    });
+    return params;
 }
 
 function urlOrigin (url) {
@@ -105,10 +112,6 @@ function navCurrentDomain (relativePath) {
     }); 
 }
 
-/*
-* Pretty Print XML
-* <foo><bar><baz>blahblah</baz><baz>tralala</baz></bar></foo>
-*/
 function formatXml(xml) {
     var formatted = '';
     var reg = /(>)(<)(\/*)/g;
