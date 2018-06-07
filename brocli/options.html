@@ -1,132 +1,58 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            margin: 0px;
-            font-family: consolas;
-
-        }
-        header {
-            color: #85d345;
-            font-family: consolas;
-            margin-bottom: 25px;
-            text-align: center;
-            font-size: 1.5em;
-            background-color: #333;
-            height: 125px;
-            box-shadow: 0 0 4px rgba(0,0,0,.14), 0 4px 8px rgba(0,0,0,.28);
-        }
-        div.options-content {
-            width: 70%;
-            margin: 0 auto;
-        }
-        div.options-row{
-            width: 60%;
-            margin: 0 auto;
-            margin-top: 10px;
-        }
-        div.options-label {
-            width: 29%;
-            float: left;        }
-        input.input[type=text] {
-            width: 70%;
-        }
-        div.header-left {
-            float: left;
-            width: 170px;
-            height: 125x;
-            display: inline-block;
-        }   
-        div.header-right {
-            padding: 52px;
-            height: 21px;
-        }
-        img.logo {
-            height: 125px;
-        }
-
-    </style>
-    <title>brocli - options</title>
+  <title>Yarf</title>
+  <link rel="stylesheet" href="yarf.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+  <meta charset="utf-8" />
 </head>
-    <body>
-        <header>
-            <div class="options header-right">
-                <div class="tagline">
-                    B> Options
-                </div>
-            </div>
-        </header>
-        <div class="options options-content">
-            <section class="options-section">
-                <hr>
-                <div class="options-row">
-                    <div class="options-label">
-                        <span class="label">Default Search Path:</span>
-                    </div>
-                    <div class="options-input">
-                        <input type="text" class="input">
-                    </div>
-                </div>
-
-                <div class="options-row">
-                    <div class="options-label">
-                        <span class="label">Zendesk Domain:</span>
-                    </div>
-                    <div class="options-input">
-                        <input type="text" class="input">
-                    </div>
-                </div>
-
-                <div class="options-row">
-                    <div class="options-label">
-                        <span class="label">Command Bookmark Folder:</span>
-                    </div>
-                    <div class="options-input">
-                        <input type="text" class="input">
-                    </div>
-                </div>
-
-                <div class="options-row">
-                    <div class="options-label">
-                        <span class="label">Navigate from field ID:</span>
-                    </div>
-                    <div class="options-input">
-                        <input type="text" class="input">
-                    </div>
-                </div>
-
-                <div class="options-row">
-                    <div class="options-label">
-                        <span class="label">Navigate from field ID:</span>
-                    </div>
-                    <div class="options-input">
-                        <input type="text" class="input">
-                    </div>
-                </div>
-
-                <div class="options-row">
-                    <div class="options-label">
-                        <span class="label">Navigate from field ID:</span>
-                    </div>
-                    <div class="options-input">
-                        <input type="text" class="input">
-                    </div>
-                </div>
-
-                <div class="options-row">
-                    <div class="options-label">
-                        <span class="label">Navigate from field ID:</span>
-                    </div>
-                    <div class="options-input">
-                        <input type="text" class="input">
-                    </div>
-                </div>
-                <hr>
-            </section>
-        <footer>
-        </footer>
-    </body>
+<body>
+  <header>
+    <div>
+      <span id="logo">B ></span>
+      <nav>
+        <a href="#">Docs</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section>
+      <h3>Options</h3>
+      <hr>
+      <form>
+        <fieldset>
+          <label for="checkboxField">
+            <input type="checkbox" id="checkboxField1">
+            Checkbox
+          </label>
+          <label for="checkboxField">
+            <input type="checkbox" id="checkboxField2">
+            Checkbox
+          </label>
+        </fieldset>
+        <fieldset>
+          <label for="textField">Command Folder ID</label>
+          <input type="text" id="textField" placeholder="textfield">
+          <label for="textField">Default Search Url</label>
+          <input type="text" id="textField" placeholder="textfield">
+          <label for="selectField">Select</label>
+          <select>
+            <option>- Select -</option>
+            <option>Option 1</option>
+            <option>Option 2</option>
+            <option>Option 3</option>
+          </select>
+          <label for="textArea">Textarea</label>
+          <input type="textarea" id="textArea" placeholder="textarea">
+          <input type="submit" value="button">
+        </fieldset>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <hr>
+    <span>Footer</span>
+  </footer>
+</body>
 </html>

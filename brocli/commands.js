@@ -36,34 +36,26 @@ var acSwitches = [
 var acParser = new optparse.OptionParser(acSwitches);
 
 acParser.on(0, function (value) {
-    console.log("Begin acParser on 0");
     if (isUrl(value)) {
       options.domain = value;
     }else if (isUrl('https://'.concat(value))) {
         var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
-        if (options.domain != cmdUrl.hostname) {
+        if (domain != cmdUrl.hostname) {
             options.domain = 'https://'.concat(value);
         }
     }
-    console.log("End acParser on 0");
 });
 
 acParser.on('*', function (name, value) {
-    console.log("brocli: begin acParser on * - " + value);
     options.action = name;
     options.entered = true;
-    buildAcPaths(name, value).forEach(function(path){
-        options.paths.push(path);
-    });
-    console.log("brocli: acParser options.paths * - " + options.paths);
-    console.log("brocli: end acParser on * - ");
+    options.paths.extend(buildAcPaths(name, value));
 });
 
 /**
 * General Web Switches and Parser
 */
 var webSwitches = [
-    ['-bc','--bookmark-commands', 'navigate to bookmark command folder'],
     ['-t','--new-tab', 'open in new tab'],
     ['-k', '--keyboard-shortcuts', 'view and configure all extension keyboard shortcusts'],
     ['-cs', '--custom-searches', 'configure chrome customer searches'],
@@ -74,49 +66,11 @@ var webSwitches = [
 
 var webParser = new optparse.OptionParser(webSwitches);
 webParser.on('new-tab', function (name) {
-    console.log("brocli: webParser.on new-tab begin");
     options.newTab = true;
-    console.log("brocli: webParser.on new-tab end");
 });
 
-webParser.on(0, function (value) {
-    console.log("Begin webParser on 0 - " + value);
-    var commandSeparator = ".";
-    commands = value.split(commandSeparator);
-    var url = getBookmarkCommandUrl(commands, 0, commandNode);
-    if (url)
-    {
-        console.log("brocli: webParser getBookmarkCommandUrl - " + url);
-        goTo(url);
-    } else {
-        console.log("brocli: webParser.on 0- commands returned undefined url, searching all folders...");
-        chrome.bookmarks.search(value, function(results){
-            console.log("brocli: webParser.on 0 - found " + results.length.toString() + " bookmarks");
-            var bookmarkFound = false;
-            results.forEach(function(res){
-                if (res.title == value)
-                {
-                    bookmarkFound = true;
-                    console.log("brocli: webParser on 0 - found " + res.title + ", navigating...");
-                    goTo(res.url);
-                }
-            });
-            if (!bookmarkFound)
-                console.log("brocli: webParser.on 0 - no bookmarks found with title " + value);
-        });
-    }
-    console.log("End webParser on 0");
-});
-
-webParser.on('*', function (value) {
-    console.log("brocli: webParser.on * begin");
+webParser.on('*', function (name) {
     options.entered = true;
-    console.log("brocli: webParser.on * end - " + options);
-});
-
-webParser.on('bookmark-commands', function (name) {
-    options.newTab = true;
-    options.paths.push('chrome://bookmarks/?id=' + commandFolderId.toString());
 });
 
 webParser.on('keyboard-shortcuts', function (name) {
@@ -141,7 +95,7 @@ webParser.on('command', function (name, value) {
         console.log(results);
         results.forEach(function(res){
             if (res.title == value)
-                goTo(res.url);      
+                window.open(res.url);         
         });
     });
 });
@@ -204,19 +158,7 @@ function resetOptions () {
 
 var Executer = Executer();
 
-// idea: check for bookmark commands first; if none, then run the parsers.
-
-// idea: need to know type of commands entered. Use  the parsers to add commands entered to array for that
-// type of command. If the array is not empty, then you know that there are some of that type of command
-
-// General Web Commands
-function runWebCommands() {
-
-}
-
-// AC specific commands
 function runAcCommands (commands) {
-    console.log("brocli: begin runAcCommands - " + commands);
     options.entered = false;
     acParser.parse(commands);
     webParser.parse(commands);
@@ -226,7 +168,11 @@ function runAcCommands (commands) {
         var domainPresent = options.domain || "";
         goToMany(domainPresent, options.paths);
     }
-    console.log("brocli: end runAcCommand");
+
+    if (!options.entered)
+    {
+        webParser.parse(["-com", commands[0]]);
+    }
 }
 
 Executer.push(runAcCommands);
