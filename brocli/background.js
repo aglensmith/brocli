@@ -17,15 +17,18 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     }
 });
 
-chrome.omnibox.onInputChanged.addListener(function (text, suggest) { 
+chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
+    console.log("input changed");
+    var sugs = [];
     var suggestions = [];
-    var query = {currentWindow: true, active: true};
     var splitText = text.split(" ");
-    sugParser.parse(splitText);
-    chrome.omnibox.setDefaultSuggestion({description:'Welcome to brocli -- the browser commandline interface.'});
-    sugs.forEach(function(sug) {
-        suggestions.push({content: sug, description: sug})
+    allSwitches.forEach(function(s){
+        if (s[0].indexOf(splitText[0]) != -1)
+        {
+            sugs.push({content: s[0] + " ", description: s[2]});
+        }
     });
+    sugs.forEach(function(s){suggestions.push(s)});
     suggest(suggestions);
 });
 
@@ -76,4 +79,10 @@ chrome.bookmarks.onRemoved.addListener(function (id, node) {
 });
 chrome.bookmarks.onMoved.addListener(function (id, node) {
     refreshCommandNode();
+});
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        Executer.executeAll(request.commands.split(" "));
+    console.log('message received')
 });

@@ -14,7 +14,7 @@ var options = {
 };
 
 var acSwitches = [
-    ['-c', '--customer-edit [ID]', 'customer edit'],
+    ['-c', '--customer-edit [ID]', '<url><match>-c [ID]</match></url><dim> - Go to edit screen for customer. <match>Ex: -c 1298</match></dim>'],
     ['-cd', '--changedir [LOC]', 'change directories'],
     ['-ca', '--customer-audit [ID]', 'customer audit'],
     ['-cat', '--category-edit [ID]', 'category edit'],
@@ -64,12 +64,14 @@ acParser.on('*', function (name, value) {
 */
 var webSwitches = [
     ['-bc','--bookmark-commands', 'navigate to bookmark command folder'],
+    ['-docs', '--documentation', 'get help using brocli'],
     ['-t','--new-tab', 'open in new tab'],
     ['-k', '--keyboard-shortcuts', 'view and configure all extension keyboard shortcusts'],
     ['-cs', '--custom-searches', 'configure chrome customer searches'],
+    ['-h', '--help', 'get help using brocli'],
     ['-pp', '--pretty-print [STRING]', 'pretty print a string of code'],
     ['-url', '--url-encode [STRING]', 'url encode a string'],
-    ['-com', '--command [BOOKMARK]', 'url encode a string']
+    ['-com', '--command [BOOKMARK]', 'execute a bookmark as a command']
 ]
 
 var webParser = new optparse.OptionParser(webSwitches);
@@ -136,6 +138,14 @@ webParser.on('url-encode', function (name, value) {
     });
 });
 
+webParser.on('help', function (name, value) {
+    window.open("https://github.com/aglensmith/brocli");
+});
+
+webParser.on('documentation', function (name, value) {
+    window.open("https://github.com/aglensmith/brocli");
+});
+
 webParser.on('command', function (name, value) {
     chrome.bookmarks.search(value, function(results){
         console.log(results);
@@ -146,11 +156,13 @@ webParser.on('command', function (name, value) {
     });
 });
 
-var sugs = [];
 var allSwitches = acSwitches.concat(webSwitches);
+var allSwitchSugs = [];
+var allAliasSugs = [];
 var sugParser = new optparse.OptionParser(allSwitches);
-sugParser.on('list', function (name, value) {
-    sugs.push('-l products', '-l orders', '-l customers');
+
+
+sugParser.on("*", function (name, value) {
 });
 
 function isZD (url) {

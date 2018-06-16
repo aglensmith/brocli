@@ -71,5 +71,3 @@ function refreshCommandNode () {
 }
 
 refreshCommandNode();
-
-javascript:void function(){var t=[];$(".21662133").each(function(){t.push($(this).text().split("www.").join().split("americommerce.com").join().split(".")[0]);}),t.join(","),prompt("sites",t)}();
