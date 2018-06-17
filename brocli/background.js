@@ -23,9 +23,9 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     var suggestions = [];
     var splitText = text.split(" ");
     allSwitches.forEach(function(s){
-        if (s[0].indexOf(splitText[0]) != -1)
+        if (s[1].indexOf(splitText[0]) != -1)
         {
-            sugs.push({content: s[0] + " ", description: s[2]});
+            sugs.push({content: s[0] + " ", description: "<url><match>" + s[1] + "</match></url> or " + s[2]});
         }
     });
     sugs.forEach(function(s){suggestions.push(s)});
