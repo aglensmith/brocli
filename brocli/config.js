@@ -8,7 +8,6 @@ var zdDomain = 'https://americommerce.zendesk.com';
 // default search -- for executing commands without keyword
 var defaultSearch = new URL("https://www.google.com/search?q=%s&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:contextualSearchVersion}ie={inputEncoding}");
 var defaultSearchPath = defaultSearch.origin + defaultSearch.pathname;
-var defaultSearchUrl = defaultSearch.href;
 var searchParam = getParams(defaultSearch.href)['%s'];
 
 // links and folders in this folder used to create custom bookmark commands
@@ -34,7 +33,7 @@ function findSetCommandFolderId (folderTitle, callback) {
 
 function getCommandNode (folderTitle, callback) {
     chrome.storage.local.get('brocliCommandFolderId', function (items) {
-        if (items.brocliCommandFolderId < 1) {
+        if (items.brocliCommandFolderId == undefined || items.brocliCommandFolderId < 1) {
             console.log("brocli: command folder not in storage. Searching for folder named " + folderTitle + "...");
             findSetCommandFolderId(folderTitle, callback);
         }
@@ -62,7 +61,7 @@ function getBookmarkCommandUrl (commands, index, node) {
 }
 
 function refreshCommandNode () {
-    getCommandNode(defaultCommandFolder, function(id){
+    getCommandNode("BrocliCommands", function(id){
         commandFolderId = id;
         chrome.bookmarks.getSubTree(commandFolderId, function(items){
             commandNode = items[0];
@@ -71,5 +70,3 @@ function refreshCommandNode () {
 }
 
 refreshCommandNode();
-
-javascript:void function(){var t=[];$(".21662133").each(function(){t.push($(this).text().split("www.").join().split("americommerce.com").join().split(".")[0]);}),t.join(","),prompt("sites",t)}();

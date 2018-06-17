@@ -12,7 +12,8 @@
     <div>
       <span id="logo">B ></span>
       <nav>
-        <a href="#">Docs</a>
+        <a href="https://github.com/aglensmith/brocli">Docs</a>
+        <a href="https://github.com/aglensmith/brocli">Commands</a>
       </nav>
     </div>
   </header>
@@ -22,37 +23,36 @@
       <hr>
       <form>
         <fieldset>
+
+          <!-- Execute Commands from addressbar -->  
           <label for="checkboxField">
-            <input type="checkbox" id="checkboxField1">
-            Checkbox
+            <input type="checkbox" id="executeFromAddressbar">
+            Execute commands directly from addressbar
           </label>
-          <label for="checkboxField">
-            <input type="checkbox" id="checkboxField2">
-            Checkbox
-          </label>
+
         </fieldset>
+
         <fieldset>
-          <label for="textField">Command Folder ID</label>
-          <input type="text" id="textField" placeholder="textfield">
-          <label for="textField">Default Search Url</label>
-          <input type="text" id="textField" placeholder="textfield">
-          <label for="selectField">Select</label>
-          <select>
-            <option>- Select -</option>
-            <option>Option 1</option>
-            <option>Option 2</option>
-            <option>Option 3</option>
-          </select>
-          <label for="textArea">Textarea</label>
-          <input type="textarea" id="textArea" placeholder="textarea">
-          <input type="submit" value="button">
+          
+          <!-- Default search url -->
+          <label for="textField">Defaul search url</label>
+          <input type="text" id="defaultSearchUrl" placeholder="textfield">
+
+          <!-- Command folder path -->
+          <label for="textField">Command folder path</label>
+          <input type="text" id="commandFolderPath" placeholder="textfield">
+
+          <!-- Save -->
+          <input type="submit" value="Save" id="saveButton">
+
         </fieldset>
       </form>
     </section>
   </main>
   <footer>
     <hr>
-    <span>Footer</span>
+    <span><a href="https://github.com/aglensmith/brocli">Github</a></span>
   </footer>
+  <script src="options.js"></script>
 </body>
 </html>

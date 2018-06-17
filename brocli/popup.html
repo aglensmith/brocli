@@ -1,26 +1,17 @@
 <!doctype html>
-<!--
- This page is shown when the extension button is clicked, because the
- "browser_action" field in manifest.json contains the "default_popup" key with
- value "popup.html".
- -->
 <html>
   <head>
     <title>Getting Started Extension's Popup</title>
+    <script src="jquery.js"></script>
     <style>
-      html {width: 300px;}
+      body * {
+        box-sizing: border-box;
+      }
       body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
-        margin-top: 0px;
+        width: 325px;
       }
-      ul {padding: 0; margin: 0; list-style: none;}
-      code {background-color: #f2f2f2;}
-      
-      .extension-title {text-align: center; font-weight: bold;}
-      .extension-title:before {content: '--';}
-      .extension-title:after {content: '--';}
-      .header {font-weight: bold; margin-top: 5px;}
       #status {
         /* avoid an excessively wide status text */
         white-space: pre;
@@ -28,36 +19,24 @@
         overflow: hidden;
         max-width: 400px;
       }
+      .container {width: 100%; margin: 2px; padding: 2px;}
+      textarea, input[type="text"] {width: 100%;}
+      #notes {height: 250px;}
     </style>
-
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
-     -->
-    <!--<script src="popup.js"></script>-->
   </head>
   <body>
-    <div class="extension-title">brocli (beta)</div>
-    <div id="commands">
-      <div class="header">Common Commands</div>
-      <ul>
-        <li>Customer Edit: <code>-c [ID]</code></li>
-        <li>Customer audit: <code>-ca [ID]</code></li>
-        <li>Order Edit: <code>-o [ID]</code></li>
-      </ul>
+    <div class="container">
+      <input id="kb-search" type="text" placeholder="Search KB"></input>
     </div>
-    <div id="Keyboard Shortcuts">
-      <div class="header">Default Shortcuts</div>
-      <ul>
-        <li>Customer Edit: <code>Alt + J</code></li>
-        <li>Order Edit: <code>Alt + K </code></li>
-        <li>Product Edit: <code>Alt + L</code></li>
-        <li>Configure <code>b > -k</code> 
-      </ul>
-      <i id="settings" class="extension-ui">&#9881;</a>
+    <div class="container">
+      <textarea id="notes" placeholder="Unencrypted Notes..."></textarea>
     </div>
+    <div class="container">
+      <label>HUD Enabled</label>
+        <input type="checkbox" id="sphud-enabled" value="true"/>
+      </div>
     <img id="image-result" hidden>
+    <script src="popup.js"></script>
   </body>
 </html>
+
