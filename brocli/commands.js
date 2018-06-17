@@ -1,8 +1,7 @@
 /**
- * @fileOverview Uses optparse.js to parse command switches
+ * @fileOverview - 
  */
 
-var extensionId = chrome.runtime.id;
 
 var options = {
     action: undefined,
@@ -33,35 +32,6 @@ var acSwitches = [
     ['-s','--settings [PAGE]', '<url><match>-s [page]</match></url><dim> - Go to a settings page. <match>Ex: -s security</match></dim>']
 ];
 
-var acParser = new optparse.OptionParser(acSwitches);
-
-acParser.on(0, function (value) {
-    console.log("Begin acParser on 0");
-    if (isUrl(value)) {
-      options.domain = value;
-    }else if (isUrl('https://'.concat(value))) {
-        var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
-        if (options.domain != cmdUrl.hostname) {
-            options.domain = 'https://'.concat(value);
-        }
-    }
-    console.log("End acParser on 0");
-});
-
-acParser.on('*', function (name, value) {
-    console.log("brocli: begin acParser on * - " + value);
-    options.action = name;
-    options.entered = true;
-    buildAcPaths(name, value).forEach(function(path){
-        options.paths.push(path);
-    });
-    console.log("brocli: acParser options.paths * - " + options.paths);
-    console.log("brocli: end acParser on * - ");
-});
-
-/**
-* General Web Switches and Parser
-*/
 var webSwitches = [
     ['-bc','--bookmark-commands', '<url><match>-bc</match></url><dim> - Go to your bookmark command folder. <match>Ex: -bc</match></dim>'],
     ['-docs', '--documentation', '<url><match>-docs</match></url><dim> - Go to brocli documentation. <match>Ex: -docs</match></dim>'],
@@ -74,81 +44,72 @@ var webSwitches = [
     ['-com', '--command [BOOKMARK]', '<url><match>-com</match></url><dim> - Execute a bookmark or bookmarklet. <match>Ex: -com ClearCache</match></dim>']
 ]
 
+var allSwitches = acSwitches.concat(webSwitches);
+
+
+/**
+ * AC Parser
+ */
+var acParser = new optparse.OptionParser(acSwitches);
+
+acParser.on(0, function (value) {
+    if (isUrl(value)) {
+      options.domain = value;
+    }else if (isUrl('https://'.concat(value))) {
+        var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
+        if (options.domain != cmdUrl.hostname) {
+            options.domain = 'https://'.concat(value);
+        }
+    }
+});
+
+acParser.on('*', function (name, value) {
+    options.action = name;
+    options.entered = true;
+    buildAcPaths(name, value).forEach(function(path){
+        options.paths.push(path);
+    });
+});
+
+
+/**
+ * Web Parser
+ */
 var webParser = new optparse.OptionParser(webSwitches);
 webParser.on('new-tab', function (name) {
-    console.log("brocli: webParser.on new-tab begin");
     options.newTab = true;
-    console.log("brocli: webParser.on new-tab end");
 });
 
 webParser.on(0, function (value) {
-    console.log("Begin webParser on 0 - " + value);
     var commandSeparator = ".";
     commands = value.split(commandSeparator);
     var url = getBookmarkCommandUrl(commands, 0, commandNode);
     if (url)
     {
-        console.log("brocli: webParser getBookmarkCommandUrl - " + url);
         goTo(url);
     } else {
-        console.log("brocli: webParser.on 0- commands returned undefined url, searching all folders...");
         chrome.bookmarks.search(value, function(results){
-            console.log("brocli: webParser.on 0 - found " + results.length.toString() + " bookmarks");
             var bookmarkFound = false;
             results.forEach(function(res){
                 if (res.title == value)
                 {
                     bookmarkFound = true;
-                    console.log("brocli: webParser on 0 - found " + res.title + ", navigating...");
                     goTo(res.url);
                 }
             });
-            if (!bookmarkFound)
-                console.log("brocli: webParser.on 0 - no bookmarks found with title " + value);
         });
     }
-    console.log("End webParser on 0");
 });
 
-webParser.on('*', function (value) {
-    console.log("brocli: webParser.on * begin");
+webParser.on('*', function (name, value) {
     options.entered = true;
-    console.log("brocli: webParser.on * end - " + options);
-});
-
-webParser.on('bookmark-commands', function (name) {
-    options.newTab = true;
-    options.paths.push('chrome://bookmarks/?id=' + commandFolderId.toString());
-});
-
-webParser.on('keyboard-shortcuts', function (name) {
-    options.newTab = true;
-    options.paths.push('chrome://extensions/configureCommands');
-});
-
-webParser.on('pretty-print', function (name, value) {
-    chrome.storage.local.set({'output': formatXml(value)}, function() {
-        window.open("chrome-extension://"+ extensionId +"/output.html");
+    buildWebPaths(name, value).forEach(function(path){
+        options.paths.push(path);
     });
-});
-
-webParser.on('url-encode', function (name, value) {
-    chrome.storage.local.set({'output': encodeURIComponent(value)}, function() {
-        window.open("chrome-extension://"+ extensionId +"/output.html");
-    });
-});
-
-webParser.on('help', function (name, value) {
-    window.open("https://github.com/aglensmith/brocli");
-});
-
-webParser.on('documentation', function (name, value) {
-    window.open("https://github.com/aglensmith/brocli");
 });
 
 webParser.on('command', function (name, value) {
     chrome.bookmarks.search(value, function(results){
-        console.log(results);
         results.forEach(function(res){
             if (res.title == value)
                 goTo(res.url);      
@@ -156,23 +117,15 @@ webParser.on('command', function (name, value) {
     });
 });
 
-var allSwitches = acSwitches.concat(webSwitches);
-var allSwitchSugs = [];
-var allAliasSugs = [];
-var sugParser = new optparse.OptionParser(allSwitches);
 
-
-sugParser.on("*", function (name, value) {
-});
-
-function isZD (url) {
-    var zdRe = new RegExp('.zendesk.com');
-    return zdRe.test(url);
-}
-
-function isTicket (url) {
-    var ticketRe = new RegExp('/agent/tickets/');
-    return ticketRe.test(url);
+/**
+ * Command Helpers
+ */
+function resetOptions () {
+    options.newTab = false;
+    options.paths = [];
+    options.action = undefined;
+    options.domain = undefined;
 }
 
 function goToFromZD() {
@@ -195,7 +148,26 @@ function goToFromZD() {
     });
 }
 
+function runAcCommands (commands) {
+    options.entered = false;
+    acParser.parse(commands);
+    webParser.parse(commands);
+    if (isZD(currentLocation) && isTicket(currentLocation)) {
+        goToFromZD();
+    } else {
+        var domainPresent = options.domain || "";
+        goToMany(domainPresent, options.paths);
+    }
+}
+
+
+/**
+ * Executer - Executes all commands
+ */
 function Executer () {
+    // - Use the parsers to add commands entered to array for that type of command
+    // - If the array is not empty, then you know that there are some of that type of command
+    // - If the array is empty, try executing a bookmark
     var array = [];
     array.executeAll = function(commands) {
         array.forEach(function (element) {
@@ -207,38 +179,6 @@ function Executer () {
     return array;
 };
 
-function resetOptions () {
-    options.newTab = false;
-    options.paths = [];
-    options.action = undefined;
-    options.domain = undefined;
-}
-
 var Executer = Executer();
-
-// idea: check for bookmark commands first; if none, then run the parsers.
-
-// idea: need to know type of commands entered. Use  the parsers to add commands entered to array for that
-// type of command. If the array is not empty, then you know that there are some of that type of command
-
-// General Web Commands
-function runWebCommands() {
-
-}
-
-// AC specific commands
-function runAcCommands (commands) {
-    console.log("brocli: begin runAcCommands - " + commands);
-    options.entered = false;
-    acParser.parse(commands);
-    webParser.parse(commands);
-    if (isZD(currentLocation) && isTicket(currentLocation)) {
-        goToFromZD();
-    } else {
-        var domainPresent = options.domain || "";
-        goToMany(domainPresent, options.paths);
-    }
-    console.log("brocli: end runAcCommand");
-}
 
 Executer.push(runAcCommands);

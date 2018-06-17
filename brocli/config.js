@@ -1,9 +1,13 @@
 /**
- * config.js -- this will become options.js at some point. 
+ * config.js -- Dynamic extension or configuration variables and objected defined and initialized here
  */
 
 // for getting website field value
 var zdDomain = 'https://americommerce.zendesk.com';
+
+// Extension Specific Stuff
+var extensionId = chrome.runtime.id;
+var outputPageUrl = "chrome-extension://"+ extensionId +"/output.html";
 
 // default search -- for executing commands without keyword
 var defaultSearch = new URL("https://www.google.com/search?q=%s&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:contextualSearchVersion}ie={inputEncoding}");
@@ -16,6 +20,8 @@ var defaultCommandFolder = "BrocliCommands";
 var commandFolderId;
 var commandNode;
 
+
+// Bookmark Command Folder Helpers
 function findSetCommandFolderId (folderTitle, callback) {
     chrome.bookmarks.search(folderTitle, function(res){
         if (res[0].id)

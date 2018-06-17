@@ -112,6 +112,16 @@ function navCurrentDomain (relativePath) {
     }); 
 }
 
+function isZD (url) {
+    var zdRe = new RegExp('.zendesk.com');
+    return zdRe.test(url);
+}
+
+function isTicket (url) {
+    var ticketRe = new RegExp('/agent/tickets/');
+    return ticketRe.test(url);
+}
+
 function formatXml(xml) {
     var formatted = '';
     var reg = /(>)(<)(\/*)/g;
