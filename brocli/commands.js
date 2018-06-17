@@ -91,7 +91,7 @@ webParser.on(0, function (value) {
         chrome.bookmarks.search(value, function(results){
             var bookmarkFound = false;
             results.forEach(function(res){
-                if (res.title == value)
+                if (res.title.split(" ")[0] == value)
                 {
                     bookmarkFound = true;
                     goTo(res.url);
