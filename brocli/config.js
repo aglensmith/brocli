@@ -40,7 +40,7 @@ function findSetCommandFolderId (folderTitle, callback) {
 
 function getCommandNode (folderTitle, callback) {
     chrome.storage.local.get('brocliCommandFolderId', function (items) {
-        if (items.brocliCommandFolderId < 1) {
+        if (!items.brocliCommandFolderId) {
             console.log("brocli: command folder not in storage. Searching for folder named " + folderTitle + "...");
             findSetCommandFolderId(folderTitle, callback);
         }
