@@ -14,23 +14,23 @@ var options = {
 };
 
 var acSwitches = [
-    ['-c', '--customer-edit [ID]', 'customer edit'],
-    ['-cd', '--changedir [LOC]', 'change directories'],
-    ['-ca', '--customer-audit [ID]', 'customer audit'],
-    ['-cat', '--category-edit [ID]', 'category edit'],
-    ['-catv', '--category-view [ID]', 'category view'],
-    ['-cata', '--category-audit [ID]', 'category audit'],
-    ['-cp', '--page-edit [ID]', 'edit content page'],
-    ['-d', '--discount-edit [ID]', 'discount edit'],
-    ['-eh', '--email-view [ID]', 'view email history'],
-    ['-l','--list [ENTITY]', 'list entity'],
-    ['-p','--product-edit [ID]', 'product edit'],
-    ['-pa','--product-audit [ID]', 'product audit'],
-    ['-o','--order-edit [ID]', 'order edit'],
-    ['-oa','--order-audit [ID]', 'order audit'],
-    ['-ov','--order-view [ID]', 'order view'],
-    ['-vs','--view-session [ID]', 'view session'],
-    ['-s','--settings [PAGE]', 'settings page'],
+    ['-c', '--customer-edit [ID]', '<url><match>-c [id]</match></url><dim> - Go to customer edit. <match>Ex: -c 1298</match></dim>'],
+    ['-cd', '--changedir [LOC]',  '<url><match>-cd [loc]</match></url><dim> - Change directory. <match>Ex: -cd ???</match></dim>'],
+    ['-ca', '--customer-audit [ID]', '<url><match>-ca [id]</match></url><dim> - Go to customer audit history. <match>Ex: -ca 1298</match></dim>'],
+    ['-cat', '--category-edit [ID]', '<url><match>-cat [id]</match></url><dim> - Go to category edit. <match>Ex: -cat 1298</match></dim>'],
+    ['-catv', '--category-view [ID]', '<url><match>-catv [id]</match></url><dim> - Go to category view. <match>Ex: -catv 1298</match></dim>'],
+    ['-cata', '--category-audit [ID]', '<url><match>-cata [id]</match></url><dim> - Go to category audit. <match>Ex: -cata 1298</match></dim>'],
+    ['-cp', '--page-edit [ID]', '<url><match>-cp [id]</match></url><dim> - Go to content page edit. <match>Ex: -cp 1298</match></dim>'],
+    ['-d', '--discount-edit [ID]', '<url><match>-d [id]</match></url><dim> - Go to discount edit. <match>Ex: -cd 1298</match></dim>'],
+    ['-eh', '--email-view [ID]', '<url><match>-eh [id]</match></url><dim> - Go to customer email history. <match>Ex: -eh 1298</match></dim>'],
+    ['-l','--list [ENTITY]', '<url><match>-l [entity]</match></url><dim> - Go to an admin list page. <match>Ex: -l orders</match></dim>'],
+    ['-p','--product-edit [ID]', '<url><match>-p [id]</match></url><dim> - Go to product edit. <match>Ex: -p 1298</match></dim>'],
+    ['-pa','--product-audit [ID]', '<url><match>-pa [-id]</match></url><dim> - Go to product audit history. <match>Ex: -pa 1298</match></dim>'],
+    ['-o','--order-edit [ID]', '<url><match>-o [id]</match></url><dim> - Go to order edit. <match>Ex: -o 1298</match></dim>'],
+    ['-oa','--order-audit [ID]', '<url><match>-oa [id]</match></url><dim> - Go to order audit. <match>Ex: -oa 1298</match></dim>'],
+    ['-ov','--order-view [ID]', '<url><match>-ov [id]</match></url><dim> - Go to order view. <match>Ex: -ov 1298</match></dim>'],
+    ['-vs','--view-session [ID]', '<url><match>-vs [id]</match></url><dim> - Go to view session. <match>Ex: -vs 1298</match></dim>'],
+    ['-s','--settings [PAGE]', '<url><match>-s [page]</match></url><dim> - Go to a settings page. <match>Ex: -s security</match></dim>']
 ];
 
 var acParser = new optparse.OptionParser(acSwitches);
@@ -63,13 +63,15 @@ acParser.on('*', function (name, value) {
 * General Web Switches and Parser
 */
 var webSwitches = [
-    ['-bc','--bookmark-commands', 'navigate to bookmark command folder'],
-    ['-t','--new-tab', 'open in new tab'],
-    ['-k', '--keyboard-shortcuts', 'view and configure all extension keyboard shortcusts'],
-    ['-cs', '--custom-searches', 'configure chrome customer searches'],
-    ['-pp', '--pretty-print [STRING]', 'pretty print a string of code'],
-    ['-url', '--url-encode [STRING]', 'url encode a string'],
-    ['-com', '--command [BOOKMARK]', 'url encode a string']
+    ['-bc','--bookmark-commands', '<url><match>-bc</match></url><dim> - Go to your bookmark command folder. <match>Ex: -bc</match></dim>'],
+    ['-docs', '--documentation', '<url><match>-docs</match></url><dim> - Go to brocli documentation. <match>Ex: -docs</match></dim>'],
+    ['-t','--new-tab', '<url><match>-t</match></url><dim> - Forces a command to open a new tab. <match>Ex: -l orders -t</match></dim>'],
+    ['-k', '--keyboard-shortcuts', '<url><match>-k</match></url><dim> - Go to brocli keyboard shortcut settings. <match>Ex: -k</match></dim>'],
+    ['-cs', '--custom-searches', '<url><match>alias</match></url><dim> - description. <match>Ex: example</match></dim>'],
+    ['-h', '--help', '<url><match>-h</match></url><dim> - Go to brocli documentation. <match>Ex: -h</match></dim>'],
+    ['-pp', '--pretty-print [STRING]', '<url><match>-pp [xml]</match></url><dim> - Pretty print xml (or html?) string. <match>Ex: -xml <some><ugly><xml></xml></ugly></some> </match></dim>'],
+    ['-url', '--url-encode [STRING]', '<url><match>-url [string]</match></url><dim> - Url encode a string. <match>Ex: -url /some string</match></dim>'],
+    ['-com', '--command [BOOKMARK]', '<url><match>-com</match></url><dim> - Execute a bookmark or bookmarklet. <match>Ex: -com ClearCache</match></dim>']
 ]
 
 var webParser = new optparse.OptionParser(webSwitches);
@@ -136,6 +138,14 @@ webParser.on('url-encode', function (name, value) {
     });
 });
 
+webParser.on('help', function (name, value) {
+    window.open("https://github.com/aglensmith/brocli");
+});
+
+webParser.on('documentation', function (name, value) {
+    window.open("https://github.com/aglensmith/brocli");
+});
+
 webParser.on('command', function (name, value) {
     chrome.bookmarks.search(value, function(results){
         console.log(results);
@@ -146,11 +156,13 @@ webParser.on('command', function (name, value) {
     });
 });
 
-var sugs = [];
 var allSwitches = acSwitches.concat(webSwitches);
+var allSwitchSugs = [];
+var allAliasSugs = [];
 var sugParser = new optparse.OptionParser(allSwitches);
-sugParser.on('list', function (name, value) {
-    sugs.push('-l products', '-l orders', '-l customers');
+
+
+sugParser.on("*", function (name, value) {
 });
 
 function isZD (url) {
