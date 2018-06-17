@@ -52,6 +52,13 @@
         "description": "Products (New Tab)"
     }
   },
+  "content_scripts": [
+    {
+    "matches": ["https://*/*", "http://*/*"],
+    "js": ["jquery.js"],
+    "run_at": "document_idle"
+    }
+  ],
   "options_page": "options.html",
   "permissions": [
     "tabs",
