@@ -15,7 +15,7 @@ function buildWebPaths (name, val) {
     name.split(",").forEach(cmd => {
         switch(cmd) {
             case "bookmark-commands":
-                paths.push(webPaths[cmd] + commandFolderId.toString());
+                paths.push(webPaths[cmd] + brocliCommandFolderId.toString());
                 break;
             case "url-encode":
                 chrome.storage.local.set({'output': encodeURIComponent(val)});

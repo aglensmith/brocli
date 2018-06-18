@@ -25,6 +25,9 @@ chrome.runtime.onMessage.addListener(
 // directly from addressbar
 chrome.webNavigation.onBeforeNavigate.addListener(
     function(details) {
+        if (!executeFromAddressbar)
+            return
+            
         var url = new URL(details.url);
         var query = url.searchParams.get(searchParam);
         var cl = new URL(currentLocation);

@@ -13,13 +13,15 @@ var outputPageUrl = "chrome-extension://"+ extensionId +"/output.html";
 
 // default search -- for executing commands without keyword
 var defaultSearch = new URL("https://www.google.com/search?q=%s&{google:RLZ}{google:originalQueryForSuggestion}{google:assistedQueryStats}{google:searchFieldtrialParameter}{google:iOSSearchLanguage}{google:searchClient}{google:sourceId}{google:instantExtendedEnabledParameter}{google:contextualSearchVersion}ie={inputEncoding}");
+
+// used on events .js to filter
 var defaultSearchPath = defaultSearch.origin + defaultSearch.pathname;
 var defaultSearchUrl = defaultSearch.href;
 var searchParam = getParams(defaultSearch.href)['%s'];
 
 // links and folders in this folder used to create custom bookmark commands
 var defaultCommandFolder = "BrocliCommands";
-var commandFolderId;
+var brocliCommandFolderId;
 var commandNode;
 
 
@@ -58,8 +60,9 @@ function getBookmarkCommandUrl (commands, index, node) {
         console.log("brocli: getBookmarkCommandUrl - " + node.url);
         return node.url;
     }
-    else if (node && commands) {
+    if (node && commands && index >= 0) {
         var child = node.children.find(function(element){
+            // returns element that matches to child var. Doesn't return this method.
             return element.title.toLowerCase() == commands[index].toLowerCase();
         });
         return getBookmarkCommandUrl(commands, index+1, child);
@@ -71,8 +74,8 @@ function getBookmarkCommandUrl (commands, index, node) {
 
 function refreshCommandNode () {
     getCommandNode(defaultCommandFolder, function(id){
-        commandFolderId = id;
-        chrome.bookmarks.getSubTree(commandFolderId, function(items){
+        brocliCommandFolderId = id;
+        chrome.bookmarks.getSubTree(brocliCommandFolderId, function(items){
             commandNode = items[0];
         });
     });

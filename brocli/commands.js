@@ -86,7 +86,7 @@ webParser.on('new-tab', function (name) {
 webParser.on(0, function (value) {
     var commandSeparator = ".";
     commands = value.split(commandSeparator);
-    if (!commandFolderId)
+    if (!brocliCommandFolderId)
         refreshCommandNode();
     var url = getBookmarkCommandUrl(commands, 0, commandNode);
     if (url)
