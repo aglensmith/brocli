@@ -1,41 +1,53 @@
 var saveButton = "saveButton";
 
-function loadSetting(key) {
-    chrome.storage.sync.get(key, function (items, key) {
-        console.log("Loading " + key + " with value " + items[key]);
-        var el = document.getElementById(key);
-        if (items[key] && el.type == "text")
-            el.value = items[key];
-        if (items[key] && el.type == "checkbox")
-            el.checked = items[key];
-    });
-};
+var settings = (function(){
+    var self = this;
+   
+    var all = [
+        {executeFromAddressbar: $('#executeFromAddressbar')},
+        {defaultSearchUrl: $('#executeFromAddressbar')},
+        {commandFolderPath: $('#executeFromAddressbar')}
+    ];
 
- 
- function saveSetting (key) {
-    var el = document.getElementById(key);
-    var value = "fuck";
-    if (el.type == "text")
-        value = el.value;
-    if (el.type == "checkbox")
-        value = el.checked;
-    chrome.storage.sync.set({key: value}, function() {
-        console.log("Saving " + key + " with value " + value);
-        
-    });
-};
+    var save = function(setting, value) {
+        chrome.storage.local.set({setting: value}, function() {
+            message(setting + "saved");
+        });
+    };
 
-function init () {
-    loadSetting("executeFromAddressbar");
-    loadSetting("defaultSearchUrl");
-    loadSetting("commandFolderPath");
-    var sb = document.getElementById(saveButton);
-    sb.addEventListener('click', function(e){
-        saveSetting("executeFromAddressbar");
-        saveSetting("defaultSearchUrl");
-        saveSetting("commandFolderPath");
-        e.preventDefault();
-    });
-}
+    var saveAll = function() {
+        all.forEach(function(setting){
+            if (setting.type == "text")
+                save(setting.id, setting.value);
+            else 
+                save(setting.id, setting.checked);
+        })
+    };
 
-init();
+    var load = function(setting) {
+        chrome.storage.local.get(setting, function (items) {
+            $(setting).val(items[setting]);
+        });  
+    };
+
+    var loadAll = function() {
+        all.forEach(function(setting){
+            load(setting.id)
+        });
+    };
+
+    return {
+        save: saveAll,
+        load: loadAll
+    };
+
+})();
+
+settings.load();
+
+$("#saveButton").click(
+    function(e){
+        settings.save();
+        e.prevrentDefault();
+    }
+);
