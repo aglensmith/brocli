@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Yarf</title>
+  <title>Brocli Options</title>
   <link rel="stylesheet" href="yarf.css">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
   <meta charset="utf-8" />
+  <script src="jquery.js"></script>
 </head>
 <body>
   <header>
     <div>
-      <span id="logo">B ></span>
+      <span id="logo">B></span>
       <nav>
         <a href="https://github.com/aglensmith/brocli">Docs</a>
         <a href="https://github.com/aglensmith/brocli">Commands</a>
@@ -23,28 +24,24 @@
       <hr>
       <form>
         <fieldset>
-
           <!-- Execute Commands from addressbar -->  
           <label for="checkboxField">
-            <input type="checkbox" id="executeFromAddressbar">
+            <input type="checkbox" id="executeFromAddressbar" class="brocli-setting">
             Execute commands directly from addressbar
           </label>
 
+          <!-- Default search url -->
+          <label for="textField">Defaul search url</label>
+          <input type="text" id="defaultSearchUrl" class="brocli-setting" placeholder="textfield">
         </fieldset>
 
         <fieldset>
-          
-          <!-- Default search url -->
-          <label for="textField">Defaul search url</label>
-          <input type="text" id="defaultSearchUrl" placeholder="textfield">
-
-          <!-- Command folder path -->
-          <label for="textField">Command folder path</label>
-          <input type="text" id="commandFolderPath" placeholder="textfield">
+          <!-- Command folder id -->
+          <label for="textField">Command folder id</label>
+          <input type="text" id="brocliCommandFolderId" class= "brocli-setting" placeholder="textfield">
 
           <!-- Save -->
           <input type="submit" value="Save" id="saveButton">
-
         </fieldset>
       </form>
     </section>

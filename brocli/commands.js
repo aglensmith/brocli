@@ -41,7 +41,10 @@ var webSwitches = [
     ['-h', '--help', '<url><match>-h</match></url><dim> - Go to brocli documentation. <match>Ex: -h</match></dim>'],
     ['-pp', '--pretty-print [STRING]', '<url><match>-pp [xml]</match></url><dim> - Pretty print xml (or html?) string. <match>Ex: -xml <some><ugly><xml></xml></ugly></some> </match></dim>'],
     ['-url', '--url-encode [STRING]', '<url><match>-url [string]</match></url><dim> - Url encode a string. <match>Ex: -url /some string</match></dim>'],
-    ['-com', '--command [BOOKMARK]', '<url><match>-com</match></url><dim> - Execute a bookmark or bookmarklet. <match>Ex: -com ClearCache</match></dim>']
+    ['-com', '--command [BOOKMARK]', '<url><match>-com</match></url><dim> - Execute a bookmark or bookmarklet. <match>Ex: -com ClearCache</match></dim>'],
+    ['-ext', '--extensions', '<url><match>-ext</match></url><dim> - Go to chrome extension settings. <match>Ex: -ex</match></dim>'],
+    ['-opt', '--options', '<url><match>-opt</match></url><dim> - Go to brocli options. <match>Ex: -opt</match></dim>'],
+    ['-set', '--settings', '<url><match>-set</match></url><dim> - Go to brocli settings. <match>Ex: -set</match></dim>']
 ]
 
 var allSwitches = acSwitches.concat(webSwitches);
@@ -83,7 +86,7 @@ webParser.on('new-tab', function (name) {
 webParser.on(0, function (value) {
     var commandSeparator = ".";
     commands = value.split(commandSeparator);
-    if (!commandFolderId)
+    if (!brocliCommandFolderId)
         refreshCommandNode();
     var url = getBookmarkCommandUrl(commands, 0, commandNode);
     if (url)

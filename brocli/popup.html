@@ -4,26 +4,35 @@
     <title>B ></title>
     <style>
       html {
-        width: 400px;
+        width: 500px;
       }
       body {
         font-family: consolas;
         caret-color: #999;
-        color: green;
+        color: #85d345;
+        font-size: 10px;
+      }
+      #cursor {
+        font-size: 2em;
+        font-weight: bold;
       }
       #brocliTerminal {
         padding: 5px;
         border-radius: 5px;
-      }b
-      #brocliInput {
-        width: 95%;
       }
       input, textarea {
         box-sizing: border-box;
         border: 0;
         background-color: transparent;
         outline: none;
-        color: green;
+        color: #85d345;
+        height: 2em;
+        font-size: 2em;
+      }
+      #brocliInput {
+        width: 95%;
+        font-size: 2em;
+        height: 2.5em;
       }
       #brocliOutput {
         width: 100%;
@@ -34,9 +43,10 @@
   <body>
     <div id="brocliTerminal">
         <textarea id="brocliOutput" style="display: none;"></textarea>
-        <span id="cursor">B ></span>
+        <span id="cursor">B></span>
         <input type="text" id="blocliInput">
     </div>
+    <script src="jquery.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

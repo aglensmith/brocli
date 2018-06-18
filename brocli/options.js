@@ -1,41 +1,35 @@
-var saveButton = "saveButton";
+var settings = (function(){
 
-function loadSetting(key) {
-    chrome.storage.sync.get(key, function (items, key) {
-        console.log("Loading " + key + " with value " + items[key]);
-        var el = document.getElementById(key);
-        if (items[key] && el.type == "text")
-            el.value = items[key];
-        if (items[key] && el.type == "checkbox")
-            el.checked = items[key];
-    });
-};
+    var saveAll = function() {
+        $('.brocli-setting').each(function(i, el){
+            chrome.storage.local.set({[el.id]: el.checked || el.value}, function() {
+            });
+        });
+    };
 
- 
- function saveSetting (key) {
-    var el = document.getElementById(key);
-    var value = "fuck";
-    if (el.type == "text")
-        value = el.value;
-    if (el.type == "checkbox")
-        value = el.checked;
-    chrome.storage.sync.set({key: value}, function() {
-        console.log("Saving " + key + " with value " + value);
-        
-    });
-};
+    var loadAll = function() {
+        $('.brocli-setting').each(function(i, el){
+            chrome.storage.local.get(el.id, function (items) {
+                if (el.type == "text")
+                    el.value = items[el.id];
+                else
+                    el.checked = items[el.id];
+            });  
+        });
+    };
 
-function init () {
-    loadSetting("executeFromAddressbar");
-    loadSetting("defaultSearchUrl");
-    loadSetting("commandFolderPath");
-    var sb = document.getElementById(saveButton);
-    sb.addEventListener('click', function(e){
-        saveSetting("executeFromAddressbar");
-        saveSetting("defaultSearchUrl");
-        saveSetting("commandFolderPath");
+    return {
+        save: saveAll,
+        load: loadAll
+    };
+
+})();
+
+settings.load();
+
+$("#saveButton").click(
+    function(e){
+        settings.save();
         e.preventDefault();
-    });
-}
-
-init();
+    }
+);

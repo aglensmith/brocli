@@ -4,7 +4,10 @@ var webPaths = {
     "pretty-print": "chrome-extension://%s/output.html",
     "url-encode": "chrome-extension://%s/output.html",
     "help": "https://github.com/aglensmith/brocli",
-    "documentation": "https://github.com/aglensmith/brocli"
+    "documentation": "https://github.com/aglensmith/brocli",
+    "extensions": "chrome://extensions/",
+    "options": "chrome-extension://%s/options.html",
+    "settings": "chrome://extensions/?id="
 }
 
 function buildWebPaths (name, val) {
@@ -12,7 +15,7 @@ function buildWebPaths (name, val) {
     name.split(",").forEach(cmd => {
         switch(cmd) {
             case "bookmark-commands":
-                paths.push(webPaths[cmd] + commandFolderId.toString());
+                paths.push(webPaths[cmd] + brocliCommandFolderId.toString());
                 break;
             case "url-encode":
                 chrome.storage.local.set({'output': encodeURIComponent(val)});
@@ -20,6 +23,12 @@ function buildWebPaths (name, val) {
                 break;
             case "pretty-print":
                 chrome.storage.local.set({'output': formatXml(val)});
+                paths.push(webPaths[cmd].split("%s").join(extensionId));
+                break;
+            case "settings":
+                paths.push(webPaths[cmd] + extensionId);
+                break;
+            case "options":
                 paths.push(webPaths[cmd].split("%s").join(extensionId));
                 break;
             default:
