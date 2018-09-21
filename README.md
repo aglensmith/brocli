@@ -1,10 +1,14 @@
 # brocli = browser + commandline interface
 brocli is a Chrome extension that turns Chrome's omnibar into a command line interface for navigating the web.
 
-## Installation
-brocli is not available on the Chrome Web Store, so it must be side-loaded. To do so, first download the source code: 
+## Install "Production" Version from Chrome Web Store
+* Install extension here: https://chrome.google.com/webstore/detail/brocli/bllmhobhpnfeojdbajmnnoahgakengjk
 
-* Clone with Git or download zip file.
+The newest code changes won't in the web store version until I manually upload the new version to the web store -- this is kinda a pain, so I don't do it often. So, follow the steps below to install as unpacked extension if you would like a newer version with with "bleading-edge" features. 
+
+## Installing as Unpacked Extension
+
+* Clone with Git or download zip file from this repo. 
 
 Once downloaded, the extension can be added here: `chrome://extensions`
 
