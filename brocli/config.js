@@ -23,12 +23,16 @@ var searchParam = getParams(defaultSearch.href)['%s'];
 var defaultCommandFolder = "BrocliCommands";
 var brocliCommandFolderId;
 var commandNode;
+var executeFromAddressbar = false;
 
+chrome.storage.local.get("executeFromAddressbar", function(items){
+    executeFromAddressbar = items["executeFromAddressbar"];
+});
 
 // Bookmark Command Folder Helpers
 function findSetCommandFolderId (folderTitle, callback) {
     chrome.bookmarks.search(folderTitle, function(res){
-        if (res[0].id)
+        if (res && res[0].id)
         {
             chrome.storage.local.set({'brocliCommandFolderId': res[0].id}, function() {
                 console.log("brocli: command folder found. Set to " + res[0].title + " ID " + res[0].id);

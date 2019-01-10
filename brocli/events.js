@@ -5,7 +5,6 @@
 
 var currentLocation;
 
-
 /**
  * Commands Entered
  */
