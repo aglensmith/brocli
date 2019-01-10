@@ -2,7 +2,7 @@
  * config.js -- Dynamic extension or configuration variables and objected defined and initialized here
  */
 
-chrome.omnibox.setDefaultSuggestion({description: "<url><match>Welcome to Brocli!</match></url><dim> - Enter <match>-h</match> to go to docs. Enter <match>-cmds</match> to see a list of commands. Enter <match>-k</match> to set keyboard shortcuts.</dim>"});
+chrome.omnibox.setDefaultSuggestion({description: "<url><match>B ></match></url><dim> Enter <match>-h</match> to go to docs, <match>-cmds</match> for commands list, <match>-k</match> for keyboard shortcuts.</dim>"});
 
 // for getting website field value
 var zdDomain = 'https://americommerce.zendesk.com';
