@@ -41,6 +41,10 @@ function urlOrigin (url) {
     }
 }
 
+function extensionPage(url) {
+    return "chrome-extension://" + chrome.runtime.id + url
+}
+
 function isBookmarklet (str) {
     return str.toLowerCase().split("javascript:").length > 1;
 }

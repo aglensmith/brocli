@@ -67,7 +67,9 @@ function getBookmarkCommandUrl (commands, index, node) {
     if (node && commands && index >= 0) {
         var child = node.children.find(function(element){
             // returns element that matches to child var. Doesn't return this method.
-            return element.title.toLowerCase() == commands[index].toLowerCase();
+            var elementTitle = element.title.toLowerCase().split(" ")[0];
+            var commandTitle = commands[index].toLowerCase();
+            return elementTitle == commandTitle;
         });
         return getBookmarkCommandUrl(commands, index+1, child);
     }

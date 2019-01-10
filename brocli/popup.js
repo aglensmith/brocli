@@ -26,6 +26,10 @@ function saveBuffer () {
     });
 }
 
+function extensionPage(url) {
+    return "chrome-extension://" + chrome.runtime.id + url
+}
+
 input.focus();
 loadOutput();
 loadBuffer();
@@ -57,4 +61,8 @@ input.addEventListener( 'keyup', function (e) {
         if (buffer[pos])
             input.value = buffer[pos];
     }
+  });
+
+  $("#settings").click(function(){
+      chrome.tabs.create({'url': extensionPage("/options.html")});
   });

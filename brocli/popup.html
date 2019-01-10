@@ -12,9 +12,13 @@
         color: #85d345;
         font-size: 10px;
       }
-      #cursor {
+      #cursor, #settings {
         font-size: 2em;
         font-weight: bold;
+      }
+      #settings {
+        color: #999;
+        cursor: pointer;
       }
       #brocliTerminal {
         padding: 5px;
@@ -29,6 +33,7 @@
         height: 1em;
         font-size: 2em;
         margin-left: 7px;
+        width: 380px;
       }
       #brocliInput {
         width: 95%;
@@ -46,6 +51,7 @@
         <textarea id="brocliOutput" style="display: none;"></textarea>
         <span id="cursor">B> $</span>
         <input type="text" id="blocliInput">
+        <a id="settings" title="settings" alt="settings">&#9881;</a>
     </div>
     <script src="jquery.js"></script>
     <script src="popup.js"></script>
