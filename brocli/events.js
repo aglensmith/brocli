@@ -65,6 +65,18 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 /**
  * Ombibar
  */
+
+function suggestChildNodes(node, sugs, commands){
+    node.children.forEach(child => {
+    if (commands[0].split(".")[0] == child.title) {
+        child.children.forEach(subchild => {
+            sugs.push({content: subchild.url+" ", description: "<url><match>"+child.title +"."+ subchild.title + "</match></url> - " + urlOrigin(subchild.url)});
+        });
+    }
+    });
+    return sugs;
+}
+
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     var sugs = [];
     var suggestions = [];
@@ -75,14 +87,16 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
             sugs.push({content: s[0] + " ", description: "<url><match>" + s[1] + "</match></url> or " + s[2]});
         }
     });
-    
-    commandNode.children.forEach(child => {
-        if (splitText[0].split(".")[0] == child.title) {
-            child.children.forEach(subchild => {
-                sugs.push({content: subchild.url+" ", description: "<url><match>"+child.title +"."+ subchild.title + "</match></url> - " + urlOrigin(subchild.url)});
-            });
-        }
-    });
+
+    sugs = suggestChildNodes(commandNode, sugs, splitText);
+
+//    commandNode.children.forEach(child => {
+//        if (splitText[0].split(".")[0] == child.title) {
+//            child.children.forEach(subchild => {
+//                sugs.push({content: subchild.url+" ", description: "<url><match>"+child.title +"."+ subchild.title + "</match></url> - " + urlOrigin(subchild.url)});
+//            });
+//        }
+//     });
 
     sugs.forEach(function(s){suggestions.push(s)});
     suggest(suggestions);
