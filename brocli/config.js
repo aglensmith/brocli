@@ -78,6 +78,16 @@ function getBookmarkCommandUrl (commands, index, node) {
     }
 }
 
+function suggestChildNodes(node) {
+    node.children.forEach(child => {
+        if (splitText[0].split(".")[0] == child.title) {
+            child.children.forEach(subchild => {
+                sugs.push({content: subchild.url+" ", description: "<url><match>"+child.title +"."+ subchild.title + "</match></url> - " + urlOrigin(subchild.url)});
+            });
+        }
+    });
+}
+
 function refreshCommandNode () {
     getCommandNode(defaultCommandFolder, function(id){
         brocliCommandFolderId = id;
