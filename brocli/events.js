@@ -65,26 +65,48 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 /**
  * Ombibar
  */
+function suggestChildNodes(node, suggestions, commands, ancesterTitle){
+    
+    // if we're missing something, return empty array
+    if (!node || !node.children || !suggestions || !commands)
+    {
+        return [];
+    }
+    
+    // don't add command node to command name
+    if (node.title != commandNode.title)
+        ancesterTitle = ancesterTitle.concat(node.title + ".");
+
+    node.children.forEach(child => {
+        if (commands[0].split(".")[0] == child.title.toLowerCase()) {
+            suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + urlOrigin(child.url)});
+        }
+        suggestChildNodes(child, suggestions, commands, ancesterTitle);
+    });
+
+    return suggestions;
+}
+
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
-    var sugs = [];
     var suggestions = [];
     var splitText = text.split(" ");
+
+    // get the bookmark command suggestions
+    var bookmarkCommandSuggestions = suggestChildNodes(commandNode, suggestions, splitText, "");
+    bookmarkCommandSuggestions.forEach(function(s){
+        suggestions.push(s);
+    });
+
+    // get the switch suggestions
     allSwitches.forEach(function(s){
         if (s[1].indexOf(splitText[0]) != -1)
         {
-            sugs.push({content: s[0] + " ", description: "<url><match>" + s[1] + "</match></url> or " + s[2]});
-        }
-    });
-    
-    commandNode.children.forEach(child => {
-        if (splitText[0].split(".")[0] == child.title) {
-            child.children.forEach(subchild => {
-                sugs.push({content: subchild.url+" ", description: "<url><match>"+child.title +"."+ subchild.title + "</match></url> - " + urlOrigin(subchild.url)});
-            });
+            suggestions.push({content: s[0] + " ", description: "<url><match>" + s[1] + "</match></url> or " + s[2]});
         }
     });
 
-    sugs.forEach(function(s){suggestions.push(s)});
+
+    // suggest    
     suggest(suggestions);
 });
 

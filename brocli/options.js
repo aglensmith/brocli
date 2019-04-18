@@ -33,3 +33,8 @@ $("#saveButton").click(
         e.preventDefault();
     }
 );
+
+$("#keyboardShortcuts").click(function(e){
+    chrome.tabs.create({'url': "chrome://extensions/shortcuts"});
+    e.preventDefault();
+})
