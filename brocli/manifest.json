@@ -67,6 +67,5 @@
     "bookmarks",
     "storage",
     "webNavigation"
-  ],
-  "optional_permissions": ["activeTab"]
+  ]
 }

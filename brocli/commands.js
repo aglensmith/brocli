@@ -45,7 +45,7 @@ var webSwitches = [
     ['-ext', '--extensions', '<url><match>-ext</match></url><dim> - Go to chrome extension settings. <match>Ex: -ex</match></dim>'],
     ['-opt', '--options', '<url><match>-opt</match></url><dim> - Go to brocli options. <match>Ex: -opt</match></dim>'],
     ['-set', '--settings', '<url><match>-set</match></url><dim> - Go to brocli settings. <match>Ex: -set</match></dim>']
-]
+];
 
 var allSwitches = acSwitches.concat(webSwitches);
 
@@ -58,7 +58,7 @@ var acParser = new optparse.OptionParser(acSwitches);
 acParser.on(0, function (value) {
     if (isUrl(value)) {
       options.domain = value;
-    }else if (isUrl('https://'.concat(value))) {
+    } else if (isUrl('https://'.concat(value))) {
         var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
         if (options.domain != cmdUrl.hostname) {
             options.domain = 'https://'.concat(value);

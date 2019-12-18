@@ -78,6 +78,7 @@ function suggestChildNodes(node, suggestions, commands, ancesterTitle){
         ancesterTitle = ancesterTitle.concat(node.title + ".");
 
     node.children.forEach(child => {
+        console.log(commands[0].split(".")[0] + " == " + child.title.toLowerCase())
         if (commands[0].split(".")[0] == child.title.toLowerCase()) {
             suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + urlOrigin(child.url)});
         }
