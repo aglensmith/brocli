@@ -79,9 +79,14 @@ function suggestChildNodes(node, suggestions, commands, ancesterTitle){
 
     node.children.forEach(child => {
         console.log(commands[0].split(".")[0] + " == " + child.title.toLowerCase())
-        if (commands[0].split(".")[0] == child.title.toLowerCase()) {
-            suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + urlOrigin(child.url)});
+        if (commands[0].split(".")[0] == node.title.toLowerCase()) {
+            var childUrl = urlOrigin(child.url);
+            if (!childUrl) {
+                child.url, childUrl =  "chrome://bookmarks/?id=" + child.id;
+            }
+            suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url>" + childUrl});
         }
+  
         suggestChildNodes(child, suggestions, commands, ancesterTitle);
     });
 
