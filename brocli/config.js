@@ -61,16 +61,12 @@ function getCommandNode (folderTitle, callback) {
 
 /* Gets the URL from a bookmark node */
 function getBookmarkCommandUrl (commands, index, node) {
-    /* if there's a node an it has a url, return the url */
     if (node && node.url) {
         console.log("brocli: getBookmarkCommandUrl - " + node.url);
         return node.url;
     } 
-    
-    /* traverse the the bookmark folder tree */
     if (node && commands && index >= 0) {
         var child = node.children.find(function(element){
-            // returns element that matches to child var. Doesn't return this method.
             var elementTitle = element.title.toLowerCase().split(" ")[0];
             var commandTitle = commands[index].toLowerCase();
             return elementTitle == commandTitle;
@@ -78,11 +74,9 @@ function getBookmarkCommandUrl (commands, index, node) {
         return getBookmarkCommandUrl(commands, index+1, child);
     }
     else if (commands[commands.length-1] == node.title) {
-        console.log(commands);
         return "chrome://bookmarks/?id=" + node.id;
     }
     else {
-        console.log(node);
         console.log("brocli: getBookmarkCommandUrl - No URL Found");
     }
 }
