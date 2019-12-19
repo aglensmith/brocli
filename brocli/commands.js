@@ -89,6 +89,7 @@ webParser.on(0, function (value) {
     if (!brocliCommandFolderId)
         refreshCommandNode();
     var url = getBookmarkCommandUrl(commands, 0, commandNode);
+    
     if (url)
     {
         goTo(url);

@@ -82,9 +82,10 @@ function suggestChildNodes(node, suggestions, commands, ancesterTitle){
         if (commands[0].split(".")[0] == node.title.toLowerCase()) {
             var childUrl = urlOrigin(child.url);
             if (!childUrl) {
-                child.url, childUrl =  "chrome://bookmarks/?id=" + child.id;
+               childUrl =  "chrome://bookmarks/?id=" + child.id;
+               child.url = childUrl;
             }
-            suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url>" + childUrl});
+            suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + childUrl});
         }
   
         suggestChildNodes(child, suggestions, commands, ancesterTitle);

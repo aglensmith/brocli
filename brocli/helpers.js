@@ -33,6 +33,7 @@ function getParams (urlString) {
 }
 
 function urlOrigin (url) {
+    
     try {
         var u = new URL(url);
         return u.origin;
