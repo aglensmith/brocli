@@ -61,6 +61,11 @@ function getCommandNode (folderTitle, callback) {
 
 /* Gets the URL from a bookmark node */
 function getBookmarkCommandUrl (commands, index, node) {
+
+    if (!node) {
+        return;
+    }
+
     if (node && node.url) {
         console.log("brocli: getBookmarkCommandUrl - " + node.url);
         return node.url;
