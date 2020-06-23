@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "brocli",
-  "description": "brocli is a Chrome extension that turns Chrome's omnibar into a command line interface for navigating the web",
+  "description": "Turns chrome's address bar into a command line interface for navigating the web and rapidly performing common IT related tasks",
   "version": "2018.1.0617.1",
   "version_name": "v1.0 (Beta)",
   "omnibox": { "keyword" : "b" },
@@ -11,46 +11,20 @@
   },
   "browser_action": {
     "default_icon": "icon16.png",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_title": "Open brocli terminal"
   },
   "background": {
-      "scripts": ["helpers.js", "optparse.js", "config.js", "ac-urls.js", "urls.js", "commands.js", "events.js"],
+      "scripts": ["helpers.js", "optparse.js", "config.js", "urls.js", "commands.js", "events.js"],
       "persistent": true
   },
   "commands": {
-    "-l_customers": {
+    "_execute_browser_action": {
       "suggested_key": {
-        "default": "Alt+J",
-        "windows": "Alt+J",
-        "mac": "Alt+J"
-        },
-        "description": "Customers",
-        "global": true
-    },
-        "-l_customers_-t": {
-        "description": "Customers (New Tab)"
-    },
-    "-l_orders": {
-      "suggested_key": {
-        "default": "Alt+K",
-        "windows": "Alt+K",
-        "mac": "Alt+K"
-        },
-        "description": "Order"
-    },
-        "-l_orders_-t": {
-        "description": "Orders (New Tab)"
-    },
-      "-l_products": {
-      "suggested_key": {
-        "default": "Alt+L",
-        "windows": "Alt+L",
-        "mac": "Alt+L"
-        },
-        "description": "Products"
-    },
-      "-l_products_-t": {
-        "description": "Products (New Tab)"
+        "default": "Alt+1",
+        "mac": "Alt+1"
+      },
+      "description": "Opens the brocli terminal"
     }
   },
   "content_scripts": [

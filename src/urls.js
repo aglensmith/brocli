@@ -1,4 +1,4 @@
-var webPaths = {
+var utilityPaths = {
     "bookmark-commands": 'chrome://bookmarks/?id=',
     "keyboard-shortcuts": 'chrome://extensions/configureCommands',
     "pretty-print": "chrome-extension://%s/output.html",
@@ -10,30 +10,30 @@ var webPaths = {
     "settings": "chrome://extensions/?id="
 }
 
-function buildWebPaths (name, val) {
+function buildUtilityPaths (name, val) {
     var paths = [];
     name.split(",").forEach(cmd => {
         switch(cmd) {
             case "bookmark-commands":
-                paths.push(webPaths[cmd] + brocliCommandFolderId.toString());
+                paths.push(utilityPaths[cmd] + brocliCommandFolderId.toString());
                 break;
             case "url-encode":
                 chrome.storage.local.set({'output': encodeURIComponent(val)});
-                paths.push(webPaths[cmd].split("%s").join(extensionId));
+                paths.push(utilityPaths[cmd].split("%s").join(extensionId));
                 break;
             case "pretty-print":
                 chrome.storage.local.set({'output': formatXml(val)});
-                paths.push(webPaths[cmd].split("%s").join(extensionId));
+                paths.push(utilityPaths[cmd].split("%s").join(extensionId));
                 break;
             case "settings":
-                paths.push(webPaths[cmd] + extensionId);
+                paths.push(utilityPaths[cmd] + extensionId);
                 break;
             case "options":
-                paths.push(webPaths[cmd].split("%s").join(extensionId));
+                paths.push(utilityPaths[cmd].split("%s").join(extensionId));
                 break;
             default:
-                if (webPaths[cmd])
-                    paths.push(webPaths[cmd])
+                if (utilityPaths[cmd])
+                    paths.push(utilityPaths[cmd])
                 break;
         }
     });

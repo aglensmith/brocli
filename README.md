@@ -1,10 +1,11 @@
 - [Key Features](#key-features)
 - [Installing](#installing)
 - [Usage](#usage)
-- [Bookmark Commands](#bookmark-commands)
+- [Bookmark Aliases](#bookmark-aliases)
 - [Terminal](#terminal)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
 - [Options](#options)
-- [Command Reference](#command-reference)
+- [Utility Commands](#utility-commands)
 
 # brocli
 
@@ -12,7 +13,7 @@ Chrome extension that turns chrome's address bar into a command line interface f
 
 ## Key Features
 
-Command aliases for quickly navigating to bookmarked pages:
+Bookmark aliases for quickly navigating to bookmarked pages:
 
 ![]()
 
@@ -35,9 +36,11 @@ In chrome's address bar, type `b` then press `space` or `tab`, type a command, t
 > ### Tip
 > * use keyboard shortcut `alt+d` to move cursor to addressbar.
 
-## Bookmark Commands
+## Bookmark Aliases
 
 ## Terminal
+
+## Keyboard Shortcuts
 
 ## Options
 
@@ -47,7 +50,7 @@ In chrome's address bar, type `b` then press `space` or `tab`, type a command, t
 |Default search url||
 |Command folder id|The ID of the bookmark folder where brocli should look for bookmark commands|
 
-## Command Reference
+## Utility Commands
 
 |Command|Alias|Description|
 |-|-|-|

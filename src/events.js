@@ -26,7 +26,7 @@ chrome.webNavigation.onBeforeNavigate.addListener(
     function(details) {
         if (!executeFromAddressbar)
             return
-            
+
         var url = new URL(details.url);
         var query = url.searchParams.get(searchParam);
         var cl = new URL(currentLocation);
@@ -41,7 +41,7 @@ chrome.webNavigation.onBeforeNavigate.addListener(
 // keyboard shortcuts
 chrome.commands.onCommand.addListener(function(command) {
     var splitText = command.split("_");
-    runAcCommands(splitText);
+    runUtilityCommands(splitText);
     resetOptions();
 });
 
@@ -66,13 +66,13 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
  * Ombibar
  */
 function suggestChildNodes(node, suggestions, commands, ancesterTitle){
-    
+
     // if we're missing something, return empty array
     if (!node || !node.children || !suggestions || !commands)
     {
         return [];
     }
-    
+
     // don't add command node to command name
     if (node.title != commandNode.title)
         ancesterTitle = ancesterTitle.concat(node.title + ".");
@@ -87,7 +87,7 @@ function suggestChildNodes(node, suggestions, commands, ancesterTitle){
             }
             suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + childUrl});
         }
-  
+
         suggestChildNodes(child, suggestions, commands, ancesterTitle);
     });
 
@@ -113,7 +113,7 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     });
 
 
-    // suggest    
+    // suggest
     suggest(suggestions);
 });
 

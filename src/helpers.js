@@ -33,7 +33,7 @@ function getParams (urlString) {
 }
 
 function urlOrigin (url) {
-    
+
     try {
         var u = new URL(url);
         return u.origin;
@@ -70,7 +70,7 @@ function isUrl (string) {
 }
 
 function goTo (newUrl, newTab) {
-    var query = {currentWindow: true, active: true};    
+    var query = {currentWindow: true, active: true};
     chrome.tabs.query(query, function (results) {
         var tab = results[0];
         //if newUrl is relative path, use active tab url
@@ -89,20 +89,14 @@ function goTo (newUrl, newTab) {
             }
 
         }
-    }); 
+    });
 }
 
 function goToMany(domain, paths) {
     paths.forEach(function(path){
         var url = domain + path;
-        if (path.indexOf('/Store/Adminundefined') == -1)
-        {
-            goTo(url, options.newTab);
-            options.newTab = true;
-        }
-        else {
-            console.log("Brocli: Invalid Command Entered. Cannot go to " + path);
-        }
+        goTo(url, options.newTab);
+        options.newTab = true;
     });
     resetOptions();
 }
@@ -113,18 +107,8 @@ function navCurrentDomain (relativePath) {
         if (results.length > 0) {
             var activeTabOrigin = urlOrigin(results[0].url);
             creatTab(activeTabOrigin + relativePath)
-        } 
-    }); 
-}
-
-function isZD (url) {
-    var zdRe = new RegExp('.zendesk.com');
-    return zdRe.test(url);
-}
-
-function isTicket (url) {
-    var ticketRe = new RegExp('/agent/tickets/');
-    return ticketRe.test(url);
+        }
+    });
 }
 
 function formatXml(xml) {
@@ -149,12 +133,12 @@ function formatXml(xml) {
       } else {
         indent = 0;
       }
-    
+
       var padding = '';
       for (var i = 0; i < pad; i++) {
         padding += '  ';
       }
-    
+
       formatted += padding + node + '\r\n';
       pad += indent;
     }
