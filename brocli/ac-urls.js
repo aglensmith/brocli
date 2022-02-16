@@ -2,7 +2,7 @@
  * @fileOverview - Stuff for building AC urls for navigation
  */
 
-var prefix = '/Store/Admin'
+var prefix = '/deep-links'
 
 var listOf = {
     'alerts': '/Settings/Global/OrderAlertEmails.aspx?',
@@ -20,7 +20,7 @@ var listOf = {
     'orders': '/orders/orderlist.aspx',
     'pages': '/content/pagelist.aspx',
     'posts': '/content/blogs/blogpostlist.aspx',
-    'products': '/products/listproducts.aspx',
+    'products': '/products',
     'providers': '/Settings/Shipping/ShippingProviders.aspx?',
     'rules': '/tools/analyticrules.aspx?type=Order',
     'sessions': '/tools/sessionlist.aspx',
@@ -103,8 +103,7 @@ var pageEdit = [
     '&ovw=0&ovn=0'
 ];
 var productEdit = [
-     '/products/listproducts.aspx?ovu=/store/admin/products/productedit/general.aspx%3FID%3D',
-    '&ovw=0&ovn=1'
+     '/products/edit/'
 ];
 var edit = {
     'category': categoryEdit,
