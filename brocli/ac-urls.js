@@ -28,7 +28,7 @@ var listOf = {
     'shippingRegions': '/Settings/Shipping/ShippingRegions.aspx?',
     'templates': '/customers/emailtemplatelist.aspx',
     'themes': '/themes/default.aspx',
-    'urls': '/Settings/Global/RedirectURLList.aspx?',
+    'urls': '/settings/redirects',
     'users': '/settings/users/userlist.aspx?',
     'warehouses': '/products/warehouses.aspx?'
 };
@@ -156,7 +156,7 @@ function buildAcPaths (name, val) {
         case 'edit':
             parts = edit[entity];
             vals.forEach(function(val) {
-                paths.push(prefix.concat(parts[0], val, parts[1]));
+                paths.push(prefix.concat(parts[0], val));
             });
             break;
         case 'audit':
