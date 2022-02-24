@@ -56,6 +56,7 @@ var allSwitches = acSwitches.concat(webSwitches);
 var acParser = new optparse.OptionParser(acSwitches);
 
 acParser.on(0, function (value) {
+    value = value.split(' ')[0]
     if (isUrl(value)) {
       options.domain = value;
     }else if (isUrl('https://'.concat(value))) {
@@ -84,11 +85,16 @@ webParser.on('new-tab', function (name) {
 });
 
 webParser.on(0, function (value) {
+    if (isUrl(value))
+        goTo(value);
     var commandSeparator = ".";
-    commands = value.split(commandSeparator);
+    console.log('webParser.on value: ' + value);
+    bookmarkPath = value.split(' ')[0].split('.');
+    commands = value.split(commandSeparator)
+    value = value.split(commandSeparator)[0];
     if (!brocliCommandFolderId)
         refreshCommandNode();
-    var url = getBookmarkCommandUrl(commands, 0, commandNode);
+    var url = getBookmarkCommandUrl(bookmarkPath, 0, commandNode);
     if (url)
     {
         goTo(url);
@@ -99,7 +105,9 @@ webParser.on(0, function (value) {
                 if (res.title.split(" ")[0] == value)
                 {
                     bookmarkFound = true;
-                    goTo(res.url);
+                    if ('url' in res)
+                        url = res.url.replace('%7Bdomain%7D', (new URL(currentLocation).hostname))
+                    goTo(url);
                 }
             });
         });
@@ -107,6 +115,7 @@ webParser.on(0, function (value) {
 });
 
 webParser.on('*', function (name, value) {
+    value = value.split(' ')
     options.entered = true;
     buildWebPaths(name, value).forEach(function(path){
         options.paths.push(path);
@@ -114,6 +123,7 @@ webParser.on('*', function (name, value) {
 });
 
 webParser.on('command', function (name, value) {
+    value = value.split(' ')
     chrome.bookmarks.search(value, function(results){
         results.forEach(function(res){
             if (res.title == value)
@@ -155,7 +165,7 @@ function goToFromZD() {
 
 function runAcCommands (commands) {
     options.entered = false;
-    acParser.parse(commands);
+    /* acParser.parse(commands); */
     webParser.parse(commands);
     if (isZD(currentLocation) && isTicket(currentLocation)) {
         goToFromZD();

@@ -11,8 +11,10 @@ var currentLocation;
 
 // omnibar
 chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
-    var splitText = text.split(" ");
-    Executer.executeAll(splitText);
+    /* var splitText = text.split(" "); */
+    commands = []
+    commands.push(text)
+    Executer.executeAll(commands);
 });
 
 // popup terminal
@@ -65,7 +67,9 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 /**
  * Ombibar
  */
-function suggestChildNodes(node, suggestions, commands, ancesterTitle){
+function suggestChildNodes(node, suggestions, commands, ancesterTitle, depth){
+
+    // ['jira.conf.'
     
     // if we're missing something, return empty array
     if (!node || !node.children || !suggestions || !commands)
@@ -77,29 +81,52 @@ function suggestChildNodes(node, suggestions, commands, ancesterTitle){
     if (node.title != commandNode.title)
         ancesterTitle = ancesterTitle.concat(node.title + ".");
 
-    node.children.forEach(child => {
-        if (commands[0].split(".")[0] == child.title.toLowerCase()) {
-            suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + urlOrigin(child.url)});
-        }
-        suggestChildNodes(child, suggestions, commands, ancesterTitle);
-    });
+    if (depth < 1) {
+        // first time only
+        node.children.forEach(child => {
+            var term = commands.split('.')[0];
+            var childTitle = child.title.toLowerCase().split(' ')[0];
+            var childFullPath = ancesterTitle + child.title.toLowerCase();
+            var cfpSlice = childFullPath.slice(0, commands.split('').length);
+            if (term == childTitle || cfpSlice == commands) {
+                if ('url' in child)
+                    // we found a link, add it
+                    suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + urlOrigin(child.url)});
+                else {
+                    depth = depth+1;
+                    suggestChildNodes(child, suggestions, commands, ancesterTitle, depth);
+                }
 
+            }
+        })
+    } else {
+        node.children.forEach(child => {
+            var childFullPath = ancesterTitle + child.title.toLowerCase();
+            var cfpSlice = childFullPath.slice(0, commands.split('').length);
+            if (cfpSlice == commands && 'url' in child)
+                // we found a link, add it
+                suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + urlOrigin(child.url)});
+            else{
+                depth = depth + 1;
+                suggestChildNodes(child, suggestions, commands, ancesterTitle, depth); 
+            }                
+        })
+    }
     return suggestions;
 }
 
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     var suggestions = [];
-    var splitText = text.split(" ");
 
     // get the bookmark command suggestions
-    var bookmarkCommandSuggestions = suggestChildNodes(commandNode, suggestions, splitText, "");
+    var bookmarkCommandSuggestions = suggestChildNodes(commandNode, suggestions, text , "", 0);
     bookmarkCommandSuggestions.forEach(function(s){
         suggestions.push(s);
     });
 
     // get the switch suggestions
     allSwitches.forEach(function(s){
-        if (s[1].indexOf(splitText[0]) != -1)
+        if (s[1].indexOf(text.split('')[0]) != -1)
         {
             suggestions.push({content: s[0] + " ", description: "<url><match>" + s[1] + "</match></url> or " + s[2]});
         }
