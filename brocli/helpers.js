@@ -72,7 +72,12 @@ function goTo (newUrl, newTab) {
     var query = {currentWindow: true, active: true};    
     chrome.tabs.query(query, function (results) {
         var tab = results[0];
+        
+        // hack for chrome adding file:// to relative bookmarks
+        newUrl = newUrl.replace('%7Bdomain%7D', (new URL(currentLocation).hostname))
+
         //if newUrl is relative path, use active tab url
+        // don't think works since chrome adds file:// to relative bookmarks
         if (!urlOrigin(newUrl)) {
             newUrl = urlOrigin(currentLocation) + newUrl;
         }

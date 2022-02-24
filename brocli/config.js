@@ -62,7 +62,8 @@ function getCommandNode (folderTitle, callback) {
 function getBookmarkCommandUrl (commands, index, node) {
     if (node && node.url) {
         console.log("brocli: getBookmarkCommandUrl - " + node.url);
-        return node.url;
+        url = node.url
+        return url;
     }
     if (node && commands && index >= 0) {
         var child = node.children.find(function(element){
