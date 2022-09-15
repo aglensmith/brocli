@@ -1,12 +1,7 @@
 # brocli = browser + commandline interface
 brocli is a Chrome extension that turns Chrome's omnibar into a command line interface for navigating the web.
 
-## Install "Production" Version from Chrome Web Store
-* Install extension here: https://chrome.google.com/webstore/detail/brocli/bllmhobhpnfeojdbajmnnoahgakengjk
-
-The newest code changes won't in the web store version until I manually upload the new version to the web store -- this is kinda a pain, so I don't do it often. So, follow the steps below to install as unpacked extension if you would like a newer version with with "bleading-edge" features. 
-
-## Installing as Unpacked Extension
+## Installation
 
 * Clone with Git or download zip file from this repo. 
 
@@ -28,12 +23,6 @@ If a domain is entered before the command, brocli will navigate to the page on t
 * entering `store1234.mysparkpay.com -o 123` will navigate to store1234's order edit, regardless of current location.
 
 Multiple entities or ids can be specified by comma seperating them. Ex: `-o 100219,100220` - opens order edit for `100219` in current tab and `100220` in a new tab. 
-
-### Audit
-* `cata (<ID>)` - category audit. Ex: `-cata 12`
-* `-ca (<ID>)` - customer audit. Ex: 
-* `-pa (<ID>)` - product audit. Ex: 
-* `-oa (<ID>)` - order audit. Ex:  
 
 ### List
 * `-l (page)` - navigate to an entity's list page. Ex:
