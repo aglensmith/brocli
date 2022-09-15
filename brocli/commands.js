@@ -91,22 +91,33 @@ webParser.on(0, function (value) {
     console.log('webParser.on value: ' + value);
     bookmarkPath = value.split(' ')[0].split('.');
     commands = value.split(commandSeparator)
-    value = value.split(commandSeparator)[0];
     if (!brocliCommandFolderId)
         refreshCommandNode();
     var url = getBookmarkCommandUrl(bookmarkPath, 0, commandNode);
     if (url)
     {
-        goTo(url);
+        goTo(url, false, value);
     } else {
+        value = value.split(commandSeparator)[0];
+        console.log('webParser.on value: ' + value);
         chrome.bookmarks.search(value, function(results){
             var bookmarkFound = false;
             results.forEach(function(res){
                 if (res.title.split(" ")[0] == value)
                 {
                     bookmarkFound = true;
-                    if ('url' in res)
-                        url = res.url.replace('%7Bdomain%7D', (new URL(currentLocation).hostname))
+                    if ('url' in res){
+                        url = res.url.replace('brocli.example.com', (new URL(currentLocation).hostname));
+                        value.split(' ').forEach(function(i){
+                            if ( value.split(' ').indexOf(i) != 0) {
+                                url = res.url.replace('%s', value);
+                                url = res.url.replace('%s'.concat(i), value);
+                                console.log('commands.js > webparser.on(): ', url)
+                            }
+                        });
+                    }
+
+
                     goTo(url);
                 }
             });

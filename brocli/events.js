@@ -91,7 +91,7 @@ function suggestChildNodes(node, suggestions, commands, ancesterTitle, depth){
             if (term == childTitle || cfpSlice == commands) {
                 if ('url' in child)
                     // we found a link, add it
-                    suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + urlOrigin(child.url)});
+                    suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title.split('-')[0] + "</match></url> - " + child.title.split('-')[1]});
                 else {
                     depth = depth+1;
                     suggestChildNodes(child, suggestions, commands, ancesterTitle, depth);
@@ -105,7 +105,7 @@ function suggestChildNodes(node, suggestions, commands, ancesterTitle, depth){
             var cfpSlice = childFullPath.slice(0, commands.split('').length);
             if (cfpSlice == commands && 'url' in child)
                 // we found a link, add it
-                suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title + "</match></url> - " + urlOrigin(child.url)});
+                suggestions.push({content: child.url+" ", description: "<url><match>"+ ancesterTitle + child.title.split('-')[0] + "</match></url> - " + child.title.split('-')[1]});
             else{
                 depth = depth + 1;
                 suggestChildNodes(child, suggestions, commands, ancesterTitle, depth); 

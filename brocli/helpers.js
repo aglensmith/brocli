@@ -68,13 +68,28 @@ function isUrl (string) {
     return regex.test(string);
 }
 
-function goTo (newUrl, newTab) {
+function goTo (newUrl, newTab, value) {
     var query = {currentWindow: true, active: true};    
     chrome.tabs.query(query, function (results) {
         var tab = results[0];
         
         // hack for chrome adding file:// to relative bookmarks
-        newUrl = newUrl.replace('%7Bdomain%7D', (new URL(currentLocation).hostname))
+        newUrl = newUrl.replace('brocli.example.com', (new URL(currentLocation).hostname))
+
+
+        // For input like 'o 123' replace %s in url with '123'
+        if(value && value.split(' ').length > 1) {
+            params = value.split(' ');
+            params.forEach(function(p){
+                if (params.indexOf(p) > 0) {
+                    newUrl = newUrl.replace('%s', p);
+                    newUrl = newUrl.replace('%s'.concat(params.indexOf(p)), p);
+                    console.log(newUrl);
+                }
+            });
+        }
+
+        // newUrl = newUrl.replace('brocli.example.com', (new URL(currentLocation).hostname))
 
         //if newUrl is relative path, use active tab url
         // don't think works since chrome adds file:// to relative bookmarks
