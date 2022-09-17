@@ -1,148 +1,92 @@
-var options = {
-    action: undefined,
-    domain: undefined,
-    newTab: false,
-    path: undefined,
-    paths: [],
-    suggestions: [],
-    args: []
-};
+// check if the first arg is a bookmark
+// if it is, do bookmark string replacement and navigation
+// if there's a bookmark and params are multiple of %s's, then open all in new tabs
 
-var acSwitches = [];
 
-var webSwitches = [
-    ['-bc','--bookmark-commands', '<url><match>-bc</match></url><dim> - Go to your bookmark command folder. <match>Ex: -bc</match></dim>'],
-    ['-docs', '--documentation', '<url><match>-docs</match></url><dim> - Go to brocli documentation. <match>Ex: -docs</match></dim>'],
-    ['-t','--new-tab', '<url><match>-t</match></url><dim> - Forces a command to open a new tab. <match>Ex: -l orders -t</match></dim>'],
-    ['-k', '--keyboard-shortcuts', '<url><match>-k</match></url><dim> - Go to brocli keyboard shortcut settings. <match>Ex: -k</match></dim>'],
-    ['-cs', '--custom-searches', '<url><match>alias</match></url><dim> - description. <match>Ex: example</match></dim>'],
-    ['-h', '--help', '<url><match>-h</match></url><dim> - Go to brocli documentation. <match>Ex: -h</match></dim>'],
-    ['-pp', '--pretty-print [STRING]', '<url><match>-pp [xml]</match></url><dim> - Pretty print xml (or html?) string. <match>Ex: -xml <some><ugly><xml></xml></ugly></some> </match></dim>'],
-    ['-url', '--url-encode [STRING]', '<url><match>-url [string]</match></url><dim> - Url encode a string. <match>Ex: -url /some string</match></dim>'],
-    ['-ext', '--extensions', '<url><match>-ext</match></url><dim> - Go to chrome extension settings. <match>Ex: -ex</match></dim>'],
-    ['-opt', '--options', '<url><match>-opt</match></url><dim> - Go to brocli options. <match>Ex: -opt</match></dim>'],
-    ['-set', '--settings', '<url><match>-set</match></url><dim> - Go to brocli settings. <match>Ex: -set</match></dim>']
-]
+// if it is not...
+// nav o 123
 
-var allSwitches = acSwitches.concat(webSwitches);
-
-/**
- * Web Parser
- */
-var webParser = new optparse.OptionParser(webSwitches);
-
-webParser.on('new-tab', function (name) {
-    options.newTab = true;
-});
-
-// TODO: on "0" shouldn't navigate if there's more than 1 command
-// and on 1, 2, etc should be used to set positional options like below
-// then build url and navigae in executeAll
-// webParser.on(1, function (value) {
-//     options.positional.push(value);
-// });
+// o 123
+// o 123 456
+// url o 123 456
+// hash o 123 456
+// hash o 123 -t
 
 // since there's always a 0 for bookmark commands, if we end up navigating in on 0, 
 // then none of the options or other commands get used, ex: -new-tab
-webParser.on(0, function (value) {
-    options.args.push[value];
-});
 
-webParser.on(1, function (value) {
-    options.args.push[value];
-});
+var vars = [
+  'broclistr',
+  '%s'
+];
 
-webParser.on('*', function (name, value) {
-    console.log('name' + name);
-    value = value.split(' ')
-    options.entered = true;
-    buildWebPaths(name, value).forEach(function(path){
-        options.paths.push(path);
+function replaceStrings(url, params) {
+  url = res.url.replace('brocli.example.com', (new URL(currentLocation).hostname));
+  params.forEach(function (p) {
+    vars.forEach(function(v) {
+      // LEFT OFF HERE
+      url = url.replace(v, p);
+      url = url.replace(v.concat(params.indexOf(p)), p);
     });
-});
-
-
-function resetOptions () {
-    options.newTab = false;
-    options.paths = [];
-    options.action = undefined;
-    options.domain = undefined;
-    options.args = [];
+  });
+  
+  url = url.replace('broclistr', p)
+  url = url.replace('broclistr'.concat(params.indexOf(p)), p);
+  url = url.replace('%s', value);
+  url = url.replace('%s'.concat(i), value);
+  return url;
 }
 
-function runAcCommands (commands) {
-    options.entered = false;
-    /* acParser.parse(commands); */
-    console.log('runAcCommands: ')
-    console.log(commands)
-    webParser.parse(commands);
-    var domainPresent = options.domain || "";
-    
-    goToMany(domainPresent, options.paths);
-
-    if (isUrl(value))
-        goTo(value);
-
-    var commandSeparator = ".";
-    console.log('webParser.on value: ' + value);
-    bookmarkPath = value.split(' ')[0].split('.');
-    commands = value.split(commandSeparator)
-    if (!brocliCommandFolderId)
-        refreshCommandNode();
-    var url = getBookmarkCommandUrl(bookmarkPath, 0, commandNode);
-    if (url && !(url.includes('%s') || url.includes('broclistr')))
-    {
-        console.log('webParser.on - has url');
-        goTo(url, false, value);
-    } else {
-        value = value.split(commandSeparator)[0];
-        console.log('webParser.on value: ' + value);
-        chrome.bookmarks.search(value, function(results){
-            var bookmarkFound = false;
-            results.forEach(function(res){
-                if (res.title.split(" ")[0] == value)
-                {
-                    bookmarkFound = true;
-                    if ('url' in res){
-                        console.log('beginning replacement - ' + url)
-                        url = res.url.replace('brocli.example.com', (new URL(currentLocation).hostname));
-                        value.split(' ').forEach(function(i){
-                            if ( value.split(' ').indexOf(i) != 0) {
-                                url = res.url.replace('broclistr', p)
-                                url = res.url.replace('broclistr'.concat(params.indexOf(p)), p);
-                                url = res.url.replace('%s', value);
-                                url = res.url.replace('%s'.concat(i), value);
-                                console.log('commands.js > webparser.on(): ', url)
-                            }
-                        });
-                    }
-
-                    if (url && !(url.includes('%s') || url.includes('broclistr')))
-                    {
-                        console.log('webParser.on - has url');
-                        goTo(url);
-                    }                     
-                }
-            });
-        });
+function hasVars(str) {
+  vars.forEach(function (v) {
+    if (str.includes(v)) {
+      return true;
     }
+  });
 }
 
-function Executer () {
-    // - Use the parsers to add commands entered to array for that type of command
-    // - If the array is not empty, then you know that there are some of that type of command
-    // - If the array is empty, try executing a bookmark
-    var array = [];
-    array.executeAll = function(commands) {
-        console.log(commands);
-        array.forEach(function (element) {
-           if (typeof element == 'function') {
-               element(commands);
-           }
-        });
-    };
-    return array;
-};
+function runCommands(input) {
 
-var Executer = Executer();
-Executer.push(runAcCommands);
+
+  // needed for when executing from addressbar without omnibar activation
+  if (isUrl(input) && !hasVars(input))
+    goTo(input);
+
+
+  if (!brocliCommandFolderId)
+    refreshCommandNode();
+
+  // s.n -t <--- bookmark pth is [s, n]
+  var bookmarkPath = input.split(' ')[0].split('.');
+
+  // get url from bookmark
+  var url = getBookmarkCommandUrl(bookmarkPath, 0, commandNode);
+
+  if (url &&  !(url.includes('%s') || url.includes('broclistr'))) {
+    // if we already have a full and don't need str replacement, go ahead and navigate
+    goTo(url, false, value);
+  } else {
+    value = value.split('.')[0];
+    chrome.bookmarks.search(value, function (results) {
+      var bookmarkFound = false;
+      results.forEach(function (res) {
+        if (res.title.split(" ")[0] == value) {
+          bookmarkFound = true;
+          if ('url' in res) {
+            url = res.url.replace('brocli.example.com', (new URL(currentLocation).hostname));
+            value.split(' ').forEach(function (i) {
+              if (value.split(' ').indexOf(i) != 0) {
+                url = replaceStrings(res.url);
+              }
+            });
+          }
+
+          if (url && !(url.includes('%s') || url.includes('broclistr'))) {
+            console.log('parser.on - has url');
+            goTo(url);
+          }
+        }
+      });
+    });
+  }
+}
