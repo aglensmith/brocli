@@ -1,36 +1,14 @@
-/**
- * @fileOverview - 
- */
-
-
 var options = {
     action: undefined,
     domain: undefined,
     newTab: false,
     path: undefined,
     paths: [],
-    suggestions: []
+    suggestions: [],
+    args: []
 };
 
-var acSwitches = [
-    ['-c', '--customer-edit [ID]', '<url><match>-c [id]</match></url><dim> - Go to customer edit. <match>Ex: -c 1298</match></dim>'],
-    ['-cd', '--changedir [LOC]',  '<url><match>-cd [loc]</match></url><dim> - Change directory. <match>Ex: -cd ???</match></dim>'],
-    ['-ca', '--customer-audit [ID]', '<url><match>-ca [id]</match></url><dim> - Go to customer audit history. <match>Ex: -ca 1298</match></dim>'],
-    ['-cat', '--category-edit [ID]', '<url><match>-cat [id]</match></url><dim> - Go to category edit. <match>Ex: -cat 1298</match></dim>'],
-    ['-catv', '--category-view [ID]', '<url><match>-catv [id]</match></url><dim> - Go to category view. <match>Ex: -catv 1298</match></dim>'],
-    ['-cata', '--category-audit [ID]', '<url><match>-cata [id]</match></url><dim> - Go to category audit. <match>Ex: -cata 1298</match></dim>'],
-    ['-cp', '--page-edit [ID]', '<url><match>-cp [id]</match></url><dim> - Go to content page edit. <match>Ex: -cp 1298</match></dim>'],
-    ['-d', '--discount-edit [ID]', '<url><match>-d [id]</match></url><dim> - Go to discount edit. <match>Ex: -cd 1298</match></dim>'],
-    ['-eh', '--email-view [ID]', '<url><match>-eh [id]</match></url><dim> - Go to customer email history. <match>Ex: -eh 1298</match></dim>'],
-    ['-l','--list [ENTITY]', '<url><match>-l [entity]</match></url><dim> - Go to an admin list page. <match>Ex: -l orders</match></dim>'],
-    ['-p','--product-edit [ID]', '<url><match>-p [id]</match></url><dim> - Go to product edit. <match>Ex: -p 1298</match></dim>'],
-    ['-pa','--product-audit [ID]', '<url><match>-pa [-id]</match></url><dim> - Go to product audit history. <match>Ex: -pa 1298</match></dim>'],
-    ['-o','--order-edit [ID]', '<url><match>-o [id]</match></url><dim> - Go to order edit. <match>Ex: -o 1298</match></dim>'],
-    ['-oa','--order-audit [ID]', '<url><match>-oa [id]</match></url><dim> - Go to order audit. <match>Ex: -oa 1298</match></dim>'],
-    ['-ov','--order-view [ID]', '<url><match>-ov [id]</match></url><dim> - Go to order view. <match>Ex: -ov 1298</match></dim>'],
-    ['-vs','--view-session [ID]', '<url><match>-vs [id]</match></url><dim> - Go to view session. <match>Ex: -vs 1298</match></dim>'],
-    ['-s','--settings [PAGE]', '<url><match>-s [page]</match></url><dim> - Go to a settings page. <match>Ex: -s security</match></dim>']
-];
+var acSwitches = [];
 
 var webSwitches = [
     ['-bc','--bookmark-commands', '<url><match>-bc</match></url><dim> - Go to your bookmark command folder. <match>Ex: -bc</match></dim>'],
@@ -41,7 +19,6 @@ var webSwitches = [
     ['-h', '--help', '<url><match>-h</match></url><dim> - Go to brocli documentation. <match>Ex: -h</match></dim>'],
     ['-pp', '--pretty-print [STRING]', '<url><match>-pp [xml]</match></url><dim> - Pretty print xml (or html?) string. <match>Ex: -xml <some><ugly><xml></xml></ugly></some> </match></dim>'],
     ['-url', '--url-encode [STRING]', '<url><match>-url [string]</match></url><dim> - Url encode a string. <match>Ex: -url /some string</match></dim>'],
-    ['-com', '--command [BOOKMARK]', '<url><match>-com</match></url><dim> - Execute a bookmark or bookmarklet. <match>Ex: -com ClearCache</match></dim>'],
     ['-ext', '--extensions', '<url><match>-ext</match></url><dim> - Go to chrome extension settings. <match>Ex: -ex</match></dim>'],
     ['-opt', '--options', '<url><match>-opt</match></url><dim> - Go to brocli options. <match>Ex: -opt</match></dim>'],
     ['-set', '--settings', '<url><match>-set</match></url><dim> - Go to brocli settings. <match>Ex: -set</match></dim>']
@@ -49,44 +26,63 @@ var webSwitches = [
 
 var allSwitches = acSwitches.concat(webSwitches);
 
-
 /**
- * AC Parser
+ * Web Parser
  */
-var acParser = new optparse.OptionParser(acSwitches);
+var webParser = new optparse.OptionParser(webSwitches);
 
-acParser.on(0, function (value) {
-    value = value.split(' ')[0]
-    if (isUrl(value)) {
-      options.domain = value;
-    }else if (isUrl('https://'.concat(value))) {
-        var cmdUrl = new URL(chrome.runtime.getURL('/_generated_background_page.html'));
-        if (options.domain != cmdUrl.hostname) {
-            options.domain = 'https://'.concat(value);
-        }
-    }
+webParser.on('new-tab', function (name) {
+    options.newTab = true;
 });
 
-acParser.on('*', function (name, value) {
-    options.action = name;
+// TODO: on "0" shouldn't navigate if there's more than 1 command
+// and on 1, 2, etc should be used to set positional options like below
+// then build url and navigae in executeAll
+// webParser.on(1, function (value) {
+//     options.positional.push(value);
+// });
+
+// since there's always a 0 for bookmark commands, if we end up navigating in on 0, 
+// then none of the options or other commands get used, ex: -new-tab
+webParser.on(0, function (value) {
+    options.args.push[value];
+});
+
+webParser.on(1, function (value) {
+    options.args.push[value];
+});
+
+webParser.on('*', function (name, value) {
+    console.log('name' + name);
+    value = value.split(' ')
     options.entered = true;
-    buildAcPaths(name, value).forEach(function(path){
+    buildWebPaths(name, value).forEach(function(path){
         options.paths.push(path);
     });
 });
 
 
-/**
- * Web Parser
- */
-var webParser = new optparse.OptionParser(webSwitches);
-webParser.on('new-tab', function (name) {
-    options.newTab = true;
-});
+function resetOptions () {
+    options.newTab = false;
+    options.paths = [];
+    options.action = undefined;
+    options.domain = undefined;
+    options.args = [];
+}
 
-webParser.on(0, function (value) {
+function runAcCommands (commands) {
+    options.entered = false;
+    /* acParser.parse(commands); */
+    console.log('runAcCommands: ')
+    console.log(commands)
+    webParser.parse(commands);
+    var domainPresent = options.domain || "";
+    
+    goToMany(domainPresent, options.paths);
+
     if (isUrl(value))
         goTo(value);
+
     var commandSeparator = ".";
     console.log('webParser.on value: ' + value);
     bookmarkPath = value.split(' ')[0].split('.');
@@ -94,8 +90,9 @@ webParser.on(0, function (value) {
     if (!brocliCommandFolderId)
         refreshCommandNode();
     var url = getBookmarkCommandUrl(bookmarkPath, 0, commandNode);
-    if (url)
+    if (url && !(url.includes('%s') || url.includes('broclistr')))
     {
+        console.log('webParser.on - has url');
         goTo(url, false, value);
     } else {
         value = value.split(commandSeparator)[0];
@@ -107,9 +104,12 @@ webParser.on(0, function (value) {
                 {
                     bookmarkFound = true;
                     if ('url' in res){
+                        console.log('beginning replacement - ' + url)
                         url = res.url.replace('brocli.example.com', (new URL(currentLocation).hostname));
                         value.split(' ').forEach(function(i){
                             if ( value.split(' ').indexOf(i) != 0) {
+                                url = res.url.replace('broclistr', p)
+                                url = res.url.replace('broclistr'.concat(params.indexOf(p)), p);
                                 url = res.url.replace('%s', value);
                                 url = res.url.replace('%s'.concat(i), value);
                                 console.log('commands.js > webparser.on(): ', url)
@@ -117,85 +117,24 @@ webParser.on(0, function (value) {
                         });
                     }
 
-
-                    goTo(url);
+                    if (url && !(url.includes('%s') || url.includes('broclistr')))
+                    {
+                        console.log('webParser.on - has url');
+                        goTo(url);
+                    }                     
                 }
             });
         });
     }
-});
-
-webParser.on('*', function (name, value) {
-    value = value.split(' ')
-    options.entered = true;
-    buildWebPaths(name, value).forEach(function(path){
-        options.paths.push(path);
-    });
-});
-
-webParser.on('command', function (name, value) {
-    value = value.split(' ')
-    chrome.bookmarks.search(value, function(results){
-        results.forEach(function(res){
-            if (res.title == value)
-                goTo(res.url);      
-        });
-    });
-});
-
-
-/**
- * Command Helpers
- */
-function resetOptions () {
-    options.newTab = false;
-    options.paths = [];
-    options.action = undefined;
-    options.domain = undefined;
 }
 
-function goToFromZD() {
-    var split = currentLocation.split('/agent/tickets/');
-    var ticketID = split[split.length-1];
-    var url = zdDomain.concat('/api/v2/tickets/', ticketID);
-    getJson(url, function (data) {
-        var fields = {};
-        data.ticket.fields.forEach(function(i) {
-            fields[i.id] = i.value;
-        });
-        var site = fields[21662133];
-        if (isUrl(site)) {
-        options.domain = site;
-        }else if (isUrl('http://'.concat(site))) {
-            options.domain = 'http://'.concat(site);
-        }
-        var domainPresent = options.domain || "";
-        goToMany(domainPresent, options.paths);
-    });
-}
-
-function runAcCommands (commands) {
-    options.entered = false;
-    /* acParser.parse(commands); */
-    webParser.parse(commands);
-    if (isZD(currentLocation) && isTicket(currentLocation)) {
-        goToFromZD();
-    } else {
-        var domainPresent = options.domain || "";
-        goToMany(domainPresent, options.paths);
-    }
-}
-
-
-/**
- * Executer - Executes all commands
- */
 function Executer () {
     // - Use the parsers to add commands entered to array for that type of command
     // - If the array is not empty, then you know that there are some of that type of command
     // - If the array is empty, try executing a bookmark
     var array = [];
     array.executeAll = function(commands) {
+        console.log(commands);
         array.forEach(function (element) {
            if (typeof element == 'function') {
                element(commands);
@@ -206,5 +145,4 @@ function Executer () {
 };
 
 var Executer = Executer();
-
 Executer.push(runAcCommands);
