@@ -1,17 +1,9 @@
-/**
- * @fileOverview - Event listeners that listen and respond to Chrome events
- */
-
-
 var currentLocation;
-
-/**
- * Commands Entered
- */
 
 // omnibar
 chrome.omnibox.onInputEntered.addListener(function(text, disposition) {
     /* var splitText = text.split(" "); */
+    console.log(disposition);
     commands = []
     commands.push(text)
     Executer.executeAll(commands);
@@ -33,40 +25,32 @@ chrome.webNavigation.onBeforeNavigate.addListener(
         var query = url.searchParams.get(searchParam);
         var cl = new URL(currentLocation);
         var splitText = query.split(' ');
+        console.log('query1: ' + query)
         if (cl.origin != defaultSearch.origin && splitText[0] != 's')
         {
+            console.log('query: ' + query)
             Executer.executeAll(query.split(' '));
         }
     }, {url: [{urlContains: defaultSearchPath}]}
 );
 
-// keyboard shortcuts
-chrome.commands.onCommand.addListener(function(command) {
-    var splitText = command.split("_");
-    runAcCommands(splitText);
-    resetOptions();
-});
-
-
-/**
- * Tab Events
- */
+// tab activated
 chrome.tabs.onActivated.addListener(function (activeInfo) {
     chrome.tabs.get(activeInfo.tabId, function (tab) {
         currentLocation = tab.url;
+        console.log('tabs.onActivated chrome.tabs.get: ' + currentLocation);
     });
 });
 
+// tab updated
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo['url']) {
         currentLocation = changeInfo['url'];
     }
+    console.log('tabs.onUpdated: ' + currentLocation);
 });
 
 
-/**
- * Ombibar
- */
 function suggestChildNodes(node, suggestions, commands, ancesterTitle, depth){
 
     // ['jira.conf.'
@@ -115,6 +99,7 @@ function suggestChildNodes(node, suggestions, commands, ancesterTitle, depth){
     return suggestions;
 }
 
+// omnibar input change
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     var suggestions = [];
 
@@ -137,10 +122,7 @@ chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
     suggest(suggestions);
 });
 
-
-/**
- * Bookmarks
- */
+// bookmarks
 chrome.bookmarks.onCreated.addListener(function (id, node) {
     refreshCommandNode();
 });

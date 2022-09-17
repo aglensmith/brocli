@@ -74,6 +74,7 @@ function goTo (newUrl, newTab, value) {
         var tab = results[0];
         
         // hack for chrome adding file:// to relative bookmarks
+        console.log('goTo: ' + currentLocation);
         newUrl = newUrl.replace('brocli.example.com', (new URL(currentLocation).hostname))
 
 
@@ -82,6 +83,8 @@ function goTo (newUrl, newTab, value) {
             params = value.split(' ');
             params.forEach(function(p){
                 if (params.indexOf(p) > 0) {
+                    newUrl = newUrl.replace('broclistr', p)
+                    newUrl = newUrl.replace('broclistr'.concat(params.indexOf(p)), p);
                     newUrl = newUrl.replace('%s', p);
                     newUrl = newUrl.replace('%s'.concat(params.indexOf(p)), p);
                     console.log(newUrl);
@@ -135,47 +138,3 @@ function navCurrentDomain (relativePath) {
         } 
     }); 
 }
-
-function isZD (url) {
-    var zdRe = new RegExp('.zendesk.com');
-    return zdRe.test(url);
-}
-
-function isTicket (url) {
-    var ticketRe = new RegExp('/agent/tickets/');
-    return ticketRe.test(url);
-}
-
-function formatXml(xml) {
-    var formatted = '';
-    var reg = /(>)(<)(\/*)/g;
-    xml = xml.toString().replace(reg, '$1\r\n$2$3');
-    var pad = 0;
-    var nodes = xml.split('\r\n');
-    for(var n in nodes) {
-      if (typeof nodes[n] != "string")
-        continue;
-      var node = nodes[n];
-      var indent = 0;
-      if (node.match(/.+<\/\w[^>]*>$/)) {
-        indent = 0;
-      } else if (node.match(/^<\/\w/)) {
-        if (pad !== 0) {
-          pad -= 1;
-        }
-      } else if (node.match(/^<\w[^>]*[^\/]>.*$/)) {
-        indent = 1;
-      } else {
-        indent = 0;
-      }
-    
-      var padding = '';
-      for (var i = 0; i < pad; i++) {
-        padding += '  ';
-      }
-    
-      formatted += padding + node + '\r\n';
-      pad += indent;
-    }
-    return formatted.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/ /g, '&nbsp;');
-  }
