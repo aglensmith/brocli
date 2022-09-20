@@ -45,7 +45,44 @@ webParser.on('new-tab', function (name) {
 // since there's always a 0 for bookmark commands, if we end up navigating in on 0, 
 // then none of the options or other commands get used, ex: -new-tab
 webParser.on(0, function (value) {
-    options.args.push[value];
+    if (isUrl(value))
+        goTo(value);
+    var commandSeparator = ".";
+    console.log('webParser.on value: ' + value);
+    bookmarkPath = value.split(' ')[0].split('.');
+    commands = value.split(commandSeparator)
+    if (!brocliCommandFolderId)
+        refreshCommandNode();
+    var url = getBookmarkCommandUrl(bookmarkPath, 0, commandNode);
+    if (url)
+    {
+        goTo(url, false, value);
+    } else {
+        value = value.split(commandSeparator)[0];
+        console.log('webParser.on value: ' + value);
+        chrome.bookmarks.search(value, function(results){
+            var bookmarkFound = false;
+            results.forEach(function(res){
+                if (res.title.split(" ")[0] == value)
+                {
+                    bookmarkFound = true;
+                    if ('url' in res){
+                        url = res.url.replace('brocli.example.com', (new URL(currentLocation).hostname));
+                        value.split(' ').forEach(function(i){
+                            if ( value.split(' ').indexOf(i) != 0) {
+                                url = res.url.replace('broclistr', p)
+                                url = res.url.replace('broclistr'.concat(params.indexOf(p)), p);
+                                url = res.url.replace('%s', value);
+                                url = res.url.replace('%s'.concat(i), value);
+                                console.log('commands.js > webparser.on(): ', url)
+                            }
+                        });
+                    }
+                    goTo(url);
+                }
+            });
+        });
+    }
 });
 
 webParser.on(1, function (value) {
@@ -73,58 +110,12 @@ function resetOptions () {
 function runAcCommands (commands) {
     options.entered = false;
     /* acParser.parse(commands); */
-    console.log('runAcCommands: ')
-    console.log(commands)
     webParser.parse(commands);
-    var domainPresent = options.domain || "";
-    
-    goToMany(domainPresent, options.paths);
-
-    if (isUrl(value))
-        goTo(value);
-
-    var commandSeparator = ".";
-    console.log('webParser.on value: ' + value);
-    bookmarkPath = value.split(' ')[0].split('.');
-    commands = value.split(commandSeparator)
-    if (!brocliCommandFolderId)
-        refreshCommandNode();
-    var url = getBookmarkCommandUrl(bookmarkPath, 0, commandNode);
-    if (url && !(url.includes('%s') || url.includes('broclistr')))
-    {
-        console.log('webParser.on - has url');
-        goTo(url, false, value);
+    if (isZD(currentLocation) && isTicket(currentLocation)) {
+        goToFromZD();
     } else {
-        value = value.split(commandSeparator)[0];
-        console.log('webParser.on value: ' + value);
-        chrome.bookmarks.search(value, function(results){
-            var bookmarkFound = false;
-            results.forEach(function(res){
-                if (res.title.split(" ")[0] == value)
-                {
-                    bookmarkFound = true;
-                    if ('url' in res){
-                        console.log('beginning replacement - ' + url)
-                        url = res.url.replace('brocli.example.com', (new URL(currentLocation).hostname));
-                        value.split(' ').forEach(function(i){
-                            if ( value.split(' ').indexOf(i) != 0) {
-                                url = res.url.replace('broclistr', p)
-                                url = res.url.replace('broclistr'.concat(params.indexOf(p)), p);
-                                url = res.url.replace('%s', value);
-                                url = res.url.replace('%s'.concat(i), value);
-                                console.log('commands.js > webparser.on(): ', url)
-                            }
-                        });
-                    }
-
-                    if (url && !(url.includes('%s') || url.includes('broclistr')))
-                    {
-                        console.log('webParser.on - has url');
-                        goTo(url);
-                    }                     
-                }
-            });
-        });
+        var domainPresent = options.domain || "";
+        goToMany(domainPresent, options.paths);
     }
 }
 
